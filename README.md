@@ -1,18 +1,6 @@
-# create-svelte
+# PawnHub
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b7111648-e76c-498e-a25e-eeb0a45a0c49/deploy-status)](https://app.netlify.com/sites/pawnhubchess/deploys)
 
 ## Developing
 
