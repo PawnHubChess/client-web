@@ -5,16 +5,21 @@ export const hostOpenState = writable(false);
 export const hostId = writable();
 export const lastRequest = writable();
 
+// This is not DRY because this test host will be removed in a later stage of development
+
 export function startHost(
-  useProd: boolean,
+  useCloud: boolean,
   callback: (output: string) => void,
 ) {
   ws = new WebSocket(
-    useProd ? "wss://api.pawn-hub.de" : "ws://localhost:3000",
+    useCloud ? "wss://api.pawn-hub.de" : "ws://localhost:3000",
   );
+
+  if (useCloud) callback("Attempting to connect to Google Cloud");
 
   ws.addEventListener("open", () => {
     callback(`Host Websocket open to ${ws.url}`);
+    hostOpenState.set(true); // to trigger subscribe on connection error
     hostOpenState.set(true);
 
     sendJson('{"type": "connect-host"}', callback);

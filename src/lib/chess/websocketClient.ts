@@ -4,12 +4,14 @@ let ws: WebSocket;
 export const clientOpenState = writable(false);
 
 export function startClient(
-  useProd: boolean,
+  useCloud: boolean,
   callback: (output: string) => void,
 ) {
   ws = new WebSocket(
-    useProd ? "wss://api.pawn-hub.de" : "ws://localhost:3000",
+    useCloud ? "wss://api.pawn-hub.de" : "ws://localhost:3000",
   );
+
+  if (useCloud) callback("Attempting to connect to Google Cloud");
 
   ws.addEventListener("open", () => {
     callback(`Attendee Websocket open to ${ws.url}`);
@@ -18,6 +20,7 @@ export function startClient(
 
   ws.addEventListener("close", () => {
     callback("Attendee Websocket closed");
+    clientOpenState.set(true); // to trigger subscribe on connection error
     clientOpenState.set(false);
   });
 

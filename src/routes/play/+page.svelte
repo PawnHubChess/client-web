@@ -15,7 +15,7 @@
 		sendConnectionRequest
 	} from '$lib/chess/websocketClient';    
 
-	let useProduction = false;
+	let useCloud = false;
 
 	let hostOpen = false;
 	let startHostEnabled = true;
@@ -30,7 +30,7 @@
 	function handleToggleHost() {
 		startHostEnabled = false;
 		if (hostOpen) stopHost();
-		else startHost(useProduction, hostCallback);
+		else startHost(useCloud, hostCallback);
 		console.log(hostOutput);
 	}
 
@@ -51,9 +51,10 @@
 	});
 
 	function handleToggleClient() {
+        console.log(useCloud)
 		startClientEnabled = false;
 		if (clientOpen) stopClient();
-		else startClient(useProduction, clientCallback);
+		else startClient(useCloud, clientCallback);
 		console.log(clientOutput);
 	}
 
@@ -69,7 +70,8 @@
 	}
 </script>
 
-<input type="checkbox" checked={useProduction} />Use Production Server
+<input id="cloudCheckbox" type="checkbox" bind:checked={useCloud} />
+<label for="cloudCheckbox">Use Cloud Server</label>
 <div class="clientsContainer">
 	<div class="host">
 		<button disabled={!startHostEnabled} on:click={handleToggleHost}>
