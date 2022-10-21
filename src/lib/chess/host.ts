@@ -1,8 +1,8 @@
 import { get, writable } from "svelte/store";
 
 let ws: WebSocket;
-export const hostRunningState = writable(false);
-export const hostId = writable();
+export const hostOpenState = writable(false);
+export const hostId = writable("");
 
 export function startHost(
   useProd: boolean,
@@ -14,14 +14,14 @@ export function startHost(
 
   ws.addEventListener("open", () => {
     callback(`Host Websocket open to ${ws.url}`);
-    hostRunningState.set(true);
+    hostOpenState.set(true);
 
     sendJson('{"type": "connect-host"}', callback);
   });
 
   ws.addEventListener("close", () => {
     callback("Host Websocket closed");
-    hostRunningState.set(false);
+    hostOpenState.set(false);
   });
 
   ws.addEventListener("message", message => {
@@ -37,12 +37,12 @@ export function startHost(
 
 export function stopHost() {
   ws.close();
-  hostRunningState.set(false);
-  hostId.set(undefined)
+  hostOpenState.set(false);
+  hostId.set()
 }
 
 export function sendJson(message: string, callback: (output: string) => void) {
-  if (!get(hostRunningState)) throw new Error("Host is not running");
+  if (!get(hostOpenState)) throw new Error("Host is not open");
   ws.send(message);
   callback(">> " + message);
 }
