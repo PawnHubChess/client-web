@@ -2,7 +2,8 @@ import { get, writable } from "svelte/store";
 
 let ws: WebSocket;
 export const hostOpenState = writable(false);
-export const hostId = writable("");
+export const hostId = writable();
+export const lastRequest = writable();
 
 export function startHost(
   useProd: boolean,
@@ -31,6 +32,8 @@ export function startHost(
     if (data.type === "connected-id") {
         callback(`Host ID is ${data.id}`)
         hostId.set(data.id)
+    } else if (data.type === "verify-attendee-request") {
+        lastRequest.set(data.clientId)
     }
   })
 }
@@ -38,11 +41,23 @@ export function startHost(
 export function stopHost() {
   ws.close();
   hostOpenState.set(false);
-  hostId.set()
+  hostId.set(undefined)
 }
 
 export function sendJson(message: string, callback: (output: string) => void) {
   if (!get(hostOpenState)) throw new Error("Host is not open");
   ws.send(message);
   callback(">> " + message);
+}
+
+export function acceptLastRequest(callback: (output: string) => void) {
+  const msg = `{"type": "accept-attendee-request", "clientId": "${get(lastRequest)}"}`
+  sendJson(msg, callback)
+  lastRequest.set(undefined)
+}
+
+export function declineLastRequest(callback: (output: string) => void) {
+  const msg = `{"type": "decline-attendee-request", "clientId": "${get(lastRequest)}"}`
+  sendJson(msg, callback)
+  lastRequest.set(undefined)
 }

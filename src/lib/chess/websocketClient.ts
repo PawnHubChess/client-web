@@ -2,7 +2,6 @@ import { get, writable } from "svelte/store";
 
 let ws: WebSocket;
 export const clientOpenState = writable(false);
-export const clientId = writable();
 
 export function startClient(
   useProd: boolean,
@@ -28,7 +27,6 @@ export function startClient(
 
     if (data.type === "connected-id") {
       callback(`Attendee ID is ${data.id}`);
-      clientId.set(data.id);
     }
   });
 }
@@ -36,7 +34,6 @@ export function startClient(
 export function stopClient() {
   ws.close();
   clientOpenState.set(false);
-  clientId.set(undefined);
 }
 
 export function sendConnectionRequest(

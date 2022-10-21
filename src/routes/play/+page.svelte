@@ -1,13 +1,26 @@
 <script lang="ts">
-	import { startHost, hostOpenState, stopHost, hostId } from '$lib/chess/host';
-	import { startClient, clientOpenState, stopClient, sendConnectionRequest } from '$lib/chess/websocketClient';
-	import { get } from 'svelte/store';
+	import {
+		startHost,
+		hostOpenState,
+		stopHost,
+		hostId,
+		lastRequest,
+		acceptLastRequest,
+        declineLastRequest
+	} from '$lib/chess/host';
+	import {
+		startClient,
+		clientOpenState,
+		stopClient,
+		sendConnectionRequest
+	} from '$lib/chess/websocketClient';    
 
 	let useProduction = false;
 
 	let hostOpen = false;
 	let startHostEnabled = true;
 	let hostOutput: string[] = [];
+	const hostCallback = (output: string) => (hostOutput = [...hostOutput, output]);
 
 	hostOpenState.subscribe((value) => {
 		hostOpen = value;
@@ -17,13 +30,20 @@
 	function handleToggleHost() {
 		startHostEnabled = false;
 		if (hostOpen) stopHost();
-		else startHost(useProduction, (output) => (hostOutput = [...hostOutput, output]));
+		else startHost(useProduction, hostCallback);
 		console.log(hostOutput);
 	}
+
+	let receivedRequest = false;
+	lastRequest.subscribe((value) => (receivedRequest = typeof value !== 'undefined'));
+
+	const handleAcceptRequest = () => acceptLastRequest(hostCallback);
+    const hanldeDeclineRequest = () => declineLastRequest(hostCallback);
 
 	let clientOpen = false;
 	let startClientEnabled = true;
 	let clientOutput: string[] = [];
+	const clientCallback = (output: string) => (clientOutput = [...clientOutput, output]);
 
 	clientOpenState.subscribe((value) => {
 		clientOpen = value;
@@ -33,18 +53,20 @@
 	function handleToggleClient() {
 		startClientEnabled = false;
 		if (clientOpen) stopClient();
-		else startClient(useProduction, output => (clientOutput = [...clientOutput, output]));
+		else startClient(useProduction, clientCallback);
 		console.log(clientOutput);
 	}
 
 	let connectHostId = '';
 	let connectCode = '';
 
-    hostId.subscribe(value => connectHostId = value)
+	hostId.subscribe((value) => {
+		if (value) connectHostId = value as string;
+	});
 
 	function handleConnectToHost() {
-        sendConnectionRequest(connectHostId, connectCode, output => (clientOutput = [...clientOutput, output]))
-    }
+		sendConnectionRequest(connectHostId, connectCode, clientCallback);
+	}
 </script>
 
 <input type="checkbox" checked={useProduction} />Use Production Server
@@ -53,6 +75,10 @@
 		<button disabled={!startHostEnabled} on:click={handleToggleHost}>
 			{hostOpen ? 'Stop Host' : 'Start Host'}
 		</button>
+		{#if receivedRequest}
+			<button on:click={handleAcceptRequest}>Accept</button>
+			<button on:click={hanldeDeclineRequest}>Decline</button>
+		{/if}
 		<code>
 			{#each hostOutput as output}
 				{output}
@@ -62,7 +88,7 @@
 	</div>
 	<div class="attendee">
 		<button disabled={!startClientEnabled} on:click={handleToggleClient}>
-			{hostOpen ? 'Stop Client' : 'Start Client'}
+			{clientOpen ? 'Stop Client' : 'Start Client'}
 		</button>
 		{#if clientOpen}
 			<div>
