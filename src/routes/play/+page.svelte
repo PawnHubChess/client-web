@@ -95,8 +95,8 @@
 			<div>
 				<input
 					type="text"
-					bind:value={customClientInput}
-					on:keypress={handleClientCustomInput}
+					bind:value={customHostInput}
+					on:keypress={handleHostCustomInput}
 					placeholder="Send..."
 				/>
 			</div>
