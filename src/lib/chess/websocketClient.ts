@@ -46,10 +46,10 @@ export function sendConnectionRequest(
 ) {
   const msg =
     `{"type": "connect-attendee", "host": "${host}", "code": "${code}"}`;
-  sendJson(msg, callback);
+  send(msg, callback);
 }
 
-export function sendJson(message: string, callback: (output: string) => void) {
+export function send(message: string, callback: (output: string) => void) {
   if (!get(clientOpenState)) throw new Error("Host is not open");
   ws.send(message);
   callback(">> " + message);

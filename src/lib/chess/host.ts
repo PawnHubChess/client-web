@@ -22,11 +22,12 @@ export function startHost(
     hostOpenState.set(true); // to trigger subscribe on connection error
     hostOpenState.set(true);
 
-    sendJson('{"type": "connect-host"}', callback);
+    send('{"type": "connect-host"}', callback);
   });
 
   ws.addEventListener("close", () => {
     callback("Host Websocket closed");
+    hostOpenState.set(true); // to trigger subscribe on connection error
     hostOpenState.set(false);
   });
 
@@ -49,7 +50,7 @@ export function stopHost() {
   hostId.set(undefined)
 }
 
-export function sendJson(message: string, callback: (output: string) => void) {
+export function send(message: string, callback: (output: string) => void) {
   if (!get(hostOpenState)) throw new Error("Host is not open");
   ws.send(message);
   callback(">> " + message);
@@ -57,12 +58,12 @@ export function sendJson(message: string, callback: (output: string) => void) {
 
 export function acceptLastRequest(callback: (output: string) => void) {
   const msg = `{"type": "accept-attendee-request", "clientId": "${get(lastRequest)}"}`
-  sendJson(msg, callback)
+  send(msg, callback)
   lastRequest.set(undefined)
 }
 
 export function declineLastRequest(callback: (output: string) => void) {
   const msg = `{"type": "decline-attendee-request", "clientId": "${get(lastRequest)}"}`
-  sendJson(msg, callback)
+  send(msg, callback)
   lastRequest.set(undefined)
 }

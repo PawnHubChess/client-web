@@ -6,19 +6,26 @@
 		hostId,
 		lastRequest,
 		acceptLastRequest,
-        declineLastRequest
+		declineLastRequest,
+		send as sendHost
 	} from '$lib/chess/host';
 	import {
 		startClient,
 		clientOpenState,
 		stopClient,
-		sendConnectionRequest
-	} from '$lib/chess/websocketClient';    
+		sendConnectionRequest,
+		send as sendClient
+	} from '$lib/chess/websocketClient';
 
 	let useCloud = false;
 
 	let hostOpen = false;
 	let startHostEnabled = true;
+	let customHostInput = '';
+	const handleHostCustomInput = (e: KeyboardEvent) => {
+		if (e.charCode == 13) sendHost(customHostInput, hostCallback);
+	};
+
 	let hostOutput: string[] = [];
 	const hostCallback = (output: string) => (hostOutput = [...hostOutput, output]);
 
@@ -38,7 +45,7 @@
 	lastRequest.subscribe((value) => (receivedRequest = typeof value !== 'undefined'));
 
 	const handleAcceptRequest = () => acceptLastRequest(hostCallback);
-    const hanldeDeclineRequest = () => declineLastRequest(hostCallback);
+	const hanldeDeclineRequest = () => declineLastRequest(hostCallback);
 
 	let clientOpen = false;
 	let startClientEnabled = true;
@@ -51,7 +58,6 @@
 	});
 
 	function handleToggleClient() {
-        console.log(useCloud)
 		startClientEnabled = false;
 		if (clientOpen) stopClient();
 		else startClient(useCloud, clientCallback);
@@ -60,6 +66,10 @@
 
 	let connectHostId = '';
 	let connectCode = '';
+	let customClientInput = '';
+	const handleClientCustomInput = (e: KeyboardEvent) => {
+		if (e.charCode == 13) sendClient(customClientInput, clientCallback);
+	};
 
 	hostId.subscribe((value) => {
 		if (value) connectHostId = value as string;
@@ -81,6 +91,16 @@
 			<button on:click={handleAcceptRequest}>Accept</button>
 			<button on:click={hanldeDeclineRequest}>Decline</button>
 		{/if}
+		{#if hostOpen}
+			<div>
+				<input
+					type="text"
+					bind:value={customClientInput}
+					on:keypress={handleClientCustomInput}
+					placeholder="Send..."
+				/>
+			</div>
+		{/if}
 		<code>
 			{#each hostOutput as output}
 				{output}
@@ -97,6 +117,14 @@
 				<input type="text" value={connectHostId} placeholder="Host ID" />
 				<input type="text" value={connectCode} placeholder="Connection Code" />
 				<button on:click={handleConnectToHost}>Send Request</button>
+			</div>
+			<div>
+				<input
+					type="text"
+					bind:value={customClientInput}
+					on:keypress={handleClientCustomInput}
+					placeholder="Send..."
+				/>
 			</div>
 		{/if}
 		<code>
