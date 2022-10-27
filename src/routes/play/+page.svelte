@@ -114,8 +114,8 @@
 		</button>
 		{#if clientOpen}
 			<div>
-				<input type="text" value={connectHostId} placeholder="Host ID" />
-				<input type="text" value={connectCode} placeholder="Connection Code" />
+				<input type="text" bind:value={connectHostId} placeholder="Host ID" />
+				<input type="text" bind:value={connectCode} placeholder="Connection Code" />
 				<button on:click={handleConnectToHost}>Send Request</button>
 			</div>
 			<div>
