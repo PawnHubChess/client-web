@@ -18,6 +18,6 @@
 <button on:click={increment}>
 	count is {count}
   {#if confettiVisible}
-    <ConfettiExplosion particleCount={count} force={count >= 1000? 1 : count * 0.001} />
+    <ConfettiExplosion particleCount={4000 * count / 10} force={1} />
   {/if}
 </button>
