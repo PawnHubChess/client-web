@@ -7,6 +7,7 @@
 
 	<div class="card">
 		<Counter />
+		
 	</div>
 
 	<p>
