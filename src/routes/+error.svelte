@@ -18,12 +18,12 @@
 	}
 
 	.image h1 {
-    width: fit-content;
-    padding: 2rem;
+		width: fit-content;
+		padding: 2rem;
 		color: rgba(255, 255, 255, 0.87);
 		background-color: #b93030;
-    margin-top: 50vh;
-    margin-left: 50vw;
-    transform: translateY(-50%) translateX(-50%);
+		margin-top: 50vh;
+		margin-left: 50vw;
+		transform: translateY(-50%) translateX(-50%);
 	}
 </style>
