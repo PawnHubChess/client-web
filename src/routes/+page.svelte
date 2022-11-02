@@ -3,18 +3,16 @@
 </script>
 
 <main>
-	<h1>Welcome to PawnHub</h1>
+	<h1 class="text-7xl font-bold text-center mt-8">PawnHub ♟</h1>
 
-	<div class="card">
-		<Counter />
-		
-	</div>
+	<a
+		href="https://github.com/PawnHubChess/backend/wiki"
+		rel="noreferrer"
+		target="_blank"
+		class="block text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 hover:bg-indigo-600 hover:text-white transition-all"
+	>
+		Backend Wiki
+	</a>
 
-	<p>
-		Check out <a
-			href="https://github.com/PawnHubChess/backend/wiki"
-			rel="noreferrer"
-			target="_blank">backend wiki</a
-		>!
-	</p>
+	<Counter />
 </main>

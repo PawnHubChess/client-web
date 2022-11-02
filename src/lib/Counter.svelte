@@ -15,7 +15,7 @@
 	};
 </script>
 
-<button on:click={increment}>
+<button on:click={increment} class="mt-2 text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 hover:bg-indigo-600 hover:text-white transition-all">
 	count is {count}
   {#if confettiVisible}
     <ConfettiExplosion particleCount={count} force={count >= 1000? 1 : count * 0.001} />
