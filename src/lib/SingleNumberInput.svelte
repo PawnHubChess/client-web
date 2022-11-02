@@ -1,27 +1,33 @@
 <script lang="ts">
+	import { tick, time_ranges_to_array } from "svelte/internal";
+
+
 	export let nextFocus: string | undefined = undefined;
 	export let id: string | undefined = undefined;
+    export let value: number | undefined; 
 
 	function handleKeyPress(e: KeyboardEvent) {
 		const target = e.target as HTMLInputElement;
 
 		if (e.key === 'Backspace') {
 			if (target.placeholder === '') goToPreviousElement(target);
-			else target.placeholder = '';
+			else value = undefined;
 		}
 
 		if (isNaN(Number(e.key))) return;
 		const input = Number(e.key);
 		if (input < 0 || input > 9) return;
 
-		target.placeholder = input.toString();
+		value = input;
 		target.value = '';
 
 		goToNextElement(target);
 	}
 
-	function goToNextElement(target: HTMLInputElement) {
+	async function goToNextElement(target: HTMLInputElement) {
 		if (nextFocus) {
+            // Await the next tick in case the next element has to be enabled first
+            await tick();
 			(document.getElementById(nextFocus) as HTMLElement).focus();
 			return;
 		}
@@ -46,6 +52,6 @@
 		min="0"
 		max="9"
 		class="block text-center text-5xl text-black placeholder-gray-900 font-bold rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 w-[1.2em]"
-		placeholder=""
+		placeholder={value?.toString() ?? ""}
 	/>
 </div>
