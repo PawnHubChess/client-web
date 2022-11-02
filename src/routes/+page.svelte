@@ -9,7 +9,7 @@
 		href="https://github.com/PawnHubChess/backend/wiki"
 		rel="noreferrer"
 		target="_blank"
-		class="block text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 hover:bg-indigo-600 hover:text-white transition-all"
+		class="button-primary block"
 	>
 		Backend Wiki
 	</a>

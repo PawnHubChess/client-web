@@ -9,4 +9,12 @@
         -webkit-appearance: none;
         margin: 0;
     }
+
+    .button-primary {
+        @apply rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 whitespace-nowrap;
+    }
+
+    .button-secondary {
+        @apply text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 hover:bg-indigo-600 hover:text-white transition-all whitespace-nowrap;
+    }
 }

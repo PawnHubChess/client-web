@@ -98,12 +98,7 @@
 			</div>
 		</div>
 
-		<a
-			class="text-base mt-2 text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 hover:bg-indigo-600 hover:text-white transition-all"
-			href="/play/create"
-		>
-			Connect
-		</a>
+		<a class="button-secondary mt-2" href="/play/create"> Connect </a>
 
 		<div class="relative py-4">
 			<div class="absolute inset-0 flex items-center justify-center">
@@ -114,12 +109,7 @@
 			</div>
 		</div>
 
-		<a
-			class="text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 hover:bg-indigo-600 hover:text-white transition-all"
-			href="/play/create"
-		>
-			Start a New Game
-		</a>
+		<a class="button-secondary" href="/play/create"> Start a New Game </a>
 
 		<a
 			class="text-base text-center font-medium text-gray-500 hover:text-gray-900 rounded-md"
