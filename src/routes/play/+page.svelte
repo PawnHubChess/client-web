@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { prepareWebSocket, registerMessageHandler, sendAttendeeConnectRequest } from '$lib/chess/connection';
+	import {
+		prepareWebSocket,
+		registerMessageHandler,
+		sendAttendeeConnectRequest
+	} from '$lib/chess/connection';
+	import type { WebSocketConnection } from '$lib/chess/WebSocketConnection';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
+	import { connection } from '$lib/store';
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;
@@ -10,6 +16,9 @@
 	let n2_2: number | undefined = undefined;
 	let n2_3: number | undefined = undefined;
 	let n2_4: number | undefined = undefined;
+
+	let ws: WebSocketConnection;
+	connection.subscribe((value) => (ws = value));
 
 	// Pass all these to let Svelte know about the dependency
 	function checkNumbersValid(
@@ -44,9 +53,9 @@
 
 		console.log(`gameid: ${gameid}, code: ${code}`);
 
-		prepareWebSocket().then((ws) => {
-			registerMessageHandler("connected-id", (data) => {
-				alert(data);
+		ws.prepare().then(() => {
+			ws.registerHandler('connected-id', (data) => {
+				alert(data.toString());
 			});
 
 			sendAttendeeConnectRequest(gameid, code);
