@@ -80,16 +80,16 @@
 	}
 </script>
 
-<input id="cloudCheckbox" type="checkbox" bind:checked={useCloud} />
+<input id="cloudCheckbox" type="checkbox" bind:checked={useCloud} class="my-4"/>
 <label for="cloudCheckbox">Use Cloud Server</label>
 <div class="clientsContainer">
 	<div class="host">
-		<button disabled={!startHostEnabled} on:click={handleToggleHost}>
+		<button class="button-primary" disabled={!startHostEnabled} on:click={handleToggleHost}>
 			{hostOpen ? 'Stop Host' : 'Start Host'}
 		</button>
 		{#if receivedRequest}
-			<button on:click={handleAcceptRequest}>Accept</button>
-			<button on:click={hanldeDeclineRequest}>Decline</button>
+			<button on:click={handleAcceptRequest} class="button-secondary">Accept</button>
+			<button on:click={hanldeDeclineRequest} class="button-secondary">Decline</button>
 		{/if}
 		{#if hostOpen}
 			<div>
@@ -98,10 +98,11 @@
 					bind:value={customHostInput}
 					on:keypress={handleHostCustomInput}
 					placeholder="Send..."
+					class="mt-2 rounded-md"
 				/>
 			</div>
 		{/if}
-		<code>
+		<code class="bg-gray-100 rounded-md">
 			{#each hostOutput as output}
 				{output}
 				<br />
@@ -109,14 +110,14 @@
 		</code>
 	</div>
 	<div class="attendee">
-		<button disabled={!startClientEnabled} on:click={handleToggleClient}>
+		<button class="button-primary" disabled={!startClientEnabled} on:click={handleToggleClient}>
 			{clientOpen ? 'Stop Client' : 'Start Client'}
 		</button>
 		{#if clientOpen}
 			<div>
-				<input type="text" bind:value={connectHostId} placeholder="Host ID" />
-				<input type="text" bind:value={connectCode} placeholder="Connection Code" />
-				<button on:click={handleConnectToHost}>Send Request</button>
+				<input type="text" bind:value={connectHostId} placeholder="Host ID" class="mt-2 rounded-md" />
+				<input type="text" bind:value={connectCode} placeholder="Connection Code" class="mt-2 rounded-md" />
+				<button class="button-secondary" on:click={handleConnectToHost}>Send Request</button>
 			</div>
 			<div>
 				<input
@@ -124,10 +125,11 @@
 					bind:value={customClientInput}
 					on:keypress={handleClientCustomInput}
 					placeholder="Send..."
+					class="mt-2 rounded-md"
 				/>
 			</div>
 		{/if}
-		<code>
+		<code class="bg-gray-100 rounded-md">
 			{#each clientOutput as output}
 				{output}
 				<br />
@@ -150,7 +152,6 @@
 		display: block;
 		text-align: start;
 		margin-top: 1rem;
-		background-color: #1a1a1a;
 		padding: 1rem;
 	}
 </style>
