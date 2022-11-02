@@ -19,6 +19,6 @@
     .button-secondary {
         @apply text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 whitespace-nowrap transition-all;
         @apply hover:bg-indigo-600 hover:text-white focus:bg-indigo-600 focus:text-white;
-        @apply disabled:bg-gray-50
+        @apply disabled:text-gray-400 disabled:bg-gray-50
     }
 }
