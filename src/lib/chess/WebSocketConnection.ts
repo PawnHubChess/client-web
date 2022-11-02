@@ -17,7 +17,7 @@ export class WebSocketConnection {
 
   registerHandler(
     type: string,
-    handler: (message: string) => void,
+    handler: (message: any) => void,
   ) {
     let handlers = this.messageHandlers.get(type);
     if (!handlers) {
@@ -37,7 +37,7 @@ export class WebSocketConnection {
     }
   }
 
-  private send(message: string) {
+  send(message: string) {
     if (this.ws?.readyState !== WebSocket.OPEN) {
       throw new Error("Host is not open");
     }

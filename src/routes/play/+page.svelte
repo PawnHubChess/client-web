@@ -1,12 +1,8 @@
 <script lang="ts">
-	import {
-		prepareWebSocket,
-		registerMessageHandler,
-		sendAttendeeConnectRequest
-	} from '$lib/chess/connection';
+	import { ClientHost } from '$lib/chess/ClientHost';
 	import type { WebSocketConnection } from '$lib/chess/WebSocketConnection';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
-	import { connection } from '$lib/store';
+	import { connection, hostClient } from '$lib/store';
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;
@@ -19,6 +15,8 @@
 
 	let ws: WebSocketConnection;
 	connection.subscribe((value) => (ws = value));
+	let host: ClientHost;
+	hostClient.subscribe((value) => (host = value));
 
 	// Pass all these to let Svelte know about the dependency
 	function checkNumbersValid(
@@ -58,8 +56,15 @@
 				alert(data.toString());
 			});
 
-			sendAttendeeConnectRequest(gameid, code);
+			//sendAttendeeConnectRequest(gameid, code);
 		});
+	}
+
+	function handleCreateGame() {
+		hostClient.set(new ClientHost());
+		host.connect().then(() => {
+			alert(`HostId: ${host.id}, Code: ${host.code}`);
+		})
 	}
 </script>
 
@@ -101,7 +106,7 @@
 			</div>
 		</div>
 
-		<button class="button-secondary" href="/play/create"> Start a New Game </button>
+		<button class="button-secondary" on:click={handleCreateGame}> Start a New Game </button>
 
 		<a
 			class="text-base text-center font-medium text-gray-500 hover:text-gray-900 rounded-md"
