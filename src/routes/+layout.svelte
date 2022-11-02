@@ -7,8 +7,8 @@
 		<div class="flex justify-start lg:w-0 lg:flex-1">
 		  <a href="/">
 			<span class="sr-only">PawnHub</span>
-			<img class="h-8 w-auto sm:h-10" src="https://www.redwolf.in/image/cache/catalog/marketplace/Samay%20Raina/pawn-hub-black-t-shirt-700x700.jpg" alt="">
-		  </a>
+			<img class="h-8 w-auto sm:h-10" src="https://external-preview.redd.it/PDqfeEIy4aeJCOxEaKB4uDkEGV5dJz0B7FRRMr9eWak.jpg?auto=webp&s=758172d589bdf5e01c047b66d436d75837592dce" alt="">
+		</a>
 		</div>
 		<div class="-my-2 -mr-2 md:hidden">
 		  <button type="button" class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-expanded="false">

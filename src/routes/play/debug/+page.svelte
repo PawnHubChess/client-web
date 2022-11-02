@@ -8,14 +8,14 @@
 		acceptLastRequest,
 		declineLastRequest,
 		send as sendHost
-	} from '$lib/chess/host';
+	} from '$lib/chess-debug/host';
 	import {
 		startClient,
 		clientOpenState,
 		stopClient,
 		sendConnectionRequest,
 		send as sendClient
-	} from '$lib/chess/websocketClient';
+	} from '$lib/chess-debug/websocketClient';
 
 	let useCloud = false;
 

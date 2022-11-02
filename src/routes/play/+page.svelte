@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { prepareWebSocket, registerMessageHandler, sendAttendeeConnectRequest } from '$lib/chess/connection';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
 
 	let n1_1: number | undefined = undefined;
@@ -34,6 +35,23 @@
 	function determineIsGameId(input: string) {
 		return Number(input) < 1000;
 	}
+
+	function handleConnect() {
+		const number1 = `${n1_1}${n1_2}${n1_3}${n1_4}`;
+		const number2 = `${n2_1}${n2_2}${n2_3}${n2_4}`;
+		const gameid = determineIsGameId(number1) ? number1 : number2;
+		const code = determineIsGameId(number1) ? number2 : number1;
+
+		console.log(`gameid: ${gameid}, code: ${code}`);
+
+		prepareWebSocket().then((ws) => {
+			registerMessageHandler("connected-id", (data) => {
+				alert(data);
+			});
+
+			sendAttendeeConnectRequest(gameid, code);
+		});
+	}
 </script>
 
 <div class="flex flex-col mt-16 items-center">
@@ -60,7 +78,7 @@
 			id="connectButton"
 			disabled={!checkNumbersValid(n1_1, n1_2, n1_3, n1_4, n2_1, n2_2, n2_3, n2_4)}
 			class="button-secondary mt-2"
-			href="/play/create"
+			on:click={handleConnect}
 		>
 			Connect
 		</button>
@@ -78,7 +96,8 @@
 
 		<a
 			class="text-base text-center font-medium text-gray-500 hover:text-gray-900 rounded-md"
-			href="/play/debug">Debugging</a
-		>
+			href="/play/debug"
+			>Debugging
+		</a>
 	</div>
 </div>
