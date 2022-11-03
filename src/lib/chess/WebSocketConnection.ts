@@ -11,7 +11,10 @@ export class WebSocketConnection {
   constructor() {
     this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
     this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
-    this.registerHandler("reconnected", (data) => this.handleReconnectedMessage(data));
+    this.registerHandler(
+      "reconnected",
+      (data) => this.handleReconnectedMessage(data),
+    );
   }
 
   prepare(): Promise<void> {
@@ -24,23 +27,23 @@ export class WebSocketConnection {
       this.ws = new WebSocket("wss://api.pawn-hub.de");
       this.ws.onopen = () => resolve();
       this.ws.onmessage = (message) => this.handleMessage(message);
-      this.ws.onclose = () => this.handleConnectionClosed();
+      this.ws.onclose = () => {
+        if (get(reconnect_code) !== "") this.handleConnectionClosed();
+      };
     });
   }
 
   async handleConnectionClosed() {
     // Reconnect using provided code
-    console.log("Attempting to reconnect");
-
     await this.prepare();
-
-    console.log("Opened new WebSocket");
 
     this.send(JSON.stringify({
       "type": "reconnect",
       "id": get(client_id),
       "reconnect-code": get(reconnect_code),
     }));
+
+    reconnect_code.set("");
   }
 
   // Message handlers
@@ -81,6 +84,7 @@ export class WebSocketConnection {
 
   handleReconnectedMessage(data: any) {
     reconnect_code.set(data["reconnect-code"]);
+    console.log("Reconnected");
   }
 
   // Emit messages

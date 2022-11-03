@@ -29,8 +29,6 @@ export class HostClient {
 
   registerConnectRequestHandler() {
     connection().registerHandler("verify-attendee-request", (data) => {
-      console.log(data.code);
-      console.log(get(host_code));
       const accept = data.code === get(host_code);
       const reply_type = accept
         ? "accept-attendee-request"

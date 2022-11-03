@@ -6,8 +6,8 @@
 	import { playstate } from '$lib/store';
 	import { get } from 'svelte/store';
 
-	if (get(playstate) === "hosting") goto("/play/create");
-	if (get(playstate) === "playing") goto("/play/game");
+	if (get(playstate) === 'hosting') goto('/play/create');
+	if (get(playstate) === 'playing') goto('/play/game');
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;
@@ -17,6 +17,10 @@
 	let n2_2: number | undefined = undefined;
 	let n2_3: number | undefined = undefined;
 	let n2_4: number | undefined = undefined;
+
+	let connectionDeclinedMessage: string | undefined;
+	let showError1: boolean = false;
+	let showError2: boolean = false;
 
 	// Pass all these to let Svelte know about the dependency
 	function checkNumbersValid(
@@ -36,6 +40,10 @@
 		if (number1 === '0000' || number2 === '0000') return false;
 		if (determineIsGameId(number1) === determineIsGameId(number2)) return false;
 
+		// Side-effect: Hide errors
+		showError1 = false;
+		showError2 = false;
+
 		return true;
 	}
 
@@ -51,6 +59,17 @@
 
 		await connection().prepare();
 
+		connection().registerHandler('request-declined', (data: any) => {
+			connectionDeclinedMessage = data.message;
+			if (data.details === 'nonexistent') {
+				if (determineIsGameId(number1)) showError1 = true;
+				else showError2 = true;
+			} else if (data.details === 'code') {
+				if (determineIsGameId(number1)) showError2 = true;
+				else showError1 = true;
+			}
+		});
+
 		connection().sendConnectRequest(gameid, code);
 	}
 
@@ -62,7 +81,11 @@
 
 <div class="flex flex-col mt-16 items-center">
 	<div class="flex flex-col gap-6 w-fit">
-		<div class="flex justify-center items-center space-x-10">
+		<div
+			class="flex justify-center items-center space-x-10 p-2 rounded-md {showError1
+				? 'border shadow-sm border-red-400 bg-red-50'
+				: ''}"
+		>
 			<div class="grid grid-cols-4 gap-4 w-fit">
 				<SingleNumberInput bind:value={n1_1} id="input1" />
 				<SingleNumberInput bind:value={n1_2} />
@@ -71,7 +94,11 @@
 			</div>
 		</div>
 
-		<div class="flex justify-center items-center space-x-10">
+		<div
+			class="flex justify-center items-center space-x-10 p-2 rounded-md {showError2
+				? 'border shadow-sm border-red-400 bg-red-50'
+				: ''}"
+		>
 			<div class="grid grid-cols-4 gap-4 w-fit">
 				<SingleNumberInput bind:value={n2_1} id="input2" />
 				<SingleNumberInput bind:value={n2_2} />
@@ -88,6 +115,12 @@
 		>
 			Connect
 		</button>
+
+		{#if connectionDeclinedMessage}
+			<p class="text-base text-red-600 font-medium text-center max-w-[100%]">
+				Please check your inputs.<br />{connectionDeclinedMessage}.
+			</p>
+		{/if}
 
 		<div class="relative py-4">
 			<div class="absolute inset-0 flex items-center justify-center">

@@ -44,7 +44,7 @@
 	}
 </script>
 
-<div class="relative mt-1 rounded-md shadow-sm w-fit">
+<div class="relative rounded-md shadow-sm w-fit">
 	<input
 		{id}
 		on:keyup={handleKeyPress}
