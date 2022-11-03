@@ -1,5 +1,5 @@
 import { client_id } from "$lib/store";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { connection } from "./WebSocketConnection";
 
 export class HostClient {
@@ -13,16 +13,13 @@ export class HostClient {
   }
 
   async connect(): Promise<void> {
+    if (this.state === WebSocket.OPEN) return;
+
     this.state = WebSocket.CONNECTING;
     await connection().prepare();
 
-    connection().registerHandler("connected-id", (data) => {
-      client_id.set(data.id);
-      this.startCodeGenerator();
-
-      this.state = WebSocket.OPEN;
-    });
-
+    this.registerIdHandler();
+    this.registerConnectRequestHandler();
     this.sendConnectMessage();
   }
 
@@ -30,6 +27,31 @@ export class HostClient {
     connection().send(JSON.stringify({
       type: "connect-host",
     }));
+  }
+
+  registerIdHandler() {
+    connection().registerHandler("connected-id", (data) => {
+      client_id.set(data.id);
+      this.startCodeGenerator();
+
+      this.state = WebSocket.OPEN;
+    });
+  }
+
+  registerConnectRequestHandler() {
+    connection().registerHandler("verify-attendee-request", (data) => {
+      console.log(data.code);
+      console.log(get(host_code));
+      const accept = data.code === get(host_code);
+      const reply_type = accept
+        ? "accept-attendee-request"
+        : "decline-attendee-request";
+
+      connection().send(JSON.stringify({
+        "type": reply_type,
+        "clientId": data.clientId,
+      }));
+    });
   }
 
   startCodeGenerator() {

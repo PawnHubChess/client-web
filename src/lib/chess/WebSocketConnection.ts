@@ -32,6 +32,8 @@ export class WebSocketConnection {
 
   private handleMessage(message: MessageEvent) {
     const data = JSON.parse(message.data);
+    console.log("Received message: " + message.data); 
+
     const handlers = this.messageHandlers.get(data.type);
     if (handlers) {
       for (const handler of handlers) {
@@ -41,6 +43,7 @@ export class WebSocketConnection {
   }
 
   send(message: string) {
+    console.log("Sending message: " + message);
     if (this.ws?.readyState !== WebSocket.OPEN) {
       throw new Error("Host is not open");
     }
