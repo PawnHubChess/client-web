@@ -7,6 +7,7 @@
 	import { get } from 'svelte/store';
 
 	if (get(playstate) === "hosting") goto("/play/create");
+	if (get(playstate) === "playing") goto("/play/game");
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;
@@ -50,11 +51,7 @@
 
 		await connection().prepare();
 
-		connection().registerHandler('connected-id', (data) => {
-			alert(data.toString());
-		});
-
-		//sendAttendeeConnectRequest(gameid, code);
+		connection().sendConnectRequest(gameid, code);
 	}
 
 	async function handleCreateGame() {

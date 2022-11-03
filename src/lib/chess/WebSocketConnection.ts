@@ -1,9 +1,15 @@
 import { browser } from "$app/environment";
+import { goto } from "$app/navigation";
+import { playstate } from "$lib/store";
 import { onMount } from "svelte";
 
 export class WebSocketConnection {
   ws: WebSocket | undefined = undefined;
   messageHandlers: Map<string, ((message: string) => void)[]> = new Map();
+
+  constructor() {
+    this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
+  }
 
   prepare(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -42,12 +48,25 @@ export class WebSocketConnection {
     }
   }
 
+  handleMatchedMessage(data: any) {
+    playstate.set("playing")
+    goto("/play/game");
+  }
+
   send(message: string) {
     console.log("Sending message: " + message);
     if (this.ws?.readyState !== WebSocket.OPEN) {
       throw new Error("Host is not open");
     }
     this.ws.send(message);
+  }
+
+  sendConnectRequest(hostId: string, code: string) {
+    this.send(JSON.stringify({
+      type: "connect-attendee",
+      host: hostId,
+      code: code,
+    }));
   }
 }
 
