@@ -1,7 +1,8 @@
 import { browser } from "$app/environment";
-import { goto } from "$app/navigation";
+import { beforeNavigate, goto } from "$app/navigation";
 import { client_id, playstate, reconnect_code } from "$lib/store";
 import { onMount } from "svelte";
+import { get } from "svelte/store";
 
 export class WebSocketConnection {
   ws: WebSocket | undefined = undefined;
@@ -10,6 +11,7 @@ export class WebSocketConnection {
   constructor() {
     this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
     this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
+    this.registerHandler("reconnected", (data) => this.handleReconnectedMessage(data));
   }
 
   prepare(): Promise<void> {
@@ -22,7 +24,23 @@ export class WebSocketConnection {
       this.ws = new WebSocket("wss://api.pawn-hub.de");
       this.ws.onopen = () => resolve();
       this.ws.onmessage = (message) => this.handleMessage(message);
+      this.ws.onclose = () => this.handleConnectionClosed();
     });
+  }
+
+  async handleConnectionClosed() {
+    // Reconnect using provided code
+    console.log("Attempting to reconnect");
+
+    await this.prepare();
+
+    console.log("Opened new WebSocket");
+
+    this.send(JSON.stringify({
+      "type": "reconnect",
+      "id": get(client_id),
+      "reconnect-code": get(reconnect_code),
+    }));
   }
 
   // Message handlers
@@ -52,13 +70,17 @@ export class WebSocketConnection {
   }
 
   handleIdMessage(data: any) {
-      client_id.set(data.id);
-      reconnect_code.set(data.reconnectCode);
+    client_id.set(data.id);
+    reconnect_code.set(data["reconnect-code"]);
   }
 
   handleMatchedMessage(data: any) {
     playstate.set("playing");
     goto("/play/game");
+  }
+
+  handleReconnectedMessage(data: any) {
+    reconnect_code.set(data["reconnect-code"]);
   }
 
   // Emit messages
