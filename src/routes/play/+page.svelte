@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { ClientHost } from '$lib/chess/ClientHost';
-	import type { WebSocketConnection } from '$lib/chess/WebSocketConnection';
+	import { goto } from '$app/navigation';
+	import { connection } from '$lib/chess/WebSocketConnection';
+	import { hostClient } from '$lib/chess/HostClient';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
-	import { connection, hostClient } from '$lib/store';
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;
@@ -12,11 +12,6 @@
 	let n2_2: number | undefined = undefined;
 	let n2_3: number | undefined = undefined;
 	let n2_4: number | undefined = undefined;
-
-	let ws: WebSocketConnection;
-	connection.subscribe((value) => (ws = value));
-	let host: ClientHost;
-	hostClient.subscribe((value) => (host = value));
 
 	// Pass all these to let Svelte know about the dependency
 	function checkNumbersValid(
@@ -43,28 +38,24 @@
 		return Number(input) < 1000;
 	}
 
-	function handleConnect() {
+	async function handleConnect() {
 		const number1 = `${n1_1}${n1_2}${n1_3}${n1_4}`;
 		const number2 = `${n2_1}${n2_2}${n2_3}${n2_4}`;
 		const gameid = determineIsGameId(number1) ? number1 : number2;
 		const code = determineIsGameId(number1) ? number2 : number1;
 
-		console.log(`gameid: ${gameid}, code: ${code}`);
+		await connection().prepare();
 
-		ws.prepare().then(() => {
-			ws.registerHandler('connected-id', (data) => {
-				alert(data.toString());
-			});
-
-			//sendAttendeeConnectRequest(gameid, code);
+		connection().registerHandler('connected-id', (data) => {
+			alert(data.toString());
 		});
+
+		//sendAttendeeConnectRequest(gameid, code);
 	}
 
-	function handleCreateGame() {
-		hostClient.set(new ClientHost());
-		host.connect().then(() => {
-			alert(`HostId: ${host.id}, Code: ${host.code}`);
-		})
+	async function handleCreateGame() {
+		await hostClient().connect();
+		goto('/play/create');
 	}
 </script>
 

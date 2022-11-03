@@ -1,3 +1,6 @@
+import { browser } from "$app/environment";
+import { onMount } from "svelte";
+
 export class WebSocketConnection {
   ws: WebSocket | undefined = undefined;
   messageHandlers: Map<string, ((message: string) => void)[]> = new Map();
@@ -43,4 +46,13 @@ export class WebSocketConnection {
     }
     this.ws.send(message);
   }
+}
+
+let _connection: WebSocketConnection | undefined = undefined;
+
+export function connection(): WebSocketConnection {
+  if (!_connection) {
+    _connection = new WebSocketConnection();
+  }
+  return _connection;
 }
