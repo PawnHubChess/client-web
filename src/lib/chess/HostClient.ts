@@ -4,12 +4,12 @@ import { connection } from "./WebSocketConnection";
 
 export class HostClient {
   code: string | undefined;
-  counter = 1;
   id: string | undefined;
-  state = WebSocket.CLOSED;
+  state: number;
 
   constructor() {
     client_id.subscribe((value: string) => this.id = value);
+    this.state = WebSocket.CLOSED;
   }
 
   async connect(): Promise<void> {
