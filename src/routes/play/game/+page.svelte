@@ -20,7 +20,7 @@
 </script>
 
 <div class="flex justify-center mt-8">
-	<chess-board draggable-pieces style="width: 80vh" />
+	<chess-board draggable-pieces style="width: 80vh; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;" />
 </div>
 
 <p class="text-base text-gray-600 font-medium text-center">
