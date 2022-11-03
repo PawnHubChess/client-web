@@ -16,22 +16,15 @@ export class HostClient {
 
     await connection().prepare();
 
-    this.registerIdHandler();
     this.registerConnectRequestHandler();
     this.sendConnectMessage();
+    this.startCodeGenerator();
   }
 
   sendConnectMessage() {
     connection().send(JSON.stringify({
       type: "connect-host",
     }));
-  }
-
-  registerIdHandler() {
-    connection().registerHandler("connected-id", (data) => {
-      client_id.set(data.id);
-      this.startCodeGenerator();
-    });
   }
 
   registerConnectRequestHandler() {

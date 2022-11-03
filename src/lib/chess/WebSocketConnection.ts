@@ -1,6 +1,6 @@
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
-import { playstate } from "$lib/store";
+import { client_id, playstate, reconnect_code } from "$lib/store";
 import { onMount } from "svelte";
 
 export class WebSocketConnection {
@@ -8,11 +8,12 @@ export class WebSocketConnection {
   messageHandlers: Map<string, ((message: string) => void)[]> = new Map();
 
   constructor() {
+    this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
     this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
   }
 
   prepare(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (this.ws?.readyState === WebSocket.OPEN) {
         resolve();
         return;
@@ -23,6 +24,8 @@ export class WebSocketConnection {
       this.ws.onmessage = (message) => this.handleMessage(message);
     });
   }
+
+  // Message handlers
 
   registerHandler(
     type: string,
@@ -38,7 +41,7 @@ export class WebSocketConnection {
 
   private handleMessage(message: MessageEvent) {
     const data = JSON.parse(message.data);
-    console.log("Received message: " + message.data); 
+    console.log("Received message: " + message.data);
 
     const handlers = this.messageHandlers.get(data.type);
     if (handlers) {
@@ -48,10 +51,17 @@ export class WebSocketConnection {
     }
   }
 
+  handleIdMessage(data: any) {
+      client_id.set(data.id);
+      reconnect_code.set(data.reconnectCode);
+  }
+
   handleMatchedMessage(data: any) {
-    playstate.set("playing")
+    playstate.set("playing");
     goto("/play/game");
   }
+
+  // Emit messages
 
   send(message: string) {
     console.log("Sending message: " + message);
