@@ -5,18 +5,15 @@ import { connection } from "./WebSocketConnection";
 export class HostClient {
   code: string | undefined;
   id: string | undefined;
-  state: number;
 
   constructor() {
     client_id.subscribe((value: string) => this.id = value);
-    this.state = WebSocket.CLOSED;
   }
 
   async connect(): Promise<void> {
+    if (get(playstate) !== "closed") return;
     playstate.set("hosting")
-    if (this.state === WebSocket.OPEN) return;
 
-    this.state = WebSocket.CONNECTING;
     await connection().prepare();
 
     this.registerIdHandler();
@@ -34,8 +31,6 @@ export class HostClient {
     connection().registerHandler("connected-id", (data) => {
       client_id.set(data.id);
       this.startCodeGenerator();
-
-      this.state = WebSocket.OPEN;
     });
   }
 

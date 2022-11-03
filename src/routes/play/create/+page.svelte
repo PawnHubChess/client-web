@@ -1,13 +1,15 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { hostClient, host_code } from '$lib/chess/HostClient';
-	import { client_id } from '$lib/store';
+	import { connection } from '$lib/chess/WebSocketConnection';
+	import { client_id, playstate } from '$lib/store';
 	import { onMount } from 'svelte';
 	import Skeleton from 'svelte-skeleton/Skeleton.svelte';
+	import { get } from 'svelte/store';
 
 	onMount(async () => {
-		if (hostClient().state === WebSocket.CLOSED) {
-			hostClient().connect();
-		}
+		if (get(playstate) === 'playing') goto('/play/game');
+		if (get(playstate) === 'closed') hostClient().connect();
 	});
 </script>
 
@@ -26,8 +28,10 @@
 		<p class="text-7xl text-gray-900 font-bold">{$host_code || ''}</p>
 		<p class="text-base text-gray-500 font-medium text-center">Connection Code</p>
 	</div>
-    <div>
-        <p class="text-base text-gray-600 font-medium text-center mt-4">Waiting for Opponent...</p>
-        <p class="text-base text-gray-500 font-medium text-center mt-2">Share these numbers with your friend to play against them!</p>
-    </div>
+	<div>
+		<p class="text-base text-gray-600 font-medium text-center mt-4">Waiting for Opponent...</p>
+		<p class="text-base text-gray-500 font-medium text-center mt-2">
+			Share these numbers with your friend to play against them!
+		</p>
+	</div>
 </div>
