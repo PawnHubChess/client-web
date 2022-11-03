@@ -3,6 +3,10 @@
 	import { connection } from '$lib/chess/WebSocketConnection';
 	import { hostClient } from '$lib/chess/HostClient';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
+	import { playstate } from '$lib/store';
+	import { get } from 'svelte/store';
+
+	if (get(playstate) === "hosting") goto("/play/create");
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;

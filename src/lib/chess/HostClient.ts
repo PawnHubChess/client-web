@@ -1,4 +1,4 @@
-import { client_id } from "$lib/store";
+import { client_id, playstate } from "$lib/store";
 import { get, writable } from "svelte/store";
 import { connection } from "./WebSocketConnection";
 
@@ -13,6 +13,7 @@ export class HostClient {
   }
 
   async connect(): Promise<void> {
+    playstate.set("hosting")
     if (this.state === WebSocket.OPEN) return;
 
     this.state = WebSocket.CONNECTING;
