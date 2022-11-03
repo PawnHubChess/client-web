@@ -1,6 +1,4 @@
-import { browser } from "$app/environment";
 import { client_id } from "$lib/store";
-import { onMount } from "svelte";
 import { writable } from "svelte/store";
 import { connection } from "./WebSocketConnection";
 
@@ -20,11 +18,8 @@ export class HostClient {
 
     connection().registerHandler("connected-id", (data) => {
       client_id.set(data.id);
-      setInterval(() => {
-        this.counter++;
-        this.code = this.counter.toString();
-        host_code.set(this.code);
-      }, 1000);
+      this.startCodeGenerator();
+
       this.state = WebSocket.OPEN;
     });
 
@@ -35,6 +30,17 @@ export class HostClient {
     connection().send(JSON.stringify({
       type: "connect-host",
     }));
+  }
+
+  startCodeGenerator() {
+    host_code.set(this.generateCode());
+    setInterval(() => {
+      host_code.set(this.generateCode());
+    }, 5 * 60 * 1000);
+  }
+
+  generateCode() {
+    return (Math.floor(Math.random() * 8998) + 1001).toString();
   }
 }
 
