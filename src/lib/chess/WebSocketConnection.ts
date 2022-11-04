@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { board_fen, client_id, debug_local_server, playstate, reconnect_code } from "$lib/store";
 import { get } from "svelte/store";
 
@@ -110,7 +111,7 @@ export class WebSocketConnection {
 
   sendMove(from: string, to: string) {
     this.send(JSON.stringify({
-      type: "make-move",
+      type: "send-move",
       from: from,
       to: to,
     }));

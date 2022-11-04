@@ -4,10 +4,10 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import 'chessboard-element';
-	import { determineIsGameId } from '$lib/chess/WebSocketConnection';
+	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
 
 	onMount(async () => {
-		//if (get(playstate) !== "playing") goto("/play");
+		if (get(playstate) !== "playing") goto("/play");
 
 		let board = document.querySelector('chess-board')!;
 
@@ -20,9 +20,8 @@
 		board.addEventListener('drop', (e) => {
 			// @ts-ignore
 			const { source, target, newPosition } = e.detail;
-			console.log(`${source} -> ${target}`);
 			board_fen.set(newPosition);
-			console.log(fen);
+			connection().sendMove(source, target);
 		});
 	});
 </script>
