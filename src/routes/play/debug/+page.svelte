@@ -8,16 +8,16 @@
 		acceptLastRequest,
 		declineLastRequest,
 		send as sendHost
-	} from '$lib/chess-debug/host';
+	} from "$lib/chess-debug/host";
 	import {
 		startClient,
 		clientOpenState,
 		stopClient,
 		sendConnectionRequest,
 		send as sendClient
-	} from '$lib/chess-debug/websocketClient';
-
-	let useCloud = false;
+	} from "$lib/chess-debug/websocketClient";
+	 import { debug_local_server } from "$lib/store";
+	import { get } from "svelte/store";
 
 	let hostOpen = false;
 	let startHostEnabled = true;
@@ -37,7 +37,7 @@
 	function handleToggleHost() {
 		startHostEnabled = false;
 		if (hostOpen) stopHost();
-		else startHost(useCloud, hostCallback);
+		else startHost(!get(debug_local_server), hostCallback);
 		console.log(hostOutput);
 	}
 
@@ -60,7 +60,7 @@
 	function handleToggleClient() {
 		startClientEnabled = false;
 		if (clientOpen) stopClient();
-		else startClient(useCloud, clientCallback);
+		else startClient(!get(debug_local_server), clientCallback);
 		console.log(clientOutput);
 	}
 
@@ -80,8 +80,9 @@
 	}
 </script>
 
-<input id="cloudCheckbox" type="checkbox" bind:checked={useCloud} class="my-4"/>
-<label for="cloudCheckbox">Use Cloud Server</label>
+<input id="entirePageLocalServer" type="checkbox" class="px-3 py-3 rounded-md my-4" bind:checked={$debug_local_server} />
+<label for="entirePageLocalServer" class="pr-4">Use local server everywhere</label>
+
 <div class="clientsContainer">
 	<div class="host">
 		<button class="button-primary" disabled={!startHostEnabled} on:click={handleToggleHost}>

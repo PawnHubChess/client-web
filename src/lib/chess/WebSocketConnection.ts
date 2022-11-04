@@ -1,7 +1,4 @@
-import { browser } from "$app/environment";
-import { beforeNavigate, goto } from "$app/navigation";
-import { board_fen, client_id, playstate, reconnect_code } from "$lib/store";
-import { onMount } from "svelte";
+import { board_fen, client_id, debug_local_server, playstate, reconnect_code } from "$lib/store";
 import { get } from "svelte/store";
 
 export class WebSocketConnection {
@@ -24,12 +21,14 @@ export class WebSocketConnection {
         return;
       }
 
-      this.ws = new WebSocket("wss://api.pawn-hub.de");
+      this.ws = new WebSocket(!get(debug_local_server) ? "wss://api.pawn-hub.de" : "ws://localhost:3000");
       this.ws.onopen = () => resolve();
       this.ws.onmessage = (message) => this.handleMessage(message);
       this.ws.onclose = () => {
         if (get(reconnect_code)) this.handleConnectionClosed();
       };
+
+      if (get(debug_local_server)) console.warn("Using local server");
     });
   }
 
