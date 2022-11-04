@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { playstate, client_id, reconnect_code, board_fen } from '$lib/store';
+	import {
+		playstate,
+		client_id,
+		reconnect_code,
+		board_fen,
+		current_player_white
+	} from '$lib/store';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import 'chessboard-element';
@@ -16,6 +22,8 @@
 
 		board.setPosition(get(board_fen));
 
+		// API Integration
+
 		board.addEventListener('drop', (e) => {
 			// @ts-ignore
 			const { source, target, newPosition } = e.detail;
@@ -26,13 +34,37 @@
 		connection().registerHandler('receive-move', (data: any) => {
 			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
 			board_fen.set(board.fen() || '');
+
+			game.move({
+				from: data.from,
+				to: data.to
+			});
+
+			current_player_white.set(!get(current_player_white));
 		});
 		connection().registerHandler('reject-move', (data: any) => {
 			board.setPosition(get(board_fen));
 		});
 		connection().registerHandler('accept-move', (data: any) => {
 			board_fen.set(board.fen() || '');
+			current_player_white.set(!get(current_player_white));
 		});
+
+		// Disallow moving if not own turn
+		board.addEventListener('drag-start', (e) => {
+			console.log(get(current_player_white));
+			console.log(e.detail.piece)
+			// @ts-ignore
+			if (e.detail.piece.startsWith('b') !== determineIsGameId(get(client_id))) {
+				e.preventDefault();
+				return
+			}
+			if (get(current_player_white) === determineIsGameId(get(client_id))) {
+				e.preventDefault();
+				return;
+			}
+		});
+
 	});
 </script>
 
