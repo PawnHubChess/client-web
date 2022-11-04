@@ -28,7 +28,7 @@ export class WebSocketConnection {
       this.ws.onopen = () => resolve();
       this.ws.onmessage = (message) => this.handleMessage(message);
       this.ws.onclose = () => {
-        if (get(reconnect_code) !== "") this.handleConnectionClosed();
+        if (get(reconnect_code)) this.handleConnectionClosed();
       };
     });
   }
@@ -37,13 +37,15 @@ export class WebSocketConnection {
     // Reconnect using provided code
     await this.prepare();
 
+    const code = get(reconnect_code);
+    reconnect_code.set(undefined);
+
     this.send(JSON.stringify({
       "type": "reconnect",
       "id": get(client_id),
-      "reconnect-code": get(reconnect_code),
+      "reconnect-code": code,
     }));
 
-    reconnect_code.set("");
   }
 
   // Message handlers
@@ -104,6 +106,14 @@ export class WebSocketConnection {
       type: "connect-attendee",
       host: hostId,
       code: code,
+    }));
+  }
+
+  sendMove(from: string, to: string) {
+    this.send(JSON.stringify({
+      type: "make-move",
+      from: from,
+      to: to,
     }));
   }
 }
