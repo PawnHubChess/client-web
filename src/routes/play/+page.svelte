@@ -23,6 +23,8 @@
 	let connectionDeclinedMessage: string | undefined;
 	let showError1: boolean = false;
 	let showError2: boolean = false;
+	let showConnectLoadingError: boolean = false;
+	let showHostLoadingError: boolean = false;
 	let showConnectLoading: boolean = false;
 	let showHostLoading: boolean = false;
 
@@ -58,7 +60,13 @@
 		const code = determineIsGameId(number1) ? number2 : number1;
 
 		showConnectLoading = true;
-		await connection().prepare();
+		showConnectLoadingError = false;
+		const errorCallback = () => {
+			showConnectLoading = false;
+			showConnectLoadingError = true;
+		};
+
+		await connection().prepare(errorCallback);
 
 		connection().registerHandler('request-declined', (data: any) => {
 			connectionDeclinedMessage = data.message;
@@ -78,7 +86,13 @@
 
 	async function handleCreateGame() {
 		showHostLoading = true;
-		await hostClient().connect();
+		showHostLoadingError = false;
+		const errorCallback = () => {
+			showHostLoading = false;
+			showHostLoadingError = true;
+		};
+
+		await connection().prepare(errorCallback);
 		goto('/play/create');
 	}
 </script>
@@ -131,6 +145,12 @@
 			</p>
 		{/if}
 
+		{#if showConnectLoadingError}
+			<p class="text-base text-red-600 font-medium text-center max-w-[100%]">
+				Connection failed.<br />Please try again later.
+			</p>
+		{/if}
+
 		<div class="relative py-4">
 			<div class="absolute inset-0 flex items-center justify-center">
 				<div class="w-80 border-b border-gray-300" />
@@ -151,6 +171,12 @@
 				<Diamonds color="#ffffff" size="24" duration="2s" />
 			{/if}
 		</button>
+
+		{#if showHostLoadingError}
+			<p class="text-base text-red-600 font-medium text-center max-w-[100%]">
+				Connection failed.<br />Please try again later.
+			</p>
+		{/if}
 
 		<a
 			class="text-base text-center font-medium text-gray-500 hover:text-gray-900 rounded-md"

@@ -15,14 +15,16 @@ export class WebSocketConnection {
     );
   }
 
-  prepare(): Promise<void> {
-    return new Promise((resolve) => {
+  prepare(errorCallback?: (() => void)): Promise<void> {
+    return new Promise((resolve, reject) => {
       if (this.ws?.readyState === WebSocket.OPEN) {
         resolve();
         return;
       }
-
+      
       this.ws = new WebSocket(!get(debug_local_server) ? "wss://api.pawn-hub.de" : "ws://localhost:3000");
+
+      this.ws.onerror = () => {errorCallback?.call(this)};
       this.ws.onopen = () => resolve();
       this.ws.onmessage = (message) => this.handleMessage(message);
       this.ws.onclose = () => {
