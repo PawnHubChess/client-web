@@ -7,21 +7,30 @@
 	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
 
 	onMount(async () => {
-		if (get(playstate) !== "playing") goto("/play");
+		if (get(playstate) !== 'playing') goto('/play');
 
 		let board = document.querySelector('chess-board')!;
 
 		if (determineIsGameId(get(client_id))) board.orientation = 'black';
 		else board.orientation = 'white';
 
-		let fen = $board_fen;
-		board.setPosition(fen);
+		board.setPosition(get(board_fen));
 
 		board.addEventListener('drop', (e) => {
 			// @ts-ignore
 			const { source, target, newPosition } = e.detail;
-			board_fen.set(newPosition);
 			connection().sendMove(source, target);
+		});
+
+		connection().registerHandler('receive-move', (data: any) => {
+			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
+			board_fen.set(board.fen() || "");
+		});
+		connection().registerHandler('reject-move', (data: any) => {
+			board.setPosition(get(board_fen));
+		});
+		connection().registerHandler('accept-move', (data: any) => {
+			board_fen.set(board.fen() || "");
 		});
 	});
 </script>

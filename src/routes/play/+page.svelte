@@ -3,7 +3,7 @@
 	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
 	import { hostClient } from '$lib/chess/HostClient';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
-	import { playstate } from '$lib/store';
+	import { playstate, debug_local_server } from '$lib/store';
 	import { get } from 'svelte/store';
 
 	if (get(playstate) === 'hosting') goto('/play/create');
@@ -134,5 +134,12 @@
 			href="/play/debug"
 			>Debugging
 		</a>
+
+		<input
+			id="entirePageLocalServer"
+			type="checkbox"
+			class="px-3 py-3 rounded-md my-4"
+			bind:checked={$debug_local_server}
+		/>
 	</div>
 </div>
