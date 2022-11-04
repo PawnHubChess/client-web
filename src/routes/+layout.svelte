@@ -1,6 +1,6 @@
 <script lang="ts">
 	import "../app.css";
-	import { playstate } from "$lib/store";
+	import { playstate, debug_local_server } from "$lib/store";
 
 	function playButtonMessage(state: string) {
 		switch (state) {
@@ -68,7 +68,7 @@
 			<div class="relative" />
 		</nav>
 		<div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-			<a href="/play" class="button-primary ml-8">{playButtonMessage($playstate)}</a>
+			<a href="/play" class="button-primary ml-8 {$debug_local_server? "bg-orange-600" : ""}">{playButtonMessage($playstate)}</a>
 		</div>
 	</div>
 
