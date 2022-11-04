@@ -11,6 +11,7 @@
 	import { get } from 'svelte/store';
 	import 'chessboard-element';
 	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
+	import { Chess } from 'chess.js';
 
 	let waiting_for_response = false;
 
@@ -28,7 +29,21 @@
 
 		board.addEventListener('drop', (e) => {
 			// @ts-ignore
-			const { source, target, newPosition } = e.detail;
+			const { source, target, setAction } = e.detail;
+
+			// Check if the move is legal
+			const game = new Chess(get(board_fen));
+			const move = game.move({
+				from: source,
+				to: target
+			});
+			console.log(move);
+			console.log(game.turn())
+			if (move === null) {
+				setAction('snapback');
+				return;
+			}
+
 			if (target === 'offboard') return;
 			connection().sendMove(source, target);
 			waiting_for_response = true;
