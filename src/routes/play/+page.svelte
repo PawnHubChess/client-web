@@ -5,6 +5,7 @@
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
 	import { playstate, debug_local_server } from '$lib/store';
 	import { get } from 'svelte/store';
+	import { dev } from '$app/environment';
 
 	if (get(playstate) === 'hosting') goto('/play/create');
 	if (get(playstate) === 'playing') goto('/play/game');
@@ -135,11 +136,16 @@
 			>Debugging
 		</a>
 
-		<input
-			id="entirePageLocalServer"
-			type="checkbox"
-			class="px-3 py-3 rounded-md my-4"
-			bind:checked={$debug_local_server}
-		/>
+		{#if dev}
+			<div class="self-center">
+				<input
+					id="entirePageLocalServer"
+					type="checkbox"
+					class="px-3 py-3 rounded-md my-4 mr-2"
+					bind:checked={$debug_local_server}
+				/>
+				<label for="entirePageLocalServer" class="pr-4">Use local server</label>
+			</div>
+		{/if}
 	</div>
 </div>
