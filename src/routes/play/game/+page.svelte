@@ -12,6 +12,8 @@
 	import 'chessboard-element';
 	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
 
+	let waiting_for_response = false;
+
 	onMount(async () => {
 		if (get(playstate) !== 'playing') goto('/play');
 
@@ -29,42 +31,41 @@
 			const { source, target, newPosition } = e.detail;
 			if (target === 'offboard') return;
 			connection().sendMove(source, target);
+			waiting_for_response = true;
 		});
 
 		connection().registerHandler('receive-move', (data: any) => {
 			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
 			board_fen.set(board.fen() || '');
 
-			game.move({
-				from: data.from,
-				to: data.to
-			});
-
 			current_player_white.set(!get(current_player_white));
 		});
 		connection().registerHandler('reject-move', (data: any) => {
 			board.setPosition(get(board_fen));
+			waiting_for_response = false;
 		});
 		connection().registerHandler('accept-move', (data: any) => {
 			board_fen.set(board.fen() || '');
 			current_player_white.set(!get(current_player_white));
+			waiting_for_response = false;
 		});
 
 		// Disallow moving if not own turn
 		board.addEventListener('drag-start', (e) => {
-			console.log(get(current_player_white));
-			console.log(e.detail.piece)
 			// @ts-ignore
 			if (e.detail.piece.startsWith('b') !== determineIsGameId(get(client_id))) {
 				e.preventDefault();
-				return
+				return;
 			}
 			if (get(current_player_white) === determineIsGameId(get(client_id))) {
 				e.preventDefault();
 				return;
 			}
+			if (waiting_for_response) {
+				e.preventDefault();
+				return;
+			}
 		});
-
 	});
 </script>
 
