@@ -17,6 +17,7 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-netlify": "^1.0.0-next.81",
 		"@sveltejs/kit": "next",
+		"@types/chess.js": "^0.13.4",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"autoprefixer": "^10.4.13",
@@ -37,6 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.3",
+		"chess.js": "^1.0.0-alpha.0",
 		"chessboard-element": "^1.2.0",
 		"svelte-confetti-explosion": "^0.4.0",
 		"svelte-skeleton": "^1.3.1"
