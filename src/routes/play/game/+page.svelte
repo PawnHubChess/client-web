@@ -19,18 +19,19 @@
 		board.addEventListener('drop', (e) => {
 			// @ts-ignore
 			const { source, target, newPosition } = e.detail;
+			if (target === 'offboard') return;
 			connection().sendMove(source, target);
 		});
 
 		connection().registerHandler('receive-move', (data: any) => {
 			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
-			board_fen.set(board.fen() || "");
+			board_fen.set(board.fen() || '');
 		});
 		connection().registerHandler('reject-move', (data: any) => {
 			board.setPosition(get(board_fen));
 		});
 		connection().registerHandler('accept-move', (data: any) => {
-			board_fen.set(board.fen() || "");
+			board_fen.set(board.fen() || '');
 		});
 	});
 </script>
