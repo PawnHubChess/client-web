@@ -11,8 +11,10 @@
 	import { get } from 'svelte/store';
 	import 'chessboard-element';
 	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
+	import GameSidebar from "$components/GameSidebar.svelte";
 
 	let waiting_for_response = false;
+	const isOwnMove = $current_player_white === !determineIsGameId(get(client_id))
 
 	onMount(async () => {
 		if (get(playstate) !== 'playing') goto('/play');
@@ -57,7 +59,7 @@
 				e.preventDefault();
 				return;
 			}
-			if (get(current_player_white) === determineIsGameId(get(client_id))) {
+			if (!isOwnMove) {
 				e.preventDefault();
 				return;
 			}
@@ -70,15 +72,15 @@
 </script>
 
 <div class="flex justify-center mt-8">
-	<chess-board
-		draggable-pieces
-		style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;"
-	/>
+	<div class="grid lg:grid-cols-auto-1fr gap-4 ">
+		<chess-board
+			draggable-pieces
+			style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;"
+		/>
+		
+		<div class="order-first lg:order-none">
+			<GameSidebar isOwnMove={isOwnMove} />
+		</div>
+	</div>
 </div>
 
-<p class="text-base text-gray-600 font-medium text-center">
-	You're matched to another player. Your id is <span class="font-bold">{$client_id}</span>
-</p>
-<p class="text-base text-gray-500 font-medium text-center mt-4">
-	Reconnect Code: {$reconnect_code}
-</p>
