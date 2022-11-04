@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { connection } from '$lib/chess/WebSocketConnection';
+	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
 	import { hostClient } from '$lib/chess/HostClient';
 	import SingleNumberInput from '$lib/SingleNumberInput.svelte';
 	import { playstate } from '$lib/store';
@@ -45,10 +45,6 @@
 		showError2 = false;
 
 		return true;
-	}
-
-	function determineIsGameId(input: string) {
-		return Number(input) < 1000;
 	}
 
 	async function handleConnect() {

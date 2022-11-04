@@ -1,6 +1,6 @@
 import { browser } from "$app/environment";
 import { beforeNavigate, goto } from "$app/navigation";
-import { client_id, playstate, reconnect_code } from "$lib/store";
+import { board_fen, client_id, playstate, reconnect_code } from "$lib/store";
 import { onMount } from "svelte";
 import { get } from "svelte/store";
 
@@ -79,6 +79,8 @@ export class WebSocketConnection {
 
   handleMatchedMessage(data: any) {
     playstate.set("playing");
+    const fen = data.fen as string;
+    board_fen.set(fen.substring(0, fen.indexOf(" ")));
     goto("/play/game");
   }
 
@@ -113,4 +115,8 @@ export function connection(): WebSocketConnection {
     _connection = new WebSocketConnection();
   }
   return _connection;
+}
+
+export function determineIsGameId(input: string) {
+  return Number(input) < 1000;
 }
