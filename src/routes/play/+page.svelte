@@ -6,6 +6,7 @@
 	import { playstate, debug_local_server } from '$lib/store';
 	import { get } from 'svelte/store';
 	import { dev } from '$app/environment';
+	import { Diamonds } from 'svelte-loading-spinners';
 
 	if (get(playstate) === 'hosting') goto('/play/create');
 	if (get(playstate) === 'playing') goto('/play/game');
@@ -22,6 +23,8 @@
 	let connectionDeclinedMessage: string | undefined;
 	let showError1: boolean = false;
 	let showError2: boolean = false;
+	let showConnectLoading: boolean = false;
+	let showHostLoading: boolean = false;
 
 	// Pass all these to let Svelte know about the dependency
 	function checkNumbersValid(
@@ -54,10 +57,13 @@
 		const gameid = determineIsGameId(number1) ? number1 : number2;
 		const code = determineIsGameId(number1) ? number2 : number1;
 
+		showConnectLoading = true;
 		await connection().prepare();
 
 		connection().registerHandler('request-declined', (data: any) => {
 			connectionDeclinedMessage = data.message;
+			showConnectLoading = false;
+
 			if (data.details === 'nonexistent') {
 				if (determineIsGameId(number1)) showError1 = true;
 				else showError2 = true;
@@ -71,6 +77,7 @@
 	}
 
 	async function handleCreateGame() {
+		showHostLoading = true;
 		await hostClient().connect();
 		goto('/play/create');
 	}
@@ -107,10 +114,15 @@
 		<button
 			id="connectButton"
 			disabled={!checkNumbersValid(n1_1, n1_2, n1_3, n1_4, n2_1, n2_2, n2_3, n2_4)}
-			class="button-secondary mt-2"
+			class="button-secondary mt-2 flex justify-center items-center gap-4 {showConnectLoading
+				? 'bg-indigo-600 text-white'
+				: ''}"
 			on:click={handleConnect}
 		>
-			Connect
+			{showConnectLoading ? 'Connecting' : 'Connect'}
+			{#if showConnectLoading}
+				<Diamonds color="#ffffff" size="24" duration="2s" />
+			{/if}
 		</button>
 
 		{#if connectionDeclinedMessage}
@@ -128,7 +140,17 @@
 			</div>
 		</div>
 
-		<button class="button-secondary" on:click={handleCreateGame}> Start a New Game </button>
+		<button
+			class="button-secondary flex justify-center items-center gap-4 {showHostLoading
+				? 'bg-indigo-600 text-white'
+				: ''}"
+			on:click={handleCreateGame}
+		>
+			{showHostLoading ? 'Starting' : 'Start a New Game'}
+			{#if showHostLoading}
+				<Diamonds color="#ffffff" size="24" duration="2s" />
+			{/if}
+		</button>
 
 		<a
 			class="text-base text-center font-medium text-gray-500 hover:text-gray-900 rounded-md"
