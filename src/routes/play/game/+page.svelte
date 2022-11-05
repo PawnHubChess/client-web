@@ -14,8 +14,7 @@
 	import GameSidebar from "$components/GameSidebar.svelte";
 
 	let waiting_for_response = false;
-	const isOwnMove = $current_player_white === !determineIsGameId(get(client_id))
-
+	
 	onMount(async () => {
 		if (get(playstate) !== 'playing') goto('/play');
 
@@ -59,7 +58,7 @@
 				e.preventDefault();
 				return;
 			}
-			if (!isOwnMove) {
+			if (get(current_player_white) === determineIsGameId(get(client_id))) {
 				e.preventDefault();
 				return;
 			}
@@ -79,7 +78,7 @@
 		/>
 		
 		<div class="order-first lg:order-none">
-			<GameSidebar isOwnMove={isOwnMove} />
+			<GameSidebar isOwnMove={$current_player_white === !determineIsGameId(get(client_id))} />
 		</div>
 	</div>
 </div>
