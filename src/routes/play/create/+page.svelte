@@ -31,15 +31,19 @@
 		<p class="text-base text-gray-500 font-medium text-center">Connection Code</p>
 	</div>
 
-	<ShareHostLink gameid={$client_id} code={$host_code}/>
+	<ShareHostLink gameid={$client_id} code={$host_code} />
 
 	<div>
-		<p class="text-base text-gray-600 font-medium text-center mt-4 flex justify-center items-center gap-2">
-			Waiting for Opponent
+		<p
+			class="text-base text-gray-600 font-medium text-center mt-4 flex justify-center items-center gap-2"
+		>
+			{$client_id && $host_code ? 'Waiting for Opponent' : 'Creating Game'}
 			<Diamonds color="#4d5536" size="24" duration="2s" />
 		</p>
 		<p class="text-base text-gray-500 font-medium text-center mt-2">
-			Share these numbers with your friend to play against them!
+			{#if $client_id && $host_code}
+				Share these numbers with your friend to play against them!
+			{/if}
 		</p>
 	</div>
 </div>
