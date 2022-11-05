@@ -117,7 +117,7 @@
 	});
 </script>
 
-<div class="mt-2 tall:mt-16 flex flex-col items-center">
+<div class="mt-2 flex flex-col items-center tall:mt-16">
 	<div class="flex w-fit flex-col gap-6">
 		<div
 			class="flex items-center justify-center space-x-10 rounded-md p-2 {showError1
@@ -195,12 +195,18 @@
 		{/if}
 
 		<a
-			class="rounded-md text-center text-base font-medium text-gray-500 hover:text-gray-900"
-			href="/play/debug"
-			>Debugging
+			class="rounded-md text-center text-base font-medium bg-gray-100 text-gray-500 w-fit py-2 px-4 self-center hover:text-gray-900 hover:bg-gray-200 transition-all"
+			href="/play/help"
+			>How it Works
 		</a>
 
 		{#if dev}
+			<a
+				class="rounded-md text-center text-base font-medium text-gray-500 hover:text-gray-900"
+				href="/play/debug"
+				>Debugging
+			</a>
+
 			<div class="self-center">
 				<input
 					id="entirePageLocalServer"
