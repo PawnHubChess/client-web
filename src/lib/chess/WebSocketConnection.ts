@@ -19,6 +19,10 @@ export class WebSocketConnection {
       "reconnected",
       (data) => this.handleReconnectedMessage(data),
     );
+    this.registerHandler(
+      "opponent-disconnected",
+      () => this.handleOpponentDisconnected(),
+    );
   }
 
   prepare(errorCallback?: () => void): Promise<void> {
@@ -111,6 +115,10 @@ export class WebSocketConnection {
   handleReconnectedMessage(data: any) {
     reconnect_code.set(data["reconnect-code"]);
     console.log("Reconnected");
+  }
+
+  handleOpponentDisconnected() {
+    this.close();
   }
 
   // Emit messages
