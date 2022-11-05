@@ -169,3 +169,9 @@
 
 	<OpponentDisconnectedModal isOpen={$playstate !== "playing"} />
 </main>
+
+<style>
+	chess-board::part(board) {
+		border: none;
+	}
+</style>
