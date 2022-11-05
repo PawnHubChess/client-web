@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import ShareHostLink from '$components/ShareHostLink.svelte';
 	import { hostClient, host_code } from '$lib/chess/HostClient';
 	import { connection } from '$lib/chess/WebSocketConnection';
 	import { client_id, playstate } from '$lib/store';
@@ -29,6 +30,9 @@
 		<p class="text-7xl text-gray-900 font-bold">{$host_code || ''}</p>
 		<p class="text-base text-gray-500 font-medium text-center">Connection Code</p>
 	</div>
+
+	<ShareHostLink gameid={$client_id} code={$host_code}/>
+
 	<div>
 		<p class="text-base text-gray-600 font-medium text-center mt-4 flex justify-center items-center gap-2">
 			Waiting for Opponent
