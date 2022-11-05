@@ -13,9 +13,14 @@
 		if (get(playstate) === 'playing') goto('/play/game');
 		if (get(playstate) === 'closed') hostClient().connect();
 	});
+
+	function handleCancel() {
+		connection().close();
+		goto('/play');
+	}
 </script>
 
-<div class="flex flex-col justify-center items-center gap-10 mt-24">
+<div class="flex flex-col justify-center items-center gap-10 mt-24 mb-24">
 	<div>
 		{#if !$client_id}
 			<Skeleton width={180} height={72} />
@@ -46,4 +51,6 @@
 			{/if}
 		</p>
 	</div>
+
+	<button class="button-secondary" on:click={handleCancel}>Cancel</button>
 </div>
