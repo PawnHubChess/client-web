@@ -13,6 +13,8 @@
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import GameSidebar from "$components/GameSidebar.svelte";
 	import OpponentDisconnectedModal from "$components/OpponentDisconnectedModal.svelte";
+	import { Chess } from "chess.js";
+	import { objToFen } from "chessboard-element";
 
 	let waiting_for_response = false;
 
@@ -30,7 +32,23 @@
 
 		board.addEventListener("drop", (e) => {
 			// @ts-ignore
-			const { source, target, newPosition } = e.detail;
+			const { source, target, oldPosition, setAction } = e.detail;
+
+			const game = new Chess(
+				objToFen(oldPosition) + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
+			);
+			console.log(game.ascii());
+			if (
+				game.move({
+					from: source,
+					to: target
+				}) === null
+			) {
+				console.warn("Invalid move detected");
+				setAction("snapback");
+				return;
+			}
+
 			if (target === "offboard") return;
 			connection().sendMove(source, target);
 			waiting_for_response = true;
@@ -72,7 +90,7 @@
 </script>
 
 <main>
-	<div class="mt-2 tall:mt-8 flex justify-center">
+	<div class="mt-2 flex justify-center tall:mt-8">
 		<div class="grid gap-4 lg:grid-cols-chessgrid ">
 			<chess-board
 				draggable-pieces
