@@ -1,22 +1,22 @@
 <script lang="ts">
-	import "../app.css";
-	import { playstate, debug_local_server } from "$lib/store";
+	import '../app.css';
+	import { playstate, debug_local_server } from '$lib/store';
 
 	function playButtonMessage(state: string) {
 		switch (state) {
-			case "hosting":
-				return "Invite Friends!";
-			case "playing":
-				return "Return to Game";
+			case 'hosting':
+				return 'Invite Friends!';
+			case 'playing':
+				return 'Return to Game';
 			default:
-				return "Play Chess!";
+				return 'Play Chess!';
 		}
 	}
 </script>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6">
 	<div
-		class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10"
+		class="flex items-center justify-between border-b-2 border-gray-100 py-6 lg:justify-start lg:space-x-10"
 	>
 		<div class="flex justify-start lg:w-0 lg:flex-1">
 			<a href="/">
@@ -28,7 +28,29 @@
 				/>
 			</a>
 		</div>
-		<div class="-my-2 -mr-2 md:hidden">
+
+		<nav class="hidden space-x-10 lg:flex">
+			<a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">The Project</a>
+			<a href="/team" class="text-base font-medium text-gray-500 hover:text-gray-900"
+				>Meet the Team</a
+			>
+			<a href="/research" class="text-base font-medium text-gray-500 hover:text-gray-900"
+				>Research</a
+			>
+			<a href="/art" class="text-base font-medium text-gray-500 hover:text-gray-900"
+				>Connecting Cultures</a
+			>
+
+			<div class="relative" />
+		</nav>
+
+		<div class="items-center justify-center flex flex-1 lg:justify-end lg:w-0">
+			<a href="/play" class="button-secondary lg:button-primary ml-8 {$debug_local_server ? 'bg-orange-600' : ''}"
+				>{playButtonMessage($playstate)}</a
+			>
+		</div>
+
+		<div class="-my-2 -mr-2 lg:hidden">
 			<button
 				type="button"
 				class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
@@ -52,23 +74,6 @@
 					/>
 				</svg>
 			</button>
-		</div>
-		<nav class="hidden space-x-10 md:flex">
-			<a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">The Project</a>
-			<a href="/team" class="text-base font-medium text-gray-500 hover:text-gray-900"
-				>Meet the Team</a
-			>
-			<a href="/research" class="text-base font-medium text-gray-500 hover:text-gray-900"
-				>Research</a
-			>
-			<a href="/art" class="text-base font-medium text-gray-500 hover:text-gray-900"
-				>Connecting Cultures</a
-			>
-
-			<div class="relative" />
-		</nav>
-		<div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-			<a href="/play" class="button-primary ml-8 {$debug_local_server? "bg-orange-600" : ""}">{playButtonMessage($playstate)}</a>
 		</div>
 	</div>
 
