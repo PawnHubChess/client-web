@@ -27,6 +27,7 @@
 		else board.orientation = "white";
 
 		board.setPosition(get(board_fen));
+		const game = new Chess("");
 
 		// API Integration
 
@@ -34,10 +35,9 @@
 			// @ts-ignore
 			const { source, target, oldPosition, setAction } = e.detail;
 
-			const game = new Chess(
+			game.load(
 				objToFen(oldPosition) + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
 			);
-			console.log(game.ascii());
 			if (
 				game.move({
 					from: source,
@@ -85,6 +85,67 @@
 				e.preventDefault();
 				return;
 			}
+		});
+
+
+
+		// Valid move highlighting
+
+
+		const highlightStyles = document.createElement("style");
+		document.head.append(highlightStyles);
+		const whiteSquareGrey = "#a9a9a9";
+		const blackSquareGrey = "#696969";
+
+		function removeGreySquares() {
+			highlightStyles.textContent = "";
+		}
+
+		function greySquare(square: string) {
+			const highlightColor =
+				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? whiteSquareGrey : blackSquareGrey;
+
+			highlightStyles.textContent += `
+    			chess-board::part(${square}) {
+      			background-color: ${highlightColor};
+    		}
+  		`;
+		}
+
+		board.addEventListener("drop", (e) => {
+			removeGreySquares();
+		});
+
+		board.addEventListener("mouseover-square", (e) => {
+			// @ts-ignore
+			const { square, piece } = e.detail;
+
+			game.load(
+				board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
+			);
+
+			// get list of possible moves for this square
+			const moves = game.moves({
+				square: square,
+				verbose: true
+			});
+
+			// exit if there are no moves available for this square
+			if (moves.length === 0) {
+				return;
+			}
+
+			// highlight the square they moused over
+			greySquare(square);
+
+			// highlight the possible squares for this piece
+			for (const move of moves) {
+				greySquare(move.to);
+			}
+		});
+
+		board.addEventListener("mouseout-square", (e) => {
+			removeGreySquares();
 		});
 	});
 </script>
