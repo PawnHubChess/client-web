@@ -4,6 +4,7 @@
 	import { connection } from '$lib/chess/WebSocketConnection';
 	import { client_id, playstate } from '$lib/store';
 	import { onMount } from 'svelte';
+	import { Diamonds } from 'svelte-loading-spinners';
 	import Skeleton from 'svelte-skeleton/Skeleton.svelte';
 	import { get } from 'svelte/store';
 
@@ -29,7 +30,10 @@
 		<p class="text-base text-gray-500 font-medium text-center">Connection Code</p>
 	</div>
 	<div>
-		<p class="text-base text-gray-600 font-medium text-center mt-4">Waiting for Opponent...</p>
+		<p class="text-base text-gray-600 font-medium text-center mt-4 flex justify-center items-center gap-2">
+			Waiting for Opponent
+			<Diamonds color="#4d5536" size="24" duration="2s" />
+		</p>
 		<p class="text-base text-gray-500 font-medium text-center mt-2">
 			Share these numbers with your friend to play against them!
 		</p>
