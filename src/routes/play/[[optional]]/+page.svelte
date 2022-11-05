@@ -7,6 +7,8 @@
 	import { get } from 'svelte/store';
 	import { dev } from '$app/environment';
 	import { Diamonds } from 'svelte-loading-spinners';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	if (get(playstate) === 'hosting') goto('/play/create');
 	if (get(playstate) === 'playing') goto('/play/game');
@@ -95,6 +97,24 @@
 		await connection().prepare(errorCallback);
 		goto('/play/create');
 	}
+
+	onMount(() => {
+		const slug = $page.params.optional;
+		if (slug && slug.match(/^[0-9]{4}-[0-9]{4}$/)) {
+			const [n1, n2, n3, n4, _, n5, n6, n7, n8] = slug.split('');
+			n1_1 = parseInt(n1);
+			n1_2 = parseInt(n2);
+			n1_3 = parseInt(n3);
+			n1_4 = parseInt(n4);
+			n2_1 = parseInt(n5);
+			n2_2 = parseInt(n6);
+			n2_3 = parseInt(n7);
+			n2_4 = parseInt(n8);
+			if (checkNumbersValid(n1_1, n1_2, n1_3, n1_4, n2_1, n2_2, n2_3, n2_4)) {
+				handleConnect();
+			}
+		}
+	});
 </script>
 
 <div class="flex flex-col mt-16 items-center">
