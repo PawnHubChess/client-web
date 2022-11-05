@@ -117,104 +117,106 @@
 	});
 </script>
 
-<div class="mt-2 flex flex-col items-center tall:mt-16">
-	<div class="flex w-fit flex-col gap-6">
-		<div
-			class="flex items-center justify-center space-x-10 rounded-md p-2 {showError1
-				? 'border border-red-400 bg-red-50 shadow-sm'
-				: ''}">
-			<div class="grid w-fit grid-cols-4 gap-4">
-				<SingleNumberInput bind:value={n1_1} id="input1" />
-				<SingleNumberInput bind:value={n1_2} />
-				<SingleNumberInput bind:value={n1_3} />
-				<SingleNumberInput bind:value={n1_4} nextFocus="input2" />
+<main>
+	<div class="mt-2 flex flex-col items-center tall:mt-16">
+		<div class="flex w-fit flex-col gap-6">
+			<div
+				class="flex items-center justify-center space-x-10 rounded-md p-2 {showError1
+					? 'border border-red-400 bg-red-50 shadow-sm'
+					: ''}">
+				<div class="grid w-fit grid-cols-4 gap-4">
+					<SingleNumberInput bind:value={n1_1} id="input1" />
+					<SingleNumberInput bind:value={n1_2} />
+					<SingleNumberInput bind:value={n1_3} />
+					<SingleNumberInput bind:value={n1_4} nextFocus="input2" />
+				</div>
 			</div>
-		</div>
 
-		<div
-			class="flex items-center justify-center space-x-10 rounded-md p-2 {showError2
-				? 'border border-red-400 bg-red-50 shadow-sm'
-				: ''}">
-			<div class="grid w-fit grid-cols-4 gap-4">
-				<SingleNumberInput bind:value={n2_1} id="input2" />
-				<SingleNumberInput bind:value={n2_2} />
-				<SingleNumberInput bind:value={n2_3} />
-				<SingleNumberInput bind:value={n2_4} nextFocus="connectButton" />
+			<div
+				class="flex items-center justify-center space-x-10 rounded-md p-2 {showError2
+					? 'border border-red-400 bg-red-50 shadow-sm'
+					: ''}">
+				<div class="grid w-fit grid-cols-4 gap-4">
+					<SingleNumberInput bind:value={n2_1} id="input2" />
+					<SingleNumberInput bind:value={n2_2} />
+					<SingleNumberInput bind:value={n2_3} />
+					<SingleNumberInput bind:value={n2_4} nextFocus="connectButton" />
+				</div>
 			</div>
-		</div>
 
-		<button
-			id="connectButton"
-			disabled={!checkNumbersValid(n1_1, n1_2, n1_3, n1_4, n2_1, n2_2, n2_3, n2_4)}
-			class="button-secondary mt-2 flex items-center justify-center gap-4 {showConnectLoading
-				? 'bg-indigo-600 text-white'
-				: ''}"
-			on:click={handleConnect}>
-			{showConnectLoading ? "Connecting" : "Connect"}
-			{#if showConnectLoading}
-				<Diamonds color="#ffffff" size="24" duration="2s" />
+			<button
+				id="connectButton"
+				disabled={!checkNumbersValid(n1_1, n1_2, n1_3, n1_4, n2_1, n2_2, n2_3, n2_4)}
+				class="button-secondary mt-2 flex items-center justify-center gap-4 {showConnectLoading
+					? 'bg-indigo-600 text-white'
+					: ''}"
+				on:click={handleConnect}>
+				{showConnectLoading ? "Connecting" : "Connect"}
+				{#if showConnectLoading}
+					<Diamonds color="#ffffff" size="24" duration="2s" />
+				{/if}
+			</button>
+
+			{#if connectionDeclinedMessage}
+				<p class="max-w-[100%] text-center text-base font-medium text-red-600">
+					Please check your inputs.<br />{connectionDeclinedMessage}.
+				</p>
 			{/if}
-		</button>
 
-		{#if connectionDeclinedMessage}
-			<p class="max-w-[100%] text-center text-base font-medium text-red-600">
-				Please check your inputs.<br />{connectionDeclinedMessage}.
-			</p>
-		{/if}
-
-		{#if showConnectLoadingError}
-			<p class="max-w-[100%] text-center text-base font-medium text-red-600">
-				Connection failed.<br />Please try again later.
-			</p>
-		{/if}
-
-		<div class="relative py-4">
-			<div class="absolute inset-0 flex items-center justify-center">
-				<div class="w-80 border-b border-gray-300" />
-			</div>
-			<div class="relative flex justify-center">
-				<span class="bg-white px-4 text-sm text-gray-500">or</span>
-			</div>
-		</div>
-
-		<button
-			class="button-secondary flex items-center justify-center gap-4 {showHostLoading
-				? 'bg-indigo-600 text-white'
-				: ''}"
-			on:click={handleCreateGame}>
-			{showHostLoading ? "Starting" : "Start a New Game"}
-			{#if showHostLoading}
-				<Diamonds color="#ffffff" size="24" duration="2s" />
+			{#if showConnectLoadingError}
+				<p class="max-w-[100%] text-center text-base font-medium text-red-600">
+					Connection failed.<br />Please try again later.
+				</p>
 			{/if}
-		</button>
 
-		{#if showHostLoadingError}
-			<p class="max-w-[100%] text-center text-base font-medium text-red-600">
-				Connection failed.<br />Please try again later.
-			</p>
-		{/if}
+			<div class="relative py-4">
+				<div class="absolute inset-0 flex items-center justify-center">
+					<div class="w-80 border-b border-gray-300" />
+				</div>
+				<div class="relative flex justify-center">
+					<span class="bg-white px-4 text-sm text-gray-500">or</span>
+				</div>
+			</div>
 
-		<a
-			class="rounded-md text-center text-base font-medium bg-gray-100 text-gray-500 w-fit py-2 px-4 self-center hover:text-gray-900 hover:bg-gray-200 transition-all"
-			href="/play/help"
-			>How it Works
-		</a>
+			<button
+				class="button-secondary flex items-center justify-center gap-4 {showHostLoading
+					? 'bg-indigo-600 text-white'
+					: ''}"
+				on:click={handleCreateGame}>
+				{showHostLoading ? "Starting" : "Start a New Game"}
+				{#if showHostLoading}
+					<Diamonds color="#ffffff" size="24" duration="2s" />
+				{/if}
+			</button>
 
-		{#if dev}
+			{#if showHostLoadingError}
+				<p class="max-w-[100%] text-center text-base font-medium text-red-600">
+					Connection failed.<br />Please try again later.
+				</p>
+			{/if}
+
 			<a
-				class="rounded-md text-center text-base font-medium text-gray-500 hover:text-gray-900"
-				href="/play/debug"
-				>Debugging
+				class="w-fit self-center rounded-md bg-gray-100 py-2 px-4 text-center text-base font-medium text-gray-500 transition-all hover:bg-gray-200 hover:text-gray-900"
+				href="/play/help"
+				>How it Works
 			</a>
 
-			<div class="self-center">
-				<input
-					id="entirePageLocalServer"
-					type="checkbox"
-					class="my-4 mr-2 rounded-md px-3 py-3"
-					bind:checked={$debug_local_server} />
-				<label for="entirePageLocalServer" class="pr-4">Use local server</label>
-			</div>
-		{/if}
+			{#if dev}
+				<a
+					class="rounded-md text-center text-base font-medium text-gray-500 hover:text-gray-900"
+					href="/play/debug"
+					>Debugging
+				</a>
+
+				<div class="self-center">
+					<input
+						id="entirePageLocalServer"
+						type="checkbox"
+						class="my-4 mr-2 rounded-md px-3 py-3"
+						bind:checked={$debug_local_server} />
+					<label for="entirePageLocalServer" class="pr-4">Use local server</label>
+				</div>
+			{/if}
+		</div>
 	</div>
-</div>
+</main>

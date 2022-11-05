@@ -80,74 +80,76 @@
 	}
 </script>
 
-<input
-	id="entirePageLocalServer"
-	type="checkbox"
-	class="my-4 rounded-md px-3 py-3"
-	bind:checked={$debug_local_server} />
-<label for="entirePageLocalServer" class="pr-4">Use local server everywhere</label>
+<main>
+	<input
+		id="entirePageLocalServer"
+		type="checkbox"
+		class="my-4 rounded-md px-3 py-3"
+		bind:checked={$debug_local_server} />
+	<label for="entirePageLocalServer" class="pr-4">Use local server everywhere</label>
 
-<div class="clientsContainer">
-	<div class="host">
-		<button class="button-primary" disabled={!startHostEnabled} on:click={handleToggleHost}>
-			{hostOpen ? "Stop Host" : "Start Host"}
-		</button>
-		{#if receivedRequest}
-			<button on:click={handleAcceptRequest} class="button-secondary">Accept</button>
-			<button on:click={hanldeDeclineRequest} class="button-secondary">Decline</button>
-		{/if}
-		{#if hostOpen}
-			<div>
-				<input
-					type="text"
-					bind:value={customHostInput}
-					on:keypress={handleHostCustomInput}
-					placeholder="Send..."
-					class="mt-2 rounded-md" />
-			</div>
-		{/if}
-		<code class="rounded-md bg-gray-100">
-			{#each hostOutput as output}
-				{output}
-				<br />
-			{/each}
-		</code>
+	<div class="clientsContainer">
+		<div class="host">
+			<button class="button-primary" disabled={!startHostEnabled} on:click={handleToggleHost}>
+				{hostOpen ? "Stop Host" : "Start Host"}
+			</button>
+			{#if receivedRequest}
+				<button on:click={handleAcceptRequest} class="button-secondary">Accept</button>
+				<button on:click={hanldeDeclineRequest} class="button-secondary">Decline</button>
+			{/if}
+			{#if hostOpen}
+				<div>
+					<input
+						type="text"
+						bind:value={customHostInput}
+						on:keypress={handleHostCustomInput}
+						placeholder="Send..."
+						class="mt-2 rounded-md" />
+				</div>
+			{/if}
+			<code class="rounded-md bg-gray-100">
+				{#each hostOutput as output}
+					{output}
+					<br />
+				{/each}
+			</code>
+		</div>
+		<div class="attendee">
+			<button class="button-primary" disabled={!startClientEnabled} on:click={handleToggleClient}>
+				{clientOpen ? "Stop Client" : "Start Client"}
+			</button>
+			{#if clientOpen}
+				<div>
+					<input
+						type="text"
+						bind:value={connectHostId}
+						placeholder="Host ID"
+						class="mt-2 rounded-md" />
+					<input
+						type="text"
+						bind:value={connectCode}
+						placeholder="Connection Code"
+						class="mt-2 rounded-md" />
+					<button class="button-secondary" on:click={handleConnectToHost}>Send Request</button>
+				</div>
+				<div>
+					<input
+						type="text"
+						bind:value={customClientInput}
+						on:keypress={handleClientCustomInput}
+						placeholder="Send..."
+						class="mt-2 rounded-md" />
+				</div>
+			{/if}
+			<code class="rounded-md bg-gray-100">
+				{#each clientOutput as output}
+					{output}
+					<br />
+				{/each}
+			</code>
+		</div>
 	</div>
-	<div class="attendee">
-		<button class="button-primary" disabled={!startClientEnabled} on:click={handleToggleClient}>
-			{clientOpen ? "Stop Client" : "Start Client"}
-		</button>
-		{#if clientOpen}
-			<div>
-				<input
-					type="text"
-					bind:value={connectHostId}
-					placeholder="Host ID"
-					class="mt-2 rounded-md" />
-				<input
-					type="text"
-					bind:value={connectCode}
-					placeholder="Connection Code"
-					class="mt-2 rounded-md" />
-				<button class="button-secondary" on:click={handleConnectToHost}>Send Request</button>
-			</div>
-			<div>
-				<input
-					type="text"
-					bind:value={customClientInput}
-					on:keypress={handleClientCustomInput}
-					placeholder="Send..."
-					class="mt-2 rounded-md" />
-			</div>
-		{/if}
-		<code class="rounded-md bg-gray-100">
-			{#each clientOutput as output}
-				{output}
-				<br />
-			{/each}
-		</code>
-	</div>
-</div>
+</main>
 
 <style>
 	.clientsContainer {
