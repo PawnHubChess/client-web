@@ -94,8 +94,8 @@
 
 		const highlightStyles = document.createElement("style");
 		document.head.append(highlightStyles);
-		const whiteSquareGrey = "#a9a9a9";
-		const blackSquareGrey = "#696969";
+		const whiteSquareGrey = "#a5b4fc";
+		const blackSquareGrey = "#818cf8";
 
 		function removeGreySquares() {
 			highlightStyles.textContent = "";
