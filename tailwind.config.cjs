@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        'auto-1fr': 'auto auto',
+        'chessgrid': 'auto 12rem',
       }
     },
   },

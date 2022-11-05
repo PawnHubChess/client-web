@@ -72,7 +72,7 @@
 </script>
 
 <div class="flex justify-center mt-8">
-	<div class="grid lg:grid-cols-auto-1fr gap-4 ">
+	<div class="grid lg:grid-cols-chessgrid gap-4 ">
 		<chess-board
 			draggable-pieces
 			style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;"
