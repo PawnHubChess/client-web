@@ -2,30 +2,31 @@
 	export let gameid: string;
 	export let code: string;
 
-	const url: string = `https://pawn-hub.de/play/${gameid}-${code}`;
+	const url = () => {
+		return `https://pawn-hub.de/play/${gameid}-${code}`;
+	};
 
 	function handleShareCopy() {
-		navigator.clipboard.writeText(url);
+		navigator.clipboard.writeText(url());
 	}
 
 	function handleShareWhatsApp() {
-		const message = `Come play chess against me at ${url}!`;
+		const message = `Come play chess against me at ${url()}!`;
 		const action = `https://wa.me/?text=${encodeURIComponent(message)}`;
 		window.open(action, '_blank');
 	}
 
 	function handleShareTelegram() {
 		const message = 'Come play chess against me!';
-		const action = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(
+		const action = `https://t.me/share/url?url=${encodeURIComponent(url())}&text=${encodeURIComponent(
 			message
 		)}`;
 		window.open(action, '_blank');
 	}
 
-    // todo other icon for just copied
-    // todo accessibility icon descriptions
-    // todo white icons on hover
-
+	// todo other icon for just copied
+	// todo accessibility icon descriptions
+	// todo white icons on hover
 </script>
 
 <div>
