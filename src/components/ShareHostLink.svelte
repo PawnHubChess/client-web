@@ -2,12 +2,16 @@
 	export let gameid: string;
 	export let code: string;
 
+	let justCopied = false;
+
 	const url = () => {
 		return `https://pawn-hub.de/play/${gameid}-${code}`;
 	};
 
 	function handleShareCopy() {
 		navigator.clipboard.writeText(url());
+        justCopied = true;
+        setTimeout(() => justCopied = false, 1500);
 	}
 
 	function handleShareWhatsApp() {
@@ -18,13 +22,12 @@
 
 	function handleShareTelegram() {
 		const message = 'Come play chess against me!';
-		const action = `https://t.me/share/url?url=${encodeURIComponent(url())}&text=${encodeURIComponent(
-			message
-		)}`;
+		const action = `https://t.me/share/url?url=${encodeURIComponent(
+			url()
+		)}&text=${encodeURIComponent(message)}`;
 		window.open(action, '_blank');
 	}
 
-	// todo other icon for just copied
 	// todo accessibility icon descriptions
 	// todo white icons on hover
 </script>
@@ -33,18 +36,34 @@
 	<p class="text-base text-gray-500 font-medium text-center">Share This Game</p>
 	<div class="flex gap-2 justify-center items-center mt-2">
 		<button on:click={handleShareCopy} class="button-secondary h-8">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				x="0px"
-				y="0px"
-				width="100%"
-				height="100%"
-				viewBox="0 0 24 24"
-			>
-				<path
-					d="M 4 2 C 2.895 2 2 2.895 2 4 L 2 17 C 2 17.552 2.448 18 3 18 C 3.552 18 4 17.552 4 17 L 4 4 L 17 4 C 17.552 4 18 3.552 18 3 C 18 2.448 17.552 2 17 2 L 4 2 z M 8 6 C 6.895 6 6 6.895 6 8 L 6 20 C 6 21.105 6.895 22 8 22 L 20 22 C 21.105 22 22 21.105 22 20 L 22 8 C 22 6.895 21.105 6 20 6 L 8 6 z M 8 8 L 20 8 L 20 20 L 8 20 L 8 8 z"
-				/>
-			</svg>
+			{#if !justCopied}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					x="0px"
+					y="0px"
+					width="100%"
+					height="100%"
+					viewBox="0 0 24 24"
+				>
+					<path
+						d="M 4 2 C 2.895 2 2 2.895 2 4 L 2 17 C 2 17.552 2.448 18 3 18 C 3.552 18 4 17.552 4 17 L 4 4 L 17 4 C 17.552 4 18 3.552 18 3 C 18 2.448 17.552 2 17 2 L 4 2 z M 8 6 C 6.895 6 6 6.895 6 8 L 6 20 C 6 21.105 6.895 22 8 22 L 20 22 C 21.105 22 22 21.105 22 20 L 22 8 C 22 6.895 21.105 6 20 6 L 8 6 z M 8 8 L 20 8 L 20 20 L 8 20 L 8 8 z"
+					/>
+				</svg>
+			{/if}
+			{#if justCopied}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					x="0px"
+					y="0px"
+					width="100%"
+					height="100%"
+					viewBox="0 0 24 24"
+				>
+					<path
+						d="M19,3h-4.184C14.403,1.837,13.304,1,12,1S9.597,1.837,9.184,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h14 c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z M8.707,11.293L11,13.586l4.293-4.293c0.39-0.39,1.024-0.39,1.414,0l0,0 c0.39,0.39,0.39,1.024,0,1.414l-5,5c-0.39,0.39-1.024,0.39-1.414,0l-3-3c-0.39-0.39-0.39-1.024,0-1.414l0,0 C7.683,10.902,8.316,10.902,8.707,11.293z M12,3c0.552,0,1,0.448,1,1c0,0.552-0.448,1-1,1s-1-0.448-1-1C11,3.448,11.448,3,12,3z"
+					/>
+				</svg>
+			{/if}
 		</button>
 		<button on:click={handleShareWhatsApp} class="button-secondary h-8">
 			<svg
