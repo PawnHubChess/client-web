@@ -12,6 +12,7 @@
 	import 'chessboard-element';
 	import { connection, determineIsGameId } from '$lib/chess/WebSocketConnection';
 	import GameSidebar from "$components/GameSidebar.svelte";
+	import OpponentDisconnectedModal from '$components/OpponentDisconnectedModal.svelte';
 
 	let waiting_for_response = false;
 	
@@ -70,16 +71,22 @@
 	});
 </script>
 
-<div class="flex justify-center mt-8">
-	<div class="grid lg:grid-cols-chessgrid gap-4 ">
-		<chess-board
+
+<main>
+	
+	<div class="flex justify-center mt-8">
+		<div class="grid lg:grid-cols-chessgrid gap-4 ">
+			<chess-board
 			draggable-pieces
 			style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;"
-		/>
-		
-		<div class="order-first lg:order-none">
-			<GameSidebar isOwnMove={$current_player_white === !determineIsGameId(get(client_id))} />
+			/>
+			
+			<div class="order-first lg:order-none">
+				<GameSidebar isOwnMove={$current_player_white === !determineIsGameId(get(client_id))} />
+			</div>
 		</div>
 	</div>
-</div>
 
+	<OpponentDisconnectedModal isOpen={$playstate !== "playing"}/>
+	
+</main>

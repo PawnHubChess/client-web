@@ -10,17 +10,14 @@
 	}
 
 	function handleLeaveGame() {
-		connection().send(`{"type": "disconnect"}`)
+		connection().send(`{"type": "disconnect"}`);
 		connection().close();
-		goto("/play");
+		goto('/play');
 	}
 </script>
 
 <div class="flex lg:flex-col gap-2 items-center lg:items-start gap-x-4">
-	<p class="text-base text-gray-500" />
-	<p
-		class="text-base text-gray-600 font-medium flex justify-center items-center gap-2"
-	>
+	<p class="text-base text-gray-600 font-medium flex justify-center items-center gap-2">
 		{isOwnMove ? 'Your Turn Now!' : "Opponent's Move"}
 		{#if !isOwnMove}
 			<Diamonds color="#4d5536" size="24" duration="2s" />
