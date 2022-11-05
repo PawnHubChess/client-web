@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { connection } from '$lib/chess/WebSocketConnection';
 	import { Diamonds } from 'svelte-loading-spinners';
 
 	export let isOwnMove: boolean;
@@ -8,7 +10,9 @@
 	}
 
 	function handleLeaveGame() {
-		alert('Not implemented');
+		connection().send(`{"type": "disconnect"}`)
+		connection().close();
+		goto("/play");
 	}
 </script>
 

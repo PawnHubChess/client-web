@@ -1,5 +1,11 @@
 import { goto } from "$app/navigation";
-import { board_fen, client_id, debug_local_server, playstate, reconnect_code } from "$lib/store";
+import {
+  board_fen,
+  client_id,
+  debug_local_server,
+  playstate,
+  reconnect_code,
+} from "$lib/store";
 import { get } from "svelte/store";
 
 export class WebSocketConnection {
@@ -15,16 +21,22 @@ export class WebSocketConnection {
     );
   }
 
-  prepare(errorCallback?: (() => void)): Promise<void> {
+  prepare(errorCallback?: () => void): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.ws?.readyState === WebSocket.OPEN) {
         resolve();
         return;
       }
-      
-      this.ws = new WebSocket(!get(debug_local_server) ? "wss://api.pawn-hub.de" : "ws://localhost:3000");
 
-      this.ws.onerror = () => {errorCallback?.call(this)};
+      this.ws = new WebSocket(
+        !get(debug_local_server)
+          ? "wss://api.pawn-hub.de"
+          : "ws://localhost:3000",
+      );
+
+      this.ws.onerror = () => {
+        errorCallback?.call(this);
+      };
       this.ws.onopen = () => resolve();
       this.ws.onmessage = (message) => this.handleMessage(message);
       this.ws.onclose = () => {
@@ -35,7 +47,16 @@ export class WebSocketConnection {
     });
   }
 
+  close() {
+    reconnect_code.set(undefined);
+    client_id.set("");
+    playstate.set("closed");
+    this.ws?.close();
+    // todo deregister handlers or reinstantiate class
+  }
+
   async handleConnectionClosed() {
+    console.log("Connection closed");
     // Reconnect using provided code
     await this.prepare();
 
@@ -47,7 +68,6 @@ export class WebSocketConnection {
       "id": get(client_id),
       "reconnect-code": code,
     }));
-
   }
 
   // Message handlers
