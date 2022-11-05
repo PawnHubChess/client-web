@@ -10,8 +10,8 @@
 
 	function handleShareCopy() {
 		navigator.clipboard.writeText(url());
-        justCopied = true;
-        setTimeout(() => justCopied = false, 1500);
+		justCopied = true;
+		setTimeout(() => (justCopied = false), 1500);
 	}
 
 	function handleShareWhatsApp() {
@@ -29,15 +29,15 @@
 	}
 
 	// todo accessibility icon descriptions
-	// todo white icons on hover
 </script>
 
 <div>
 	<p class="text-base text-gray-500 font-medium text-center">Share This Game</p>
 	<div class="flex gap-2 justify-center items-center mt-2">
-		<button on:click={handleShareCopy} class="button-secondary h-8">
+		<button on:click={handleShareCopy} class="button-secondary h-8 text-gray-700">
 			{#if !justCopied}
 				<svg
+					class="fill-current"
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
 					y="0px"
@@ -52,6 +52,7 @@
 			{/if}
 			{#if justCopied}
 				<svg
+					class="fill-current"
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
 					y="0px"
@@ -65,8 +66,9 @@
 				</svg>
 			{/if}
 		</button>
-		<button on:click={handleShareWhatsApp} class="button-secondary h-8">
+		<button on:click={handleShareWhatsApp} class="button-secondary h-8 text-gray-700">
 			<svg
+				class="fill-current"
 				xmlns="http://www.w3.org/2000/svg"
 				x="0px"
 				y="0px"
@@ -79,8 +81,9 @@
 				/>
 			</svg></button
 		>
-		<button on:click={handleShareTelegram} class="button-secondary h-8">
+		<button on:click={handleShareTelegram} class="button-secondary h-8 text-gray-700">
 			<svg
+				class="fill-current"
 				xmlns="http://www.w3.org/2000/svg"
 				x="0px"
 				y="0px"
