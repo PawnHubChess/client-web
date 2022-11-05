@@ -2,6 +2,7 @@ import { goto } from "$app/navigation";
 import {
   board_fen,
   client_id,
+  current_player_white,
   debug_local_server,
   playstate,
   reconnect_code,
@@ -55,6 +56,7 @@ export class WebSocketConnection {
     reconnect_code.set(undefined);
     client_id.set("");
     playstate.set("closed");
+    current_player_white.set(true);
     this.ws?.close();
     // todo deregister handlers or reinstantiate class
   }
