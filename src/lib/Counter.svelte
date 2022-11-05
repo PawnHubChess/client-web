@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { tick } from 'svelte';
-	import { ConfettiExplosion } from 'svelte-confetti-explosion';
+	import { tick } from "svelte";
+	import { ConfettiExplosion } from "svelte-confetti-explosion";
 
 	let count: number = 0;
 	let confettiVisible = false;
@@ -15,9 +15,9 @@
 	};
 </script>
 
-<button on:click={increment} class="mt-2 button-secondary">
+<button on:click={increment} class="button-secondary mt-2">
 	count is {count}
-  {#if confettiVisible}
-    <ConfettiExplosion particleCount={count} force={count >= 1000? 1 : count * 0.001} />
-  {/if}
+	{#if confettiVisible}
+		<ConfettiExplosion particleCount={count} force={count >= 1000 ? 1 : count * 0.001} />
+	{/if}
 </button>

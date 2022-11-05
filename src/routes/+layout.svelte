@@ -44,7 +44,7 @@
 			<div class="relative" />
 		</nav>
 
-		<div class="items-center justify-center flex flex-1 lg:justify-end lg:w-0">
+		<div class="flex flex-1 items-center justify-center lg:w-0 lg:justify-end">
 			<a
 				href="/play"
 				class="button-secondary lg:button-primary {$debug_local_server ? 'bg-orange-600' : ''}"
@@ -79,28 +79,28 @@
 
 		{#if openMenu}
 			<div
-				class="absolute inset-x-0 top-20 origin-top-right transform p-2 transition md:hidden z-20">
-				<div class="rounded-lg bg-white shadow-md p-6 pt-3">
+				class="absolute inset-x-0 top-20 z-20 origin-top-right transform p-2 transition md:hidden">
+				<div class="rounded-lg bg-white p-6 pt-3 shadow-md">
 					<div class="">
-						<nav class="flex flex-col gap-6 justify-center">
+						<nav class="flex flex-col justify-center gap-6">
 							<a
 								href="/"
-								class="-m-3 text-base font-medium text-center text-gray-900 rounded-md p-3 hover:bg-gray-50">
+								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
 								The Project
 							</a>
 							<a
 								href="/team"
-								class="-m-3 text-base font-medium text-center text-gray-900 rounded-md p-3 hover:bg-gray-50">
+								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
 								Meet the Team
 							</a>
 							<a
 								href="/research"
-								class="-m-3 text-base font-medium text-center text-gray-900 rounded-md p-3 hover:bg-gray-50">
+								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
 								Research
 							</a>
 							<a
 								href="/art"
-								class="-m-3 text-base font-medium text-center text-gray-900 rounded-md p-3 hover:bg-gray-50">
+								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
 								Connecting Cultures
 							</a>
 						</nav>

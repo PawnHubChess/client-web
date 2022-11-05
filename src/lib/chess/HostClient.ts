@@ -12,7 +12,7 @@ export class HostClient {
 
   async connect(): Promise<void> {
     if (get(playstate) !== "closed") return;
-    playstate.set("hosting")
+    playstate.set("hosting");
 
     await connection().prepare();
 

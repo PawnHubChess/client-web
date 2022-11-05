@@ -31,23 +31,23 @@ export function startHost(
     hostOpenState.set(false);
   });
 
-  ws.addEventListener("message", message => {
-    callback("<< " + message.data)
-    const data = JSON.parse(message.data)
+  ws.addEventListener("message", (message) => {
+    callback("<< " + message.data);
+    const data = JSON.parse(message.data);
 
     if (data.type === "connected-id") {
-        callback(`Host ID is ${data.id}`)
-        hostId.set(data.id)
+      callback(`Host ID is ${data.id}`);
+      hostId.set(data.id);
     } else if (data.type === "verify-attendee-request") {
-        lastRequest.set(data.clientId)
+      lastRequest.set(data.clientId);
     }
-  })
+  });
 }
 
 export function stopHost() {
   ws.close();
   hostOpenState.set(false);
-  hostId.set(undefined)
+  hostId.set(undefined);
 }
 
 export function send(message: string, callback: (output: string) => void) {
@@ -57,13 +57,17 @@ export function send(message: string, callback: (output: string) => void) {
 }
 
 export function acceptLastRequest(callback: (output: string) => void) {
-  const msg = `{"type": "accept-attendee-request", "clientId": "${get(lastRequest)}"}`
-  send(msg, callback)
-  lastRequest.set(undefined)
+  const msg = `{"type": "accept-attendee-request", "clientId": "${
+    get(lastRequest)
+  }"}`;
+  send(msg, callback);
+  lastRequest.set(undefined);
 }
 
 export function declineLastRequest(callback: (output: string) => void) {
-  const msg = `{"type": "decline-attendee-request", "clientId": "${get(lastRequest)}"}`
-  send(msg, callback)
-  lastRequest.set(undefined)
+  const msg = `{"type": "decline-attendee-request", "clientId": "${
+    get(lastRequest)
+  }"}`;
+  send(msg, callback);
+  lastRequest.set(undefined);
 }

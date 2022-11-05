@@ -1,5 +1,5 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from "$app/stores";
 </script>
 
 <div class="image" style="background-image: url('https://http.cat/{$page.status}.jpg');">

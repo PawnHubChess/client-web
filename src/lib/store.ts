@@ -1,5 +1,5 @@
-import { onMount } from 'svelte';
-import { readable, writable, type Writable } from 'svelte/store';
+import { onMount } from "svelte";
+import { readable, type Writable, writable } from "svelte/store";
 
 export const debug_local_server = writable<boolean>(false);
 

@@ -3,22 +3,21 @@
 @tailwind utilities;
 
 @layer base {
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+	.button-primary {
+		@apply whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm transition-all;
+		@apply hover:bg-indigo-700 focus:bg-indigo-700;
+		@apply disabled:bg-gray-400;
+	}
 
-    .button-primary {
-        @apply rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm whitespace-nowrap transition-all;
-        @apply hover:bg-indigo-700 focus:bg-indigo-700;
-        @apply disabled:bg-gray-400;
-    }
-
-    .button-secondary {
-        @apply text-base text-center font-medium text-indigo-600 rounded-md bg-indigo-100 px-4 py-2 whitespace-nowrap transition-all;
-        @apply hover:bg-indigo-600 hover:text-white focus:bg-indigo-600 focus:text-white;
-        @apply disabled:text-gray-400 disabled:bg-gray-50
-    }
+	.button-secondary {
+		@apply whitespace-nowrap rounded-md bg-indigo-100 px-4 py-2 text-center text-base font-medium text-indigo-600 transition-all;
+		@apply hover:bg-indigo-600 hover:text-white focus:bg-indigo-600 focus:text-white;
+		@apply disabled:bg-gray-50 disabled:text-gray-400;
+	}
 }

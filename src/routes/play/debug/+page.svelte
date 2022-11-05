@@ -16,12 +16,12 @@
 		sendConnectionRequest,
 		send as sendClient
 	} from "$lib/chess-debug/websocketClient";
-	 import { debug_local_server } from "$lib/store";
+	import { debug_local_server } from "$lib/store";
 	import { get } from "svelte/store";
 
 	let hostOpen = false;
 	let startHostEnabled = true;
-	let customHostInput = '';
+	let customHostInput = "";
 	const handleHostCustomInput = (e: KeyboardEvent) => {
 		if (e.charCode == 13) sendHost(customHostInput, hostCallback);
 	};
@@ -42,7 +42,7 @@
 	}
 
 	let receivedRequest = false;
-	lastRequest.subscribe((value) => (receivedRequest = typeof value !== 'undefined'));
+	lastRequest.subscribe((value) => (receivedRequest = typeof value !== "undefined"));
 
 	const handleAcceptRequest = () => acceptLastRequest(hostCallback);
 	const hanldeDeclineRequest = () => declineLastRequest(hostCallback);
@@ -64,9 +64,9 @@
 		console.log(clientOutput);
 	}
 
-	let connectHostId = '';
-	let connectCode = '';
-	let customClientInput = '';
+	let connectHostId = "";
+	let connectCode = "";
+	let customClientInput = "";
 	const handleClientCustomInput = (e: KeyboardEvent) => {
 		if (e.charCode == 13) sendClient(customClientInput, clientCallback);
 	};
@@ -80,13 +80,17 @@
 	}
 </script>
 
-<input id="entirePageLocalServer" type="checkbox" class="px-3 py-3 rounded-md my-4" bind:checked={$debug_local_server} />
+<input
+	id="entirePageLocalServer"
+	type="checkbox"
+	class="my-4 rounded-md px-3 py-3"
+	bind:checked={$debug_local_server} />
 <label for="entirePageLocalServer" class="pr-4">Use local server everywhere</label>
 
 <div class="clientsContainer">
 	<div class="host">
 		<button class="button-primary" disabled={!startHostEnabled} on:click={handleToggleHost}>
-			{hostOpen ? 'Stop Host' : 'Start Host'}
+			{hostOpen ? "Stop Host" : "Start Host"}
 		</button>
 		{#if receivedRequest}
 			<button on:click={handleAcceptRequest} class="button-secondary">Accept</button>
@@ -99,11 +103,10 @@
 					bind:value={customHostInput}
 					on:keypress={handleHostCustomInput}
 					placeholder="Send..."
-					class="mt-2 rounded-md"
-				/>
+					class="mt-2 rounded-md" />
 			</div>
 		{/if}
-		<code class="bg-gray-100 rounded-md">
+		<code class="rounded-md bg-gray-100">
 			{#each hostOutput as output}
 				{output}
 				<br />
@@ -112,12 +115,20 @@
 	</div>
 	<div class="attendee">
 		<button class="button-primary" disabled={!startClientEnabled} on:click={handleToggleClient}>
-			{clientOpen ? 'Stop Client' : 'Start Client'}
+			{clientOpen ? "Stop Client" : "Start Client"}
 		</button>
 		{#if clientOpen}
 			<div>
-				<input type="text" bind:value={connectHostId} placeholder="Host ID" class="mt-2 rounded-md" />
-				<input type="text" bind:value={connectCode} placeholder="Connection Code" class="mt-2 rounded-md" />
+				<input
+					type="text"
+					bind:value={connectHostId}
+					placeholder="Host ID"
+					class="mt-2 rounded-md" />
+				<input
+					type="text"
+					bind:value={connectCode}
+					placeholder="Connection Code"
+					class="mt-2 rounded-md" />
 				<button class="button-secondary" on:click={handleConnectToHost}>Send Request</button>
 			</div>
 			<div>
@@ -126,19 +137,16 @@
 					bind:value={customClientInput}
 					on:keypress={handleClientCustomInput}
 					placeholder="Send..."
-					class="mt-2 rounded-md"
-				/>
+					class="mt-2 rounded-md" />
 			</div>
 		{/if}
-		<code class="bg-gray-100 rounded-md">
+		<code class="rounded-md bg-gray-100">
 			{#each clientOutput as output}
 				{output}
 				<br />
 			{/each}
 		</code>
 	</div>
-
-
 </div>
 
 <style>
