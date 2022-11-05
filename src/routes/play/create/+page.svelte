@@ -20,7 +20,7 @@
 	}
 </script>
 
-<div class="mt-24 mb-24 flex flex-col items-center justify-center gap-10">
+<div class="mt-2 tall:mt-24 mb-24 flex flex-col items-center justify-center gap-10">
 	<div>
 		{#if !$client_id}
 			<Skeleton width={180} height={72} />

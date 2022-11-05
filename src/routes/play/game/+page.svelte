@@ -72,7 +72,7 @@
 </script>
 
 <main>
-	<div class="mt-8 flex justify-center">
+	<div class="mt-2 tall:mt-8 flex justify-center">
 		<div class="grid gap-4 lg:grid-cols-chessgrid ">
 			<chess-board
 				draggable-pieces

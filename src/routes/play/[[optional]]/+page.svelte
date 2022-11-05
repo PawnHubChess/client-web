@@ -117,7 +117,7 @@
 	});
 </script>
 
-<div class="mt-16 flex flex-col items-center">
+<div class="mt-2 tall:mt-16 flex flex-col items-center">
 	<div class="flex w-fit flex-col gap-6">
 		<div
 			class="flex items-center justify-center space-x-10 rounded-md p-2 {showError1
