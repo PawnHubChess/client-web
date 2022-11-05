@@ -94,8 +94,6 @@
 
 		const highlightStyles = document.createElement("style");
 		document.head.append(highlightStyles);
-		const whiteSquareGrey = "#a5b4fc";
-		const blackSquareGrey = "#818cf8";
 
 		function removeGreySquares() {
 			highlightStyles.textContent = "";
@@ -103,7 +101,7 @@
 
 		function greySquare(square: string) {
 			const highlightColor =
-				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? whiteSquareGrey : blackSquareGrey;
+				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? "#a5b4fc" : "#818cf8";
 
 			highlightStyles.textContent += `
     			chess-board::part(${square}) {
@@ -144,6 +142,7 @@
 
 			// highlight the possible squares for this piece
 			for (const move of moves) {
+				// @ts-ignore
 				greySquare(move.to);
 			}
 		});
