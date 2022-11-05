@@ -91,31 +91,38 @@
 
 		{#if openMenu}
 			<div
-				class="absolute inset-x-0 top-20 z-20 origin-top-right transform p-2 transition md:hidden">
-				<div class="rounded-lg bg-white p-6 pt-3 shadow-md">
-					<div class="">
-						<nav class="flex flex-col justify-center gap-6">
-							<a
-								href="/"
-								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
-								The Project
-							</a>
-							<a
-								href="/team"
-								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
-								Meet the Team
-							</a>
-							<a
-								href="/research"
-								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
-								Research
-							</a>
-							<a
-								href="/art"
-								class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
-								Connecting Cultures
-							</a>
-						</nav>
+				class="absolute top-20 left-0 z-20 h-[calc(100vh-5rem)] w-screen bg-mobilemenu"
+				on:click={toggleMenu}
+				on:keypress={(ev) => {
+					console.log(ev);
+					if (ev.key === "Escape") toggleMenu();
+				}}>
+				<div class="absolute inset-x-0 z-20 origin-top-right transform p-2 transition md:hidden">
+					<div class="rounded-lg bg-white p-6 pt-3 shadow-md">
+						<div class="">
+							<nav class="flex flex-col justify-center gap-6">
+								<a
+									href="/"
+									class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
+									The Project
+								</a>
+								<a
+									href="/team"
+									class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
+									Meet the Team
+								</a>
+								<a
+									href="/research"
+									class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
+									Research
+								</a>
+								<a
+									href="/art"
+									class="-m-3 rounded-md p-3 text-center text-base font-medium text-gray-900 hover:bg-gray-50">
+									Connecting Cultures
+								</a>
+							</nav>
+						</div>
 					</div>
 				</div>
 			</div>
