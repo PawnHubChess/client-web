@@ -120,6 +120,10 @@
 			// @ts-ignore
 			const { square, piece } = e.detail;
 
+			if (piece.startsWith("b") !== determineIsGameId(get(client_id))) {
+				return;
+			}
+
 			game.load(
 				board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
 			);
