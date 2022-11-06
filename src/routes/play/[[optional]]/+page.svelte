@@ -121,7 +121,7 @@
 				class="flex items-center justify-center space-x-10 rounded-md p-2 {showError1
 					? 'border border-red-400 bg-red-50 shadow-sm'
 					: ''}">
-				<div class="grid w-fit grid-cols-4 gap-4">
+				<div class="grid w-fit grid-cols-4 gap-4" aria-label="Connection Code 1 Inputs">
 					<SingleNumberInput bind:value={n1_1} id="input1" />
 					<SingleNumberInput bind:value={n1_2} />
 					<SingleNumberInput bind:value={n1_3} />
@@ -133,7 +133,7 @@
 				class="flex items-center justify-center space-x-10 rounded-md p-2 {showError2
 					? 'border border-red-400 bg-red-50 shadow-sm'
 					: ''}">
-				<div class="grid w-fit grid-cols-4 gap-4">
+				<div class="grid w-fit grid-cols-4 gap-4" aria-label="Connection Code 2 Inputs">
 					<SingleNumberInput bind:value={n2_1} id="input2" />
 					<SingleNumberInput bind:value={n2_2} />
 					<SingleNumberInput bind:value={n2_3} />

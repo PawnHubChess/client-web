@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick, time_ranges_to_array } from "svelte/internal";
+	import { tick } from "svelte/internal";
 
 	export let nextFocus: string | undefined = undefined;
 	export let id: string | undefined = undefined;
@@ -47,6 +47,7 @@
 	<input
 		{id}
 		on:keyup={handleKeyPress}
+		aria-label="Connection Code Input"
 		type="number"
 		min="0"
 		max="9"
