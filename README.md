@@ -1,7 +1,10 @@
 # Landing page - Remote Chess Experience
 This product emerged as part of the group project “Once a pawn a time…“ at Berlin CODE University. 
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b7111648-e76c-498e-a25e-eeb0a45a0c49/deploy-status)](https://app.netlify.com/sites/pawnhubchess/deploys)
+
 View project in CODE LP: 
+
 [![N|Solid](https://logo.clearbit.com/https://code.berlin)](https://app.code.berlin/projects/cl7ah7xam785660wl8xssnw4ja)
 
 ### Motivation and background
@@ -47,11 +50,7 @@ Submit a contact request on the production website
 [@maxonary](https://github.com/maxonary) - [Maximilian Arnold](https://www.linkedin.com/in/maximilian-arnold-787ba5197/)
 [@koenidv](https://github.com/koenidv) - [Florian König](https://www.linkedin.com/in/koenidv/)
 
-
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b7111648-e76c-498e-a25e-eeb0a45a0c49/deploy-status)](https://app.netlify.com/sites/pawnhubchess/deploys)
-
-## Developing
+### Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
@@ -62,7 +61,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+### Building
 
 To create a production version of your app:
 
