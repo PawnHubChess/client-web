@@ -72,7 +72,7 @@
 		// Disallow moving if not own turn
 		board.addEventListener("drag-start", (e) => {
 			// @ts-ignore
-			if (e.detail.piece.startsWith("b") !== determineIsGameId(get(client_id))) {
+			if ((e.detail.piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				e.preventDefault();
 				return;
 			}
@@ -114,7 +114,7 @@
 			// @ts-ignore
 			const { square, piece } = e.detail;
 
-			if (piece.startsWith("b") !== determineIsGameId(get(client_id))) {
+			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				return;
 			}
 
