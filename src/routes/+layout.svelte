@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "../app.css";
 	import { playstate, debug_local_server } from "$lib/store";
+	import { goto } from "$app/navigation";
 
 	function playButtonMessage(state: string) {
 		switch (state) {
@@ -23,13 +24,17 @@
 	<div
 		class="flex items-center justify-between border-b-2 border-gray-100 py-6 lg:justify-start lg:space-x-10">
 		<div class="flex justify-start lg:w-0 lg:flex-1">
-			<a href="/">
+			<button
+				on:click={() => {
+					goto("/");
+					openMenu = false;
+				}}>
 				<span class="sr-only">PawnHub</span>
 				<img
 					class="h-8 w-auto sm:h-10"
 					src="https://external-preview.redd.it/PDqfeEIy4aeJCOxEaKB4uDkEGV5dJz0B7FRRMr9eWak.jpg?auto=webp&s=758172d589bdf5e01c047b66d436d75837592dce"
 					alt="" />
-			</a>
+			</button>
 		</div>
 
 		<nav class="hidden space-x-10 lg:flex">
@@ -45,10 +50,14 @@
 		</nav>
 
 		<div class="flex flex-1 items-center justify-center lg:w-0 lg:justify-end">
-			<a
+			<button
 				href="/play"
 				class="button-secondary lg:button-primary {$debug_local_server ? 'bg-orange-600' : ''}"
-				>{playButtonMessage($playstate)}</a>
+				on:click={() => {
+					goto("/play");
+					openMenu = false;
+				}}>
+				{playButtonMessage($playstate)}</button>
 		</div>
 
 		<!-- Mobile menu -->
@@ -92,7 +101,7 @@
 		{#if openMenu}
 			<div
 				class="absolute top-20 left-0 z-20 h-[calc(100vh-5rem)] w-screen bg-mobilemenu"
-				on:click={toggleMenu}
+				on:click={() => {console.log("t");toggleMenu();}}
 				on:keypress={(ev) => {
 					console.log(ev);
 					if (ev.key === "Escape") toggleMenu();
