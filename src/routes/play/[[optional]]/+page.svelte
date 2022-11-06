@@ -109,6 +109,8 @@
 				handleConnect();
 			}
 		}
+
+		(document.querySelector("#input1") as HTMLElement | undefined)?.focus();
 	});
 </script>
 
