@@ -49,15 +49,19 @@
 			<div class="relative" />
 		</nav>
 
-		<div class="flex flex-1 items-center justify-center lg:w-0 lg:justify-end">
+		<div class="flex flex-1 items-center justify-center lg:w lg:justify-end">
 			<button
 				href="/play"
-				class="button-secondary lg:button-primary {$debug_local_server ? 'bg-orange-600' : ''}"
+				class="relative button-secondary lg:button-primary {$debug_local_server ? 'lg:bg-orange-600' : ''}"
 				on:click={() => {
 					goto("/play");
 					openMenu = false;
 				}}>
-				{playButtonMessage($playstate)}</button>
+				{playButtonMessage($playstate)}
+				{#if $unread_move}
+					<div
+						class="absolute -top-1.5 -right-1.5 inline-flex h-5 w-5 rounded-full border-2 border-white bg-red-500" />
+				{/if}
 		</div>
 
 		<!-- Mobile menu -->
@@ -101,7 +105,10 @@
 		{#if openMenu}
 			<div
 				class="absolute top-20 left-0 z-20 h-[calc(100vh-5rem)] w-screen bg-mobilemenu"
-				on:click={() => {console.log("t");toggleMenu();}}
+				on:click={() => {
+					console.log("t");
+					toggleMenu();
+				}}
 				on:keypress={(ev) => {
 					console.log(ev);
 					if (ev.key === "Escape") toggleMenu();
