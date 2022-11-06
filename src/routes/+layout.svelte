@@ -1,6 +1,6 @@
 <script lang="ts">
 	import "../app.css";
-	import { playstate, debug_local_server } from "$lib/store";
+	import { playstate, debug_local_server, unread_move } from "$lib/store";
 	import { goto } from "$app/navigation";
 
 	function playButtonMessage(state: string) {

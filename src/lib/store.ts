@@ -10,3 +10,4 @@ export const reconnect_code: Writable<string | undefined> = writable();
 export const playstate: Writable<string> = writable("closed");
 export const board_fen: Writable<string> = writable("");
 export const current_player_white: Writable<boolean> = writable(true);
+export const unread_move: Writable<boolean> = writable(false);

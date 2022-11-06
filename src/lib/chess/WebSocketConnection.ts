@@ -6,6 +6,7 @@ import {
   debug_local_server,
   playstate,
   reconnect_code,
+  unread_move,
 } from "$lib/store";
 import { get } from "svelte/store";
 
@@ -16,6 +17,10 @@ export class WebSocketConnection {
   constructor() {
     this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
     this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
+    this.registerHandler(
+      "receive-move",
+      (data) => this.handleReceiveMoveMessage(data),
+    );
     this.registerHandler(
       "reconnected",
       (data) => this.handleReconnectedMessage(data),
@@ -112,6 +117,10 @@ export class WebSocketConnection {
     const fen = data.fen as string;
     board_fen.set(fen.substring(0, fen.indexOf(" ")));
     goto("/play/game");
+  }
+
+  handleReceiveMoveMessage(data: any) {
+    unread_move.set(true);
   }
 
   handleReconnectedMessage(data: any) {

@@ -5,7 +5,8 @@
 		client_id,
 		reconnect_code,
 		board_fen,
-		current_player_white
+		current_player_white,
+		unread_move
 	} from "$lib/store";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
@@ -85,10 +86,7 @@
 			}
 		});
 
-
-
 		// Valid move highlighting
-
 
 		const highlightStyles = document.createElement("style");
 		document.head.append(highlightStyles);
@@ -120,9 +118,7 @@
 				return;
 			}
 
-			game.load(
-				board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
-			);
+			game.load(board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
 
 			// get list of possible moves for this square
 			const moves = game.moves({
@@ -149,6 +145,12 @@
 			removeGreySquares();
 		});
 	});
+
+	unread_move.set(false);
+	$: $unread_move, resetUnread();
+	function resetUnread() {
+		unread_move.set(false);
+	}
 </script>
 
 <main>
