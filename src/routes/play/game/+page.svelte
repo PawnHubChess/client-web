@@ -19,8 +19,6 @@
 	let waiting_for_response = false;
 
 	onMount(async () => {
-		if (get(playstate) !== "playing") goto("/play");
-
 		let board = document.querySelector("chess-board")!;
 
 		if (determineIsGameId(get(client_id))) board.orientation = "black";

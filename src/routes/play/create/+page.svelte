@@ -10,7 +10,6 @@
 	import { get } from "svelte/store";
 
 	onMount(async () => {
-		if (get(playstate) === "playing") goto("/play/game");
 		if (get(playstate) === "closed") hostClient().connect();
 	});
 

@@ -1,17 +1,12 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
-	import { hostClient } from "$lib/chess/HostClient";
 	import SingleNumberInput from "$lib/SingleNumberInput.svelte";
-	import { playstate, debug_local_server } from "$lib/store";
-	import { get } from "svelte/store";
+	import { debug_local_server } from "$lib/store";
 	import { dev } from "$app/environment";
 	import { Diamonds } from "svelte-loading-spinners";
 	import { page } from "$app/stores";
 	import { onMount } from "svelte";
-
-	if (get(playstate) === "hosting") goto("/play/create");
-	if (get(playstate) === "playing") goto("/play/game");
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;
