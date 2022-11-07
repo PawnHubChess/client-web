@@ -2,7 +2,6 @@
 	import {
 		playstate,
 		client_id,
-		reconnect_code,
 		board_fen,
 		current_player_white,
 		unread_move
@@ -22,11 +21,17 @@
 
 	let handleMakeMove: (from: string, to: string) => void;
 
+	$: $board_fen, updateBoard();
 	function updateBoard() {
 		if (!board) return;
 		board.setPosition(get(board_fen));
 	}
-	$: $board_fen, updateBoard();
+
+	unread_move.set(false);
+	$: $unread_move, resetUnread();
+	function resetUnread() {
+		unread_move.set(false);
+	}
 
 	onMount(async () => {
 		board = document.querySelector("chess-board")!;
@@ -169,12 +174,6 @@
 			removeGreySquares();
 		});
 	});
-
-	unread_move.set(false);
-	$: $unread_move, resetUnread();
-	function resetUnread() {
-		unread_move.set(false);
-	}
 </script>
 
 <main>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { connection } from "$lib/chess/WebSocketConnection";
+	import { board_fen } from "$lib/store";
 	import { Diamonds } from "svelte-loading-spinners";
 
 	export let isOwnMove: boolean;
@@ -27,8 +28,8 @@
 	}
 
 	function handleRefresh() {
-		// Todo implement refreshing
-		alert("Not implemented");
+		board_fen.set("8/8/8/8/8/8/8/8");
+		connection().send(`{"type": "get-board"}`);
 	}
 
 	function handleLeaveGame() {
@@ -48,7 +49,9 @@
 
 	<div class="sr-focus-layout rounded-md bg-gray-100 p-2">
 		<p class="mb-3 text-base text-gray-600">
-			{isOwnMove ? "Make a move, it's your turn." : "It's your opponents turn, make a move here later."}
+			{isOwnMove
+				? "Make a move, it's your turn."
+				: "It's your opponents turn, make a move here later."}
 		</p>
 		<label for="move-from">Move from:</label>
 		<input
@@ -73,6 +76,6 @@
 			class="button-secondary mt-4 w-full" />
 	</div>
 
-	<button class="button-secondary" on:click={handleLeaveGame}>Refresh</button>
+	<button class="button-secondary" on:click={handleRefresh}>Refresh</button>
 	<button class="button-secondary" on:click={handleLeaveGame}>Leave Game</button>
 </div>
