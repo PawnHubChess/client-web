@@ -116,6 +116,7 @@ export class WebSocketConnection {
     playstate.set("playing");
     const fen = (data.fen as string).match(/^(.*)\s([b|w])/) || ["", ""];
     board_fen.set(fen[1]);
+    current_player_white.set(fen[2] === "w");
     goto("/play/game");
   }
 
