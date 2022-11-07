@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
 	import {
 		playstate,
 		client_id,
@@ -20,6 +19,8 @@
 
 	let waiting_for_response = false;
 
+	let handleMakeMove: (from: string, to: string) => void;
+
 	onMount(async () => {
 		let board = document.querySelector("chess-board")!;
 
@@ -30,6 +31,17 @@
 		const game = new Chess("");
 
 		// API Integration
+
+		handleMakeMove = (from: string, to:string, updateBoard = false) => {
+			// todo clean this up, smells like multiple functions in one
+			connection().sendMove(from, to);
+			waiting_for_response = true;
+
+			if (updateBoard) board.move(`${from}-${to}`);
+
+			const piece = board.position[to.toLowerCase()];
+			srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
+		}
 
 		board.addEventListener("drop", (e) => {
 			// @ts-ignore
@@ -50,8 +62,7 @@
 			}
 
 			if (target === "offboard") return;
-			connection().sendMove(source, target);
-			waiting_for_response = true;
+			handleMakeMove(source, target);
 		});
 
 		connection().registerHandler("receive-move", (data: any) => {
@@ -74,7 +85,6 @@
 
 		function srReadMove(from: string, to: string) {
 			const piece = board.position[to.toLowerCase()];
-			console.log(`Opponent moved ${piece} from ${from} to ${to}`)
 			srSpeak(`Opponent moved ${piece} from ${from} to ${to}`, "assertive", document);
 		}
 
@@ -170,7 +180,9 @@
 				style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;" />
 
 			<div class="order-first lg:order-none">
-				<GameSidebar isOwnMove={$current_player_white === !determineIsGameId(get(client_id))} />
+				<GameSidebar
+					isOwnMove={$current_player_white === !determineIsGameId(get(client_id))}
+					moveCallback={handleMakeMove} />
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { connection } from "$lib/chess/WebSocketConnection";
 
 	export let isOpen: boolean;
 

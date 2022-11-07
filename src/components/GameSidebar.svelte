@@ -4,8 +4,22 @@
 	import { Diamonds } from "svelte-loading-spinners";
 
 	export let isOwnMove: boolean;
+	export let moveCallback: (from: string, to: string, updateBoard?: boolean) => void;
+
+	let moveFrom: string;
+	let moveTo: string;
+
+	function handleMakeMove() {
+		if (!isOwnMove) return;
+		if (!moveFrom.match(/^[a-hA-H][0-8]$/)) return;
+		if (!moveTo.match(/^[a-hA-H][0-8]$/)) return;
+		moveCallback(moveFrom.toLowerCase(), moveTo.toLowerCase(), true);
+		moveFrom = "";
+		moveTo = "";
+	}
 
 	function handleRefresh() {
+		// Todo implement refreshing
 		alert("Not implemented");
 	}
 
@@ -25,15 +39,25 @@
 	</p>
 
 	<div class="sr-focus-layout rounded-md bg-gray-100 p-2">
-		<p class="mb-3 text-base text-gray-600">Make a move. {isOwnMove ? "It's your turn." : "It's your opponents turn."}</p>
+		<p class="mb-3 text-base text-gray-600">
+			Make a move. {isOwnMove ? "It's your turn." : "It's your opponents turn."}
+		</p>
 		<label for="move-from">Move from:</label>
-		<input type="text" id="move-from" class="rounded-md mt-1 mb-2" maxlength="2" />
+		<input
+			type="text"
+			bind:value={moveFrom}
+			id="move-from"
+			class="mt-1 mb-2 rounded-md"
+			maxlength="2" />
 		<label for="move-to">Move to:</label>
-		<input type="text" id="move-to" class="rounded-md mt-1" maxlength="2" />
-		<input type="submit" value="Submit Move" class="button-secondary mt-4 w-full" />
+		<input type="text" bind:value={moveTo} id="move-to" class="mt-1 rounded-md" maxlength="2" />
+		<input
+			type="submit"
+			on:click={handleMakeMove}
+			value="Submit Move"
+			class="button-secondary mt-4 w-full" />
 	</div>
 
 	<button class="button-secondary" on:click={handleLeaveGame}>Refresh</button>
 	<button class="button-secondary" on:click={handleLeaveGame}>Leave Game</button>
-	
 </div>
