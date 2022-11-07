@@ -68,18 +68,23 @@ export class WebSocketConnection {
   }
 
   async handleConnectionClosed() {
-    console.log("Connection closed");
+    const code = get(reconnect_code);
+
+    // Close game if not reconnected after 20 seconds
+    setTimeout(() => {
+      if (!get(reconnect_code) || code === get(reconnect_code)) this.close();
+    }, 20000);
+
     // Reconnect using provided code
     await this.prepare();
-
-    const code = get(reconnect_code);
     reconnect_code.set(undefined);
-
+    
     this.send(JSON.stringify({
       "type": "reconnect",
       "id": get(client_id),
       "reconnect-code": code,
     }));
+    
   }
 
   // Message handlers

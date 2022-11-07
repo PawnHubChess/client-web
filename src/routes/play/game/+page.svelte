@@ -12,6 +12,7 @@
 
 	let board: ChessBoardElement;
 	let waiting_for_response = false;
+	let opponent_disconnected = false;
 
 	let handleMakeMove: (from: string, to: string) => void;
 
@@ -89,6 +90,10 @@
 			board_fen.set(board.fen() || "");
 			current_player_white.set(!get(current_player_white));
 			waiting_for_response = false;
+		});
+
+		connection().registerHandler("opponent-disconnected", (data: any) => {
+			opponent_disconnected = true;
 		});
 
 		function srReadMove(from: string, to: string) {
@@ -187,8 +192,9 @@
 
 	<OpponentDisconnectedModal
 		isOpen={$playstate !== "playing"}
-		title="You're the Winner!"
-		description="The game has ended because your opponent has disconnected." />
+		title={opponent_disconnected ? "You're the Winner!" : "Disconnected"}
+		description={"The game has ended because " +
+			(opponent_disconnected ? "your opponent has disconnected." : "you lost connection.")} />
 </main>
 
 <style>
