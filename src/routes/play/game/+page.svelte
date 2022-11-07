@@ -194,4 +194,9 @@
 	chess-board::part(board) {
 		border: none;
 	}
+	chess-board::part(piece)::before {
+		content: attr(piece);
+		display: block;
+		@apply sr-only;
+	}
 </style>

@@ -48,7 +48,7 @@
 
 	<div class="sr-focus-layout rounded-md bg-gray-100 p-2">
 		<p class="mb-3 text-base text-gray-600">
-			Make a move. {isOwnMove ? "It's your turn." : "It's your opponents turn."}
+			{isOwnMove ? "Make a move, it's your turn." : "It's your opponents turn, make a move here later."}
 		</p>
 		<label for="move-from">Move from:</label>
 		<input
