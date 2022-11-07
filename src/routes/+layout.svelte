@@ -113,7 +113,7 @@
 					console.log(ev);
 					if (ev.key === "Escape") toggleMenu();
 				}}>
-				<div class="absolute inset-x-0 z-20 origin-top-right transform p-2 transition md:hidden">
+				<div class="absolute inset-x-0 z-20 origin-top-right transform p-2 transition lg:hidden">
 					<div class="rounded-lg bg-white p-6 pt-3 shadow-md">
 						<div class="">
 							<nav class="flex flex-col justify-center gap-6">
