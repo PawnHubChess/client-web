@@ -63,6 +63,8 @@
 
 			if (target === "offboard") return;
 			handleMakeMove(source, target);
+
+			removeGreySquares();
 		});
 
 		connection().registerHandler("receive-move", (data: any) => {
@@ -124,10 +126,6 @@
     		}
   		`;
 		}
-
-		board.addEventListener("drop", (e) => {
-			removeGreySquares();
-		});
 
 		board.addEventListener("mouseover-square", (e) => {
 			// @ts-ignore
