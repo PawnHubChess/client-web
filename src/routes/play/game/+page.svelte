@@ -14,25 +14,32 @@
 	import GameSidebar from "$components/GameSidebar.svelte";
 	import OpponentDisconnectedModal from "$components/OpponentDisconnectedModal.svelte";
 	import { Chess } from "chess.js";
-	import { objToFen } from "chessboard-element";
-	import { srSpeak } from "$lib/Accessibility"
+	import { ChessBoardElement, objToFen } from "chessboard-element";
+	import { srSpeak } from "$lib/Accessibility";
 
+	let board: ChessBoardElement;
 	let waiting_for_response = false;
 
 	let handleMakeMove: (from: string, to: string) => void;
 
+	function updateBoard() {
+		if (!board) return;
+		board.setPosition(get(board_fen));
+	}
+	$: $board_fen, updateBoard();
+
 	onMount(async () => {
-		let board = document.querySelector("chess-board")!;
+		board = document.querySelector("chess-board")!;
 
 		if (determineIsGameId(get(client_id))) board.orientation = "black";
 		else board.orientation = "white";
 
-		board.setPosition(get(board_fen));
+		updateBoard();
 		const game = new Chess("");
 
 		// API Integration
 
-		handleMakeMove = (from: string, to:string, updateBoard = false) => {
+		handleMakeMove = (from: string, to: string, updateBoard = false) => {
 			// todo clean this up, smells like multiple functions in one
 			connection().sendMove(from, to);
 			waiting_for_response = true;
@@ -41,7 +48,7 @@
 
 			const piece = board.position[to.toLowerCase()];
 			srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
-		}
+		};
 
 		board.addEventListener("drop", (e) => {
 			// @ts-ignore

@@ -114,8 +114,8 @@ export class WebSocketConnection {
 
   handleMatchedMessage(data: any) {
     playstate.set("playing");
-    const fen = data.fen as string;
-    board_fen.set(fen.substring(0, fen.indexOf(" ")));
+    const fen = (data.fen as string).match(/^(.*)\s([b|w])/) || ["", ""];
+    board_fen.set(fen[1]);
     goto("/play/game");
   }
 
