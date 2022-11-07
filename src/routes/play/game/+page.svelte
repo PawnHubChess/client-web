@@ -16,6 +16,7 @@
 	import OpponentDisconnectedModal from "$components/OpponentDisconnectedModal.svelte";
 	import { Chess } from "chess.js";
 	import { objToFen } from "chessboard-element";
+	import { srSpeak } from "$lib/Accessibility"
 
 	let waiting_for_response = false;
 
@@ -56,18 +57,26 @@
 		connection().registerHandler("receive-move", (data: any) => {
 			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
 			board_fen.set(board.fen() || "");
-
 			current_player_white.set(!get(current_player_white));
+			srReadMove(data.from, data.to);
 		});
+
 		connection().registerHandler("reject-move", (data: any) => {
 			board.setPosition(get(board_fen));
 			waiting_for_response = false;
 		});
+
 		connection().registerHandler("accept-move", (data: any) => {
 			board_fen.set(board.fen() || "");
 			current_player_white.set(!get(current_player_white));
 			waiting_for_response = false;
 		});
+
+		function srReadMove(from: string, to: string) {
+			const piece = board.position[to.toLowerCase()];
+			console.log(`Opponent moved ${piece} from ${from} to ${to}`)
+			srSpeak(`Opponent moved ${piece} from ${from} to ${to}`, "assertive", document);
+		}
 
 		// Disallow moving if not own turn
 		board.addEventListener("drag-start", (e) => {
