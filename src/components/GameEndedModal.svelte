@@ -2,6 +2,8 @@
 	import { goto } from "$app/navigation";
 
 	export let isOpen: boolean;
+	export let title: string;
+	export let description: string;
 
 	function handleButtonClick() {
 		// WebSocket should already be closed when this modal is displayed
@@ -19,9 +21,9 @@
 		<div class="modal-dialog modal-dialog-centered relative max-w-[90vw]">
 			<div
 				class="modal-content relative flex flex-col items-center gap-6 rounded-md bg-white p-8 shadow-lg">
-				<h5 class="modal-header text-xl font-bold text-gray-800" aria-live="polite">You're the Winner!</h5>
+				<h5 class="modal-header text-xl font-bold text-gray-800" aria-live="polite">{title}</h5>
 				<p class="text-lg font-medium text-gray-600">
-					The game has ended because your opponent has disconnected.
+					{description}
 				</p>
 				<button class="button-primary min-w-[12rem]" on:click={handleButtonClick}>Okay</button>
 			</div>

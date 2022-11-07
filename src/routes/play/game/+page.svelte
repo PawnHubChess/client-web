@@ -1,17 +1,11 @@
 <script lang="ts">
-	import {
-		playstate,
-		client_id,
-		board_fen,
-		current_player_white,
-		unread_move
-	} from "$lib/store";
+	import { playstate, client_id, board_fen, current_player_white, unread_move } from "$lib/store";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
 	import "chessboard-element";
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import GameSidebar from "$components/GameSidebar.svelte";
-	import OpponentDisconnectedModal from "$components/OpponentDisconnectedModal.svelte";
+	import OpponentDisconnectedModal from "$components/GameEndedModal.svelte";
 	import { Chess } from "chess.js";
 	import { ChessBoardElement, objToFen } from "chessboard-element";
 	import { srSpeak } from "$lib/Accessibility";
@@ -191,7 +185,10 @@
 		</div>
 	</div>
 
-	<OpponentDisconnectedModal isOpen={$playstate !== "playing"} />
+	<OpponentDisconnectedModal
+		isOpen={$playstate !== "playing"}
+		title="You're the Winner!"
+		description="The game has ended because your opponent has disconnected." />
 </main>
 
 <style>
