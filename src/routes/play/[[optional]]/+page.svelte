@@ -122,6 +122,7 @@
 					? 'border border-red-400 bg-red-50 shadow-sm'
 					: ''}">
 				<div class="grid w-fit grid-cols-4 gap-4" aria-label="Connection Code 1 Inputs">
+					<p class="sr-only">Enter the first 4-digit number here</p>
 					<SingleNumberInput bind:value={n1_1} id="input1" />
 					<SingleNumberInput bind:value={n1_2} />
 					<SingleNumberInput bind:value={n1_3} />
@@ -134,6 +135,7 @@
 					? 'border border-red-400 bg-red-50 shadow-sm'
 					: ''}">
 				<div class="grid w-fit grid-cols-4 gap-4" aria-label="Connection Code 2 Inputs">
+					<p class="sr-only">Enter the second 4-digit number here</p>
 					<SingleNumberInput bind:value={n2_1} id="input2" />
 					<SingleNumberInput bind:value={n2_2} />
 					<SingleNumberInput bind:value={n2_3} />
