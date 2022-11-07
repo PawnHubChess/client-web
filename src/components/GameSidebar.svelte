@@ -18,6 +18,14 @@
 		moveTo = "";
 	}
 
+	function handleFocusNext(e: KeyboardEvent, maxlength: number) {
+		if (e.which < 48 || e.which > 90) return;
+		if ((e.target as HTMLInputElement)?.value.length === maxlength) {
+			const next = (e.target as HTMLInputElement)?.nextElementSibling as HTMLInputElement;
+			if (next) next.focus();
+		}
+	}
+
 	function handleRefresh() {
 		// Todo implement refreshing
 		alert("Not implemented");
@@ -46,11 +54,18 @@
 		<input
 			type="text"
 			bind:value={moveFrom}
+			on:keyup={(e) => handleFocusNext(e, 2)}
 			id="move-from"
 			class="mt-1 mb-2 rounded-md"
 			maxlength="2" />
 		<label for="move-to">Move to:</label>
-		<input type="text" bind:value={moveTo} id="move-to" class="mt-1 rounded-md" maxlength="2" />
+		<input
+			type="text"
+			bind:value={moveTo}
+			on:keyup={(e) => handleFocusNext(e, 2)}
+			id="move-to"
+			class="mt-1 rounded-md"
+			maxlength="2" />
 		<input
 			type="submit"
 			on:click={handleMakeMove}
