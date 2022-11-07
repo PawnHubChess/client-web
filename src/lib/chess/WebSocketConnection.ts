@@ -25,6 +25,7 @@ export class WebSocketConnection {
       "reconnected",
       (data) => this.handleReconnectedMessage(data),
     );
+    this.registerHandler("board", (data) => this.handleBoardStateMessage(data));
     this.registerHandler(
       "opponent-disconnected",
       () => this.handleOpponentDisconnected(),
@@ -114,9 +115,7 @@ export class WebSocketConnection {
 
   handleMatchedMessage(data: any) {
     playstate.set("playing");
-    const fen = (data.fen as string).match(/^(.*)\s([b|w])/) || ["", ""];
-    board_fen.set(fen[1]);
-    current_player_white.set(fen[2] === "w");
+    this.readFEN(data.fen);
     goto("/play/game");
   }
 
@@ -129,8 +128,18 @@ export class WebSocketConnection {
     console.log("Reconnected");
   }
 
+  handleBoardStateMessage(data: any) {
+    this.readFEN(data.fen);
+  }
+
   handleOpponentDisconnected() {
     this.close();
+  }
+
+  readFEN(data: string) {
+    const fen = data.match(/^(.*)\s([b|w])/) || ["", ""];
+    board_fen.set(fen[1]);
+    current_player_white.set(fen[2] === "w");
   }
 
   // Emit messages
