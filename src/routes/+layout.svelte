@@ -104,7 +104,7 @@
 
 		{#if openMenu}
 			<div
-				class="absolute top-20 left-0 z-20 h-[calc(100vh-5rem)] w-screen bg-mobilemenu"
+				class="absolute top-20 left-0 z-20 h-[calc(100vh-5rem)] w-screen bg-mobilemenu lg:hidden"
 				on:click={() => {
 					console.log("t");
 					toggleMenu();
