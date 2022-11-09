@@ -49,10 +49,13 @@
 			<div class="relative" />
 		</nav>
 
-		<div class="flex flex-1 items-center justify-center lg:w lg:justify-end">
+		<div class="lg:w flex flex-1 items-center justify-center lg:justify-end">
 			<button
+				id="playButton"
 				href="/play"
-				class="relative button-secondary lg:button-primary {$debug_local_server ? 'lg:bg-orange-600' : ''}"
+				class="button-secondary lg:button-primary relative {$debug_local_server
+					? 'lg:bg-orange-600'
+					: ''}"
 				on:click={() => {
 					goto("/play");
 					openMenu = false;
@@ -62,6 +65,7 @@
 					<div
 						class="absolute -top-1.5 -right-1.5 inline-flex h-5 w-5 rounded-full border-2 border-white bg-red-500" />
 				{/if}
+			</button>
 		</div>
 
 		<!-- Mobile menu -->
