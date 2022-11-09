@@ -1,4 +1,4 @@
-# Landing page - Remote Chess Experience
+# Client-Web - Remote Chess Experience
 This product emerged as part of the group project “Once a pawn a time…“ at Berlin CODE University. 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b7111648-e76c-498e-a25e-eeb0a45a0c49/deploy-status)](https://app.netlify.com/sites/pawnhubchess/deploys)
@@ -10,28 +10,32 @@ View project in CODE LP:
 ### Motivation and background
 Our vision is to enable enjoyable remote chess games for both parties.
 
-Due to the high amount of requests to explain the project, we decided to create a landing page. This website informs people of interest, e.g. the CODE community, the MotionLab community, about the services, product, technological functionality of this project. 
+Due to the high amount of requests to explain the project, we decided to create a landing page, which also acts as the hub to use our services. This website informs people of interest, e.g. the CODE community, the MotionLab community, about the services and technological functionality of this project. 
+Simultaniously, visitors can start remote chess games.
 
-The landing page serves as a project to demonstrate general knowledge of web-development. The development requires a general understanding of HTML, CSS, JavaScript, and relational databases, as well as sketching a user friendly website. 
+The landing page serves as a project to demonstrate general knowledge of web-development, front-end technologies. The development requires a general understanding of HTML, CSS, JavaScript, and relational databases, as well as sketching a user friendly website. 
+
+This webpage was created using the Sveltekit framework for increased performance and code quality.  
 
 ### The team
 We are software engineering students at Berlin CODE University of Applied Sciences.
 - Maximilian Arnold 
     - Project Owner
-    - Web-Client
-    - Backend
+    - Frontend
     - Image Recognition
 - Paul Bückhard
     - Physical Interfaces
+    - Board Client
 - Noah Frank 
     - 3d design 
     - Robotics 
-    - Chess Client
 - Jorge Guedes 
     - Physical Interfaces
 - Florian König	
     - Web-Client
+    - Frontend
     - Backend
+    - CI/CD
 - Péter Winkler	
     - Robotics
     - Physical Interfaces
