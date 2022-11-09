@@ -51,5 +51,8 @@ describe("desktop page navigation", () => {
       "include",
       "art",
     );
+
+    cy.get("#menuButton").should("be.visible").click();
+    cy.get("nav").should("not.be.visible", "Project");
   });
 });
