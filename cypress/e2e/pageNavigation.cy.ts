@@ -4,17 +4,19 @@ describe("desktop page navigation", () => {
 
     cy.visit("/");
 
-    cy.get("nav").contains("Project").click();
-    cy.url().should("eq", "http://localhost:5173/");
-
-    cy.get("nav").contains("Team").click();
-    cy.url().should("include", "/team");
-
-    cy.get("nav").contains("Research").click();
-    cy.url().should("include", "/research");
-
-    cy.get("nav").contains("Connecting Cultures").click();
-    cy.url().should("include", "/art");
+    cy.get("nav").contains("Project").should("contain.attr", "href", "/");
+    cy.get("nav").contains("Team").should("have.attr", "href").and(
+      "include",
+      "team",
+    );
+    cy.get("nav").contains("Research").should("have.attr", "href").and(
+      "include",
+      "research",
+    );
+    cy.get("nav").contains("Connecting Cultures").should("have.attr", "href").and(
+      "include",
+      "art",
+    );
 
     cy.wait(500); // wait for goto to be imported
     cy.get("#playButton").contains("Play Chess!").click();
