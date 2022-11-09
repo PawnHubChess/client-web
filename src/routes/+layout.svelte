@@ -73,6 +73,7 @@
 		<div class="-my-2 -mr-2 lg:hidden">
 			<button
 				on:click={toggleMenu}
+				id="menuButton"
 				type="button"
 				class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
 				aria-expanded="false">
