@@ -1,0 +1,36 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Once a pawn a time... web-client
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Florian
+    family-names: König
+    email: florian.koenig@code.berlin
+    affiliation: CODE University of Applied Sciences
+  - given-names: Maximilian
+    family-names: Arnold
+    email: maximilian.arnold@code.berlin
+    affiliation: CODE University of Applied Sciences
+    orcid: 'https://orcid.org/0000-0001-9486-4835'
+repository-code: 'https://github.com/PawnHubChess/client-web'
+url: 'https://pawn-hub.de'
+repository: >-
+  https://app.code.berlin/projects/cl7ah7xam785660wl8xssnw4ja
+abstract: >-
+  The landing page serves as a project to demonstrate
+  general knowledge of web-development. The
+  development requires a general understanding of
+  HTML, CSS, JavaScript, and relational databases, as
+  well as sketching a user-friendly website. 
+keywords:
+  - sveltekit
+  - web-development
+  - chess
+  - education
+version: '1.1'
+date-released: '2022-11-09'
