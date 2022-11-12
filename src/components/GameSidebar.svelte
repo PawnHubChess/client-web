@@ -42,6 +42,7 @@
 <div class="flex items-center gap-2 gap-x-4 lg:flex-col lg:items-start">
 	<p class="flex items-center justify-center gap-2 text-base font-medium text-gray-600">
 		{isOwnMove ? "Your Turn Now!" : "Opponent's Move"}
+		<!-- todo display pending move -->
 		{#if !isOwnMove}
 			<Diamonds color="#4d5536" size="24" duration="2s" />
 		{/if}

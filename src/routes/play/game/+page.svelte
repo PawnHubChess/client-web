@@ -7,7 +7,6 @@
 	import OpponentDisconnectedModal from "$components/GameEndedModal.svelte";
 	import ChessBoard from "$components/ChessBoard.svelte";
 
-	let waiting_for_response = false;
 	let opponent_disconnected = false;
 
 	// Immediately remove unread move marker whilst on this page
@@ -23,7 +22,7 @@
 <main>
 	<div class="mt-2 flex justify-center tall:mt-8">
 		<div class="grid gap-4 lg:grid-cols-chessgrid ">
-			<ChessBoard bind:waiting_for_response bind:opponent_disconnected />
+			<ChessBoard bind:opponent_disconnected />
 
 			<div class="order-first lg:order-none">
 				<GameSidebar

@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { board_fen, client_id, current_player_white } from "$lib/store";
+	import { board_fen, client_id, current_player_white, pending_move } from "$lib/store";
 	import { objToFen, type ChessBoardElement } from "chessboard-element";
 	import { get } from "svelte/store";
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import { Chess } from "chess.js";
 	import { srSpeak } from "$lib/Accessibility";
 
-	let waiting_for_response: boolean;
 	let opponent_disconnected: boolean;
 
 	let handleMakeMove: (from: string, to: string) => void;
 	let board: ChessBoardElement;
 
-    const chessJs = new Chess("");
+	const chessJs = new Chess("");
 
 	// Subscibe to board updates from state
 	$: $board_fen, updateBoard();
@@ -27,9 +26,7 @@
 
 	// Load current board state to Chess.js
 	function updateChessJs(positionFen: string | false) {
-		chessJs.load(
-			positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
-		);
+		chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
 	}
 
 	onMount(async () => {
@@ -43,7 +40,7 @@
 		handleMakeMove = (from: string, to: string, updateBoard = false) => {
 			// todo clean this up, smells like multiple functions in one
 			connection().sendMove(from, to);
-			waiting_for_response = true;
+			pending_move.set(true);
 
 			if (updateBoard) board.move(`${from}-${to}`);
 
@@ -80,14 +77,14 @@
 		// Reset board if server deems move illegal
 		connection().registerHandler("reject-move", (data: any) => {
 			board.setPosition(get(board_fen));
-			waiting_for_response = false;
+			pending_move.set(false);
 		});
 
 		// Update board in state if move was accepted by API
 		connection().registerHandler("accept-move", (data: any) => {
 			board_fen.set(board.fen() || "");
 			current_player_white.set(!get(current_player_white));
-			waiting_for_response = false;
+			pending_move.set(false);
 		});
 
 		connection().registerHandler("opponent-disconnected", (data: any) => {
@@ -110,7 +107,7 @@
 				e.preventDefault();
 				return;
 			}
-			if (waiting_for_response) {
+			if (get(pending_move)) {
 				e.preventDefault();
 				return;
 			}
@@ -145,8 +142,8 @@
 			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				return;
 			}
-            
-            updateChessJs(board.fen());
+
+			updateChessJs(board.fen());
 
 			// Get possible moves for this square from Chess.js
 			const moves = chessJs.moves({ square: square, verbose: true });
