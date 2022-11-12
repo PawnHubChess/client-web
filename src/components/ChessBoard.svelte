@@ -30,7 +30,7 @@
 		else board.orientation = "white";
 
 		updateBoard();
-		const game = new Chess("");
+		const chessJs = new Chess("");
 
 		// API Integration
 
@@ -50,11 +50,11 @@
 			const { source, target, oldPosition, setAction } = e.detail;
 
 			// Load current board state to Chess.js
-			game.load(
+			chessJs.load(
 				objToFen(oldPosition) + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
 			);
 			// Snap back if move is illegal
-			if (game.move({ from: source, to: target }) === null) {
+			if (chessJs.move({ from: source, to: target }) === null) {
 				setAction("snapback");
 				return;
 			}
@@ -143,10 +143,10 @@
 			}
 
 			// Load current board state to Chess.js
-			game.load(board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+			chessJs.load(board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
 
 			// Get possible moves for this square from Chess.js
-			const moves = game.moves({ square: square, verbose: true });
+			const moves = chessJs.moves({ square: square, verbose: true });
 			if (moves.length === 0) return;
 
 			// Hightlight hovered square and all possible moves
