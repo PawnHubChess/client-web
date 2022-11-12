@@ -43,9 +43,9 @@
 	}
 
 	onMount(async () => {
-		if (determineIsGameId(get(client_id))) board.orientation = "black";
-		else board.orientation = "white";
-
+		// Black on bottom if player is host
+		board.orientation = determineIsGameId(get(client_id)) ? "black" : "white";
+        // Set up board with current state
 		updateBoard();
 
 		// API Integration
