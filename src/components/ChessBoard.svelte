@@ -10,7 +10,7 @@
 	let opponent_disconnected: boolean;
 
 	let board: ChessBoardElement;
-
+	let highlightStyles: HTMLElement;
 	const chessJs = new Chess("");
 
 	// Subscibe to board updates from state
@@ -31,6 +31,7 @@
 	function handleMakeMove(from: string, to: string) {
 		connection().sendMove(from, to);
 		srSpeakMove(from, to, to, true);
+        clearHighlights();
 	}
 
 	function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
@@ -42,11 +43,20 @@
 		);
 	}
 
+	function clearHighlights() {
+		if (highlightStyles) {
+			highlightStyles.remove();
+		}
+	}
+
 	onMount(async () => {
 		// Black on bottom if player is host
 		board.orientation = determineIsGameId(get(client_id)) ? "black" : "white";
-        // Set up board with current state
+		// Set up board with current state
 		updateBoard();
+
+		highlightStyles = document.createElement("style");
+		document.head.append(highlightStyles);
 
 		// API Integration
 
@@ -63,8 +73,6 @@
 			if (target === "offboard") return;
 
 			handleMakeMove(source, target);
-
-			removeHighlighting();
 		});
 
 		// Subscribe to opponent's moves
@@ -104,13 +112,6 @@
 
 		// Valid move highlighting
 
-		const highlightStyles = document.createElement("style");
-		document.head.append(highlightStyles);
-
-		function removeHighlighting() {
-			highlightStyles.textContent = "";
-		}
-
 		function greySquare(square: string) {
 			// Choose highlight color based on light/dark square
 			const highlightColor =
@@ -147,7 +148,7 @@
 		});
 
 		board.addEventListener("mouseout-square", (e) => {
-			removeHighlighting();
+			clearHighlights();
 		});
 	});
 </script>
