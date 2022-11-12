@@ -13,6 +13,8 @@
 	let handleMakeMove: (from: string, to: string) => void;
 	let board: ChessBoardElement;
 
+    const chessJs = new Chess("");
+
 	// Subscibe to board updates from state
 	$: $board_fen, updateBoard();
 	function updateBoard() {
@@ -23,12 +25,18 @@
 		board.setPosition(get(board_fen));
 	}
 
+	// Load current board state to Chess.js
+	function updateChessJs(positionFen: string | false) {
+		chessJs.load(
+			positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
+		);
+	}
+
 	onMount(async () => {
 		if (determineIsGameId(get(client_id))) board.orientation = "black";
 		else board.orientation = "white";
 
 		updateBoard();
-		const chessJs = new Chess("");
 
 		// API Integration
 
@@ -47,10 +55,8 @@
 			// @ts-ignore
 			const { source, target, oldPosition, setAction } = e.detail;
 
-			// Load current board state to Chess.js
-			chessJs.load(
-				objToFen(oldPosition) + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
-			);
+			updateChessJs(objToFen(oldPosition));
+
 			// Snap back if move is illegal
 			if (chessJs.move({ from: source, to: target }) === null) {
 				setAction("snapback");
@@ -139,9 +145,8 @@
 			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				return;
 			}
-
-			// Load current board state to Chess.js
-			chessJs.load(board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+            
+            updateChessJs(board.fen());
 
 			// Get possible moves for this square from Chess.js
 			const moves = chessJs.moves({ square: square, verbose: true });
