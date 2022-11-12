@@ -24,8 +24,6 @@
 	}
 
 	onMount(async () => {
-		board = document.querySelector("chess-board")!;
-
 		if (determineIsGameId(get(client_id))) board.orientation = "black";
 		else board.orientation = "white";
 
@@ -164,6 +162,7 @@
 </script>
 
 <chess-board
+	bind:this={board}
 	draggable-pieces
 	style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;" />
 
