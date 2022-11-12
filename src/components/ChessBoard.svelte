@@ -80,13 +80,6 @@
 			pending_move.set(false);
 		});
 
-		// Update board in state if move was accepted by API
-		connection().registerHandler("accept-move", (data: any) => {
-			board_fen.set(board.fen() || "");
-			current_player_white.set(!get(current_player_white));
-			pending_move.set(false);
-		});
-
 		connection().registerHandler("opponent-disconnected", (data: any) => {
 			opponent_disconnected = true;
 		});

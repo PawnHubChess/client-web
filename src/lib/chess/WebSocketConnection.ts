@@ -4,6 +4,7 @@ import {
   client_id,
   current_player_white,
   debug_local_server,
+  pending_move,
   playstate,
   reconnect_code,
   unread_move,
@@ -78,13 +79,12 @@ export class WebSocketConnection {
     // Reconnect using provided code
     await this.prepare();
     reconnect_code.set(undefined);
-    
+
     this.send(JSON.stringify({
       "type": "reconnect",
       "id": get(client_id),
       "reconnect-code": code,
     }));
-    
   }
 
   // Message handlers
@@ -126,6 +126,11 @@ export class WebSocketConnection {
 
   handleReceiveMoveMessage(data: any) {
     unread_move.set(true);
+  }
+
+  handleAcceptMoveMessage(data: any) {
+    this.readFEN(data.fen);
+    pending_move.set(false);
   }
 
   handleReconnectedMessage(data: any) {
