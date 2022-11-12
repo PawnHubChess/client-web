@@ -54,9 +54,8 @@
 			// @ts-ignore
 			const { source, target, oldPosition, setAction } = e.detail;
 
+			// Check for illegal moves
 			updateChessJs(objToFen(oldPosition));
-
-			// Snap back if move is illegal
 			if (chessJs.move({ from: source, to: target }) === null) {
 				setAction("snapback");
 				return;
@@ -65,7 +64,7 @@
 
 			handleMakeMove(source, target);
 
-			removeGreySquares();
+			removeHighlighting();
 		});
 
 		// Subscribe to opponent's moves
@@ -108,7 +107,7 @@
 		const highlightStyles = document.createElement("style");
 		document.head.append(highlightStyles);
 
-		function removeGreySquares() {
+		function removeHighlighting() {
 			highlightStyles.textContent = "";
 		}
 
@@ -148,7 +147,7 @@
 		});
 
 		board.addEventListener("mouseout-square", (e) => {
-			removeGreySquares();
+			removeHighlighting();
 		});
 	});
 </script>
