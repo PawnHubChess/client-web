@@ -1,9 +1,10 @@
 import { defineConfig } from "cypress";
+import { initPlugin } from "@frsource/cypress-plugin-visual-regression-diff/plugins";
 
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      initPlugin(on, config);
     },
     baseUrl: "http://localhost:5173",
   },
@@ -12,6 +13,9 @@ export default defineConfig({
     devServer: {
       framework: "svelte",
       bundler: "vite",
+    },
+    setupNodeEvents(on, config) {
+      initPlugin(on, config);
     },
   },
 });
