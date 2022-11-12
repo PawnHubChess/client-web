@@ -9,13 +9,17 @@
 
 	let waiting_for_response: boolean;
 	let opponent_disconnected: boolean;
-    
+
 	let handleMakeMove: (from: string, to: string) => void;
 	let board: ChessBoardElement;
 
+	// Subscibe to board updates from state
 	$: $board_fen, updateBoard();
 	function updateBoard() {
-		if (!board) return;
+		if (!board) {
+			console.warn("Board was updated but is not initialized");
+			return;
+		}
 		board.setPosition(get(board_fen));
 	}
 
@@ -45,26 +49,23 @@
 			// @ts-ignore
 			const { source, target, oldPosition, setAction } = e.detail;
 
+			// Load current board state to Chess.js
 			game.load(
 				objToFen(oldPosition) + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || ""
 			);
-			if (
-				game.move({
-					from: source,
-					to: target
-				}) === null
-			) {
-				console.warn("Invalid move detected");
+			// Snap back if move is illegal
+			if (game.move({ from: source, to: target }) === null) {
 				setAction("snapback");
 				return;
 			}
-
 			if (target === "offboard") return;
+
 			handleMakeMove(source, target);
 
 			removeGreySquares();
 		});
 
+		// Subscribe to opponent's moves
 		connection().registerHandler("receive-move", (data: any) => {
 			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
 			board_fen.set(board.fen() || "");
@@ -72,11 +73,13 @@
 			srReadMove(data.from, data.to);
 		});
 
+		// Reset board if server deems move illegal
 		connection().registerHandler("reject-move", (data: any) => {
 			board.setPosition(get(board_fen));
 			waiting_for_response = false;
 		});
 
+		// Update board in state if move was accepted by API
 		connection().registerHandler("accept-move", (data: any) => {
 			board_fen.set(board.fen() || "");
 			current_player_white.set(!get(current_player_white));
@@ -119,6 +122,7 @@
 		}
 
 		function greySquare(square: string) {
+			// Choose highlight color based on light/dark square
 			const highlightColor =
 				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? "#a5b4fc" : "#818cf8";
 
@@ -133,27 +137,20 @@
 			// @ts-ignore
 			const { square, piece } = e.detail;
 
+			// Return if not own turn
 			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				return;
 			}
 
+			// Load current board state to Chess.js
 			game.load(board.fen() + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
 
-			// get list of possible moves for this square
-			const moves = game.moves({
-				square: square,
-				verbose: true
-			});
+			// Get possible moves for this square from Chess.js
+			const moves = game.moves({ square: square, verbose: true });
+			if (moves.length === 0) return;
 
-			// exit if there are no moves available for this square
-			if (moves.length === 0) {
-				return;
-			}
-
-			// highlight the square they moused over
+			// Hightlight hovered square and all possible moves
 			greySquare(square);
-
-			// highlight the possible squares for this piece
 			for (const move of moves) {
 				// @ts-ignore
 				greySquare(move.to);
@@ -166,10 +163,9 @@
 	});
 </script>
 
-
 <chess-board
-draggable-pieces
-style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;" />
+	draggable-pieces
+	style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7fe; --highlight-color: #554de2; border: none;" />
 
 <style>
 	chess-board::part(board) {
@@ -181,4 +177,3 @@ style="width: 80vh; max-width: 90vw; --light-color: #f9fafb; --dark-color: #e2e7
 		@apply sr-only;
 	}
 </style>
-
