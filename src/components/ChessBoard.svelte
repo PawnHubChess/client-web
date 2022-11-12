@@ -9,7 +9,6 @@
 
 	let opponent_disconnected: boolean;
 
-	let handleMakeMove: (from: string, to: string) => void;
 	let board: ChessBoardElement;
 
 	const chessJs = new Chess("");
@@ -18,16 +17,23 @@
 	$: $board_fen, updateBoard();
 	function updateBoard() {
 		if (!board) {
-			console.warn("Board was updated but is not initialized");
+            console.warn("Board was updated but is not initialized");
 			return;
 		}
 		board.setPosition(get(board_fen));
 	}
-
+    
 	// Load current board state to Chess.js
 	function updateChessJs(positionFen: string | false) {
-		chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+        chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
 	}
+
+    function handleMakeMove(from: string, to: string) {
+        connection().sendMove(from, to);
+
+        const piece = board.position[to.toLowerCase()];
+        srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
+    };
 
 	onMount(async () => {
 		if (determineIsGameId(get(client_id))) board.orientation = "black";
@@ -37,16 +43,6 @@
 
 		// API Integration
 
-		handleMakeMove = (from: string, to: string, updateBoard = false) => {
-			// todo clean this up, smells like multiple functions in one
-			connection().sendMove(from, to);
-			pending_move.set(true);
-
-			if (updateBoard) board.move(`${from}-${to}`);
-
-			const piece = board.position[to.toLowerCase()];
-			srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
-		};
 
 		board.addEventListener("drop", (e) => {
 			// @ts-ignore

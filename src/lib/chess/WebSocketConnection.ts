@@ -176,6 +176,7 @@ export class WebSocketConnection {
       from: from,
       to: to,
     }));
+    pending_move.set(true);
   }
 }
 
