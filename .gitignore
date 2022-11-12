@@ -47,4 +47,4 @@ node_modules
 .netlify/server/nodes/9.js
 .netlify/server/nodes/10.js
 cypress/videos/pageNavigation.cy.ts.mp4
-cypress/e2e/__image_snapshots__
+/cypress/e2e/__image_snapshots__
