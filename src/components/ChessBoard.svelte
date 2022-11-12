@@ -17,23 +17,30 @@
 	$: $board_fen, updateBoard();
 	function updateBoard() {
 		if (!board) {
-            console.warn("Board was updated but is not initialized");
+			console.warn("Board was updated but is not initialized");
 			return;
 		}
 		board.setPosition(get(board_fen));
 	}
-    
+
 	// Load current board state to Chess.js
 	function updateChessJs(positionFen: string | false) {
-        chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+		chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
 	}
 
-    function handleMakeMove(from: string, to: string) {
-        connection().sendMove(from, to);
+	function handleMakeMove(from: string, to: string) {
+		connection().sendMove(from, to);
+		srSpeakMove(from, to, to, true);
+	}
 
-        const piece = board.position[to.toLowerCase()];
-        srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
-    };
+	function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
+		const piece = board.position[piecePosition.toLowerCase()];
+		srSpeak(
+			`${wasSelf ? "You" : "Opponent"} moved ${piece} from ${from} to ${to}`,
+			"assertive",
+			document
+		);
+	}
 
 	onMount(async () => {
 		if (determineIsGameId(get(client_id))) board.orientation = "black";
@@ -42,7 +49,6 @@
 		updateBoard();
 
 		// API Integration
-
 
 		board.addEventListener("drop", (e) => {
 			// @ts-ignore
@@ -67,7 +73,7 @@
 			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
 			board_fen.set(board.fen() || "");
 			current_player_white.set(!get(current_player_white));
-			srReadMove(data.from, data.to);
+			srSpeakMove(data.from, data.to, data.to, false);
 		});
 
 		// Reset board if server deems move illegal
@@ -79,11 +85,6 @@
 		connection().registerHandler("opponent-disconnected", (data: any) => {
 			opponent_disconnected = true;
 		});
-
-		function srReadMove(from: string, to: string) {
-			const piece = board.position[to.toLowerCase()];
-			srSpeak(`Opponent moved ${piece} from ${from} to ${to}`, "assertive", document);
-		}
 
 		// Disallow moving if not own turn
 		board.addEventListener("drag-start", (e) => {
