@@ -11,7 +11,7 @@
 		"strict": true,
 		"types": ["cypress", "node"]
 	},
-	"include": ["**/*.ts", "cypress/e2e/pageNavigation.cy.js"]
+	"include": ["**/*.ts", "cypress/e2e/pageNavigation.cy.js", "@4tw/cypress-drag-drop"]
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes
