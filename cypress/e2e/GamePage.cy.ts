@@ -8,7 +8,7 @@ beforeEach(() => {
 // This test will be replaced once ChessBoard is refactored and testable as Component
 describe("test", () => {
   it("passes", () => {
-    cy.get("#input1").type("0541")
+    cy.get("#input1").type("0347")
     cy.get("#input2").type("1234")
     cy.get("#connectButton").click();
 
@@ -31,8 +31,8 @@ describe("test", () => {
     cy.get("chess-board").should("be.visible");
 
     // Visual test
-    cy.wait(1000);
-    cy.matchImage();
+    cy.wait(250);
+    cy.matchImage({maxDiffThreshold: 0.0005});
 
   });
 });
