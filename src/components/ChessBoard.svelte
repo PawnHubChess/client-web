@@ -20,7 +20,9 @@
 
 	// Load current board state to Chess.js
 	function updateChessJs(positionFen: string | false) {
-		chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+		if (chessJs.fen() !== positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1") {
+			chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+		}
 	}
 
 	function handleMakeMove(from: string, to: string) {
@@ -30,7 +32,8 @@
 	}
 
 	function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
-		const piece = board.position[piecePosition.toLowerCase()];
+		updateChessJs(get(board_fen));
+		const piece = chessJs.get(piecePosition.toLowerCase() as Square);
 		srSpeak(
 			`${wasSelf ? "You" : "Opponent"} moved ${piece} from ${from} to ${to}`,
 			"assertive",
@@ -97,7 +100,6 @@
 		// Subscribe to opponent's moves to speak them
 		// This function will always be invoked after the default receive-move handler
 		connection().registerHandler("receive-move", (data: any) => {
-			// FIXME For some reason, this throws an error, but does not invoke console logs
 			srSpeakMove(data.from, data.to, data.to, false);
 		});
 
