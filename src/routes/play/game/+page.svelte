@@ -7,6 +7,7 @@
 	import OpponentDisconnectedModal from "$components/GameEndedModal.svelte";
 	import ChessBoard from "$components/ChessBoard.svelte";
 
+	// todo this is not being updated correctly
 	let opponent_disconnected = false;
 
 	// Immediately remove unread move marker whilst on this page

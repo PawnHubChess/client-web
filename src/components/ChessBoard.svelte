@@ -99,11 +99,8 @@
 			handleMakeMove(source, target);
 		});
 
-		// Subscribe to opponent's moves
+		// Subscribe to opponent's moves to speak them
 		connection().registerHandler("receive-move", (data: any) => {
-			board.move(`${data.from.toLowerCase()}-${data.to.toLowerCase()}`);
-			board_fen.set(board.fen() || "");
-			current_player_white.set(!get(current_player_white));
 			srSpeakMove(data.from, data.to, data.to, false);
 		});
 
@@ -144,6 +141,8 @@
 		board.addEventListener("mouseout-square", (e) => {
 			clearHighlights();
 		});
+
+		// todo onUnmount
 	});
 </script>
 

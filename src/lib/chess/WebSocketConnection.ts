@@ -131,6 +131,7 @@ export class WebSocketConnection {
   }
 
   handleReceiveMoveMessage(data: any) {
+    this.readFEN(data.fen);
     unread_move.set(true);
   }
 
