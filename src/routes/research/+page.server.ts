@@ -9,7 +9,7 @@ export const load: PageLoad = async ({ params }) => {
 async function queryTweets(query: string) {
   const response = await fetch(
     `https://api.twitter.com/2/tweets/search/recent?` + new URLSearchParams({
-      query: query + " -is:retweet",
+      query: query + " -is:retweet -is:reply",
       "expansions": "author_id",
       "tweet.fields": "text,public_metrics",
       "user.fields": "name,username,profile_image_url,url",
