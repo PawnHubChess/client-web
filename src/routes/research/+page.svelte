@@ -2,6 +2,7 @@
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
+	console.log(data.tweets)
 </script>
 
 <main>
@@ -9,7 +10,8 @@
 
 	<div>
 		{#each data.tweets as tweet}
-			<p>{JSON.stringify(tweet)}</p>
+			<p class="mt-4">{tweet.text}</p>
+			<p>{JSON.stringify(tweet.author.name)}</p>
 		{/each}
 	</div>
 </main>
