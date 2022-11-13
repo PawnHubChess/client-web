@@ -71,7 +71,7 @@
 
 	function clearHighlights() {
 		if (highlightStyles) {
-			highlightStyles.remove();
+			highlightStyles.textContent = "";
 		}
 	}
 
