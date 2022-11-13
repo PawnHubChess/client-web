@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import { srSpeak } from "$lib/Accessibility";
 	import { connection } from "$lib/chess/WebSocketConnection";
-	import { board_fen } from "$lib/store";
+	import { board_fen, pending_move } from "$lib/store";
 	import { Chess, type Square } from "chess.js";
 	import { Diamonds } from "svelte-loading-spinners";
 	import { get } from "svelte/store";
@@ -55,9 +55,8 @@
 
 <div class="flex items-center gap-2 gap-x-4 lg:flex-col lg:items-start">
 	<p class="flex items-center justify-center gap-2 text-base font-medium text-gray-600">
-		{isOwnMove ? "Your Turn Now!" : "Opponent's Move"}
-		<!-- todo display pending move -->
-		{#if !isOwnMove}
+		{isOwnMove ? ($pending_move ? "Sending" : "Your Turn Now!") : "Opponent's Move"}
+		{#if !isOwnMove || $pending_move}
 			<Diamonds color="#4d5536" size="24" duration="2s" />
 		{/if}
 	</p>
