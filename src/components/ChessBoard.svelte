@@ -106,6 +106,7 @@
 		connection().registerHandler("reject-move", (data: any) => {
 			board.setPosition(get(board_fen));
 			pending_move.set(false);
+			srSpeak("Your move was rejected", "assertive", document);
 		});
 
 		// Disallow moving if not own turn
