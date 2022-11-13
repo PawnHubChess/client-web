@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { srSpeak } from "$lib/Accessibility";
+	import { positionToFen } from "$lib/chess/ChessUtils";
 	import { connection } from "$lib/chess/WebSocketConnection";
 	import { board_fen, pending_move } from "$lib/store";
 	import { Chess, type Square } from "chess.js";
@@ -26,7 +27,7 @@
 	function srSpeakMove(from: string, to: string) {
 		// todo parse piece from FEN string instead of using Chess.js
 		// todo DRY this; move to lib/Accessibility
-		const chessJs = new Chess(get(board_fen) + " w KQkq - 0 1");
+		const chessJs = new Chess(positionToFen(get(board_fen)));
 		const piece = chessJs.get(from.toLowerCase() as Square);
 
 		srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);

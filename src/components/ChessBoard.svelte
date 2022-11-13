@@ -6,6 +6,7 @@
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import { Chess, type Move, type Square } from "chess.js";
 	import { srSpeak } from "$lib/Accessibility";
+	import { positionToFen } from "$lib/chess/ChessUtils";
 
 	let board: ChessBoardElement;
 	let highlightStyles: HTMLElement;
@@ -20,8 +21,8 @@
 
 	// Load current board state to Chess.js
 	function updateChessJs(positionFen: string | false) {
-		if (chessJs.fen() !== positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1") {
-			chessJs.load(positionFen + (get(current_player_white) ? " w" : " b") + " KQkq - 0 1" || "");
+		if (chessJs.fen() !== positionToFen(positionFen || "")) {
+			chessJs.load(positionToFen(positionFen || ""));
 		}
 	}
 
