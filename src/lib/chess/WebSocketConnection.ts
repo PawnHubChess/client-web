@@ -64,6 +64,7 @@ export class WebSocketConnection {
     client_id.set("");
     playstate.set("closed");
     current_player_white.set(true);
+    pending_move.set(false);
     this.ws?.close();
     // todo deregister handlers or reinstantiate class
   }
