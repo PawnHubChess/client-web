@@ -25,7 +25,7 @@
 
 	function handleMakeMove(from: string, to: string) {
 		connection().sendMove(from, to);
-		srSpeakMove(from, to, to, true);
+		srSpeakMove(from, to, from, true);
 		clearHighlights();
 	}
 
@@ -97,6 +97,7 @@
 		// Subscribe to opponent's moves to speak them
 		// This function will always be invoked after the default receive-move handler
 		connection().registerHandler("receive-move", (data: any) => {
+			// FIXME For some reason, this throws an error, but does not invoke console logs
 			srSpeakMove(data.from, data.to, data.to, false);
 		});
 
