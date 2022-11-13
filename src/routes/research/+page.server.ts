@@ -11,7 +11,7 @@ async function queryTweets(query: string) {
     `https://api.twitter.com/2/tweets/search/recent?` + new URLSearchParams({
       query: query,
       "expansions": "author_id",
-      "tweet.fields": "text",
+      "tweet.fields": "text,public_metrics",
       "user.fields": "name,username,profile_image_url,url",
       "max_results": "12",
     }),
