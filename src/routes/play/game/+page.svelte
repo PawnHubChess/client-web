@@ -6,6 +6,7 @@
 	import GameSidebar from "$components/GameSidebar.svelte";
 	import OpponentDisconnectedModal from "$components/GameEndedModal.svelte";
 	import ChessBoard from "$components/ChessBoard.svelte";
+	import { onDestroy } from "svelte";
 
 	// Immediately remove unread move marker whilst on this page
 	unread_move.set(false);
@@ -15,9 +16,10 @@
 	}
 
 	let opponent_disconnected = false;
-	connection().registerHandler("opponent-disconnected", () => {
+	const destroyConnected = connection().registerHandler("opponent-disconnected", () => {
 		opponent_disconnected = true;
 	});
+	onDestroy(destroyConnected);
 </script>
 
 <main>

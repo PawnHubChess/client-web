@@ -98,13 +98,22 @@ export class WebSocketConnection {
   registerHandler(
     type: string,
     handler: (message: any) => void,
-  ) {
+  ): () => void {
     let handlers = this.messageHandlers.get(type);
     if (!handlers) {
       handlers = [];
       this.messageHandlers.set(type, handlers);
     }
     handlers.push(handler);
+
+    // Return destroy function
+    return () => {
+      if (!handlers) {
+        console.warn(`Did not find handler ${type} to deregister`);
+        return;
+      }
+      handlers.splice(handlers.indexOf(handler), 1);
+    };
   }
 
   private handleMessage(message: MessageEvent) {
