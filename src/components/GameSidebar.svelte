@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { srSpeak } from "$lib/Accessibility";
 	import { connection } from "$lib/chess/WebSocketConnection";
 	import { board_fen } from "$lib/store";
 	import { Diamonds } from "svelte-loading-spinners";
@@ -11,16 +12,16 @@
 	let moveTo: string;
 
 	function handleMakeMove() {
-		if (!isOwnMove) return;
-		if (!moveFrom.match(/^[a-hA-H][0-8]$/)) return;
-		if (!moveTo.match(/^[a-hA-H][0-8]$/)) return;
+		if (!isOwnMove || !moveFrom.match(/^[a-hA-H][0-8]$/) || !moveTo.match(/^[a-hA-H][0-8]$/)) {
+			srSpeak("You cannot make this move right now", "assertive", document);
+			return;
+		}
 		connection().sendMove(moveFrom.toLowerCase(), moveTo.toLowerCase());
 		moveFrom = "";
 		moveTo = "";
 	}
 
 	// todo SR output for accessible input
-	// todo SR error handling for accessible input
 	/*function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
 		const piece = chessJs.get(piecePosition.toLowerCase() as Square);
 		srSpeak(
@@ -39,6 +40,7 @@
 	}
 
 	function handleRefresh() {
+		// Force the game state to reload by resetting
 		board_fen.set("8/8/8/8/8/8/8/8");
 		connection().send(`{"type": "get-board"}`);
 	}
