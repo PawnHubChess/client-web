@@ -24,6 +24,10 @@ export class WebSocketConnection {
       (data) => this.handleReceiveMoveMessage(data),
     );
     this.registerHandler(
+      "accept-move",
+      (data) => this.handleAcceptMoveMessage(data),
+    );
+    this.registerHandler(
       "reconnected",
       (data) => this.handleReconnectedMessage(data),
     );
