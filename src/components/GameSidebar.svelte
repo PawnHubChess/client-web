@@ -14,10 +14,21 @@
 		if (!isOwnMove) return;
 		if (!moveFrom.match(/^[a-hA-H][0-8]$/)) return;
 		if (!moveTo.match(/^[a-hA-H][0-8]$/)) return;
-		moveCallback(moveFrom.toLowerCase(), moveTo.toLowerCase(), true);
+		connection().sendMove(moveFrom.toLowerCase(), moveTo.toLowerCase());
 		moveFrom = "";
 		moveTo = "";
 	}
+
+	// todo SR output for accessible input
+	// todo SR error handling for accessible input
+	/*function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
+		const piece = chessJs.get(piecePosition.toLowerCase() as Square);
+		srSpeak(
+			`${wasSelf ? "You" : "Opponent"} moved ${piece} from ${from} to ${to}`,
+			"assertive",
+			document
+		);
+	}*/
 
 	function handleFocusNext(e: KeyboardEvent, maxlength: number) {
 		if (e.which < 48 || e.which > 90) return;
