@@ -3,7 +3,9 @@
 	import { srSpeak } from "$lib/Accessibility";
 	import { connection } from "$lib/chess/WebSocketConnection";
 	import { board_fen } from "$lib/store";
+	import { Chess, type Square } from "chess.js";
 	import { Diamonds } from "svelte-loading-spinners";
+	import { get } from "svelte/store";
 
 	export let isOwnMove: boolean;
 	export let moveCallback: (from: string, to: string, updateBoard?: boolean) => void;
@@ -16,20 +18,20 @@
 			srSpeak("You cannot make this move right now", "assertive", document);
 			return;
 		}
+		srSpeakMove(moveFrom, moveTo);
 		connection().sendMove(moveFrom.toLowerCase(), moveTo.toLowerCase());
 		moveFrom = "";
 		moveTo = "";
 	}
 
-	// todo SR output for accessible input
-	/*function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
-		const piece = chessJs.get(piecePosition.toLowerCase() as Square);
-		srSpeak(
-			`${wasSelf ? "You" : "Opponent"} moved ${piece} from ${from} to ${to}`,
-			"assertive",
-			document
-		);
-	}*/
+	function srSpeakMove(from: string, to: string) {
+		// todo parse piece from FEN string instead of using Chess.js
+		// todo DRY this; move to lib/Accessibility
+		const chessJs = new Chess(get(board_fen) + " w KQkq - 0 1");
+		const piece = chessJs.get(from.toLowerCase() as Square);
+
+		srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
+	}
 
 	function handleFocusNext(e: KeyboardEvent, maxlength: number) {
 		if (e.which < 48 || e.which > 90) return;
