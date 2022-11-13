@@ -5,8 +5,8 @@
 	import { get } from "svelte/store";
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import { Chess, type Move, type Square } from "chess.js";
-	import { srSpeak } from "$lib/Accessibility";
-	import { positionInFen, positionToFen } from "$lib/chess/ChessUtils";
+	import { srSpeak, srSpeakMove } from "$lib/Accessibility";
+	import { positionToFen } from "$lib/chess/ChessUtils";
 
 	let board: ChessBoardElement;
 	let highlightStyles: HTMLElement;
@@ -30,15 +30,6 @@
 		connection().sendMove(from, to);
 		srSpeakMove(from, to, from, true);
 		clearHighlights();
-	}
-
-	function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
-		const piece = positionInFen(get(board_fen), piecePosition);
-		srSpeak(
-			`${wasSelf ? "You" : "Opponent"} moved ${piece} from ${from} to ${to}`,
-			"assertive",
-			document
-		);
 	}
 
 	function highlightValidMoves(fen: string | false, square: Square) {

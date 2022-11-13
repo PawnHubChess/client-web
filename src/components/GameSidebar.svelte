@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { srSpeak } from "$lib/Accessibility";
-	import { positionInFen, positionToFen } from "$lib/chess/ChessUtils";
+	import { srSpeak, srSpeakMove } from "$lib/Accessibility";
 	import { connection } from "$lib/chess/WebSocketConnection";
 	import { board_fen, pending_move } from "$lib/store";
-	import { Chess, type Square } from "chess.js";
 	import { Diamonds } from "svelte-loading-spinners";
-	import { get } from "svelte/store";
 
 	export let isOwnMove: boolean;
 
@@ -18,16 +15,10 @@
 			srSpeak("You cannot make this move right now", "assertive", document);
 			return;
 		}
-		srSpeakMove(moveFrom, moveTo);
+		srSpeakMove(moveFrom, moveTo, moveFrom, true);
 		connection().sendMove(moveFrom.toLowerCase(), moveTo.toLowerCase());
 		moveFrom = "";
 		moveTo = "";
-	}
-
-	function srSpeakMove(from: string, to: string) {
-		// todo DRY this; move to lib/Accessibility
-		const piece = positionInFen(get(board_fen), from);
-		srSpeak(`You moved ${piece} from ${from} to ${to}`, "assertive", document);
 	}
 
 	function handleFocusNext(e: KeyboardEvent, maxlength: number) {
