@@ -31,7 +31,7 @@
 	function handleMakeMove(from: string, to: string) {
 		connection().sendMove(from, to);
 		srSpeakMove(from, to, to, true);
-        clearHighlights();
+		clearHighlights();
 	}
 
 	function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
@@ -42,6 +42,17 @@
 			document
 		);
 	}
+
+    function applyHighlight(square: string) {
+			// Choose highlight color based on light/dark square
+			const highlightColor =
+				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? "#a5b4fc" : "#818cf8";
+
+			highlightStyles.textContent += `
+    			chess-board::part(${square}) {
+      			background-color: ${highlightColor};
+    		}`;
+		}
 
 	function clearHighlights() {
 		if (highlightStyles) {
@@ -58,8 +69,7 @@
 		highlightStyles = document.createElement("style");
 		document.head.append(highlightStyles);
 
-		// API Integration
-
+		// Drop a piece to make a move
 		board.addEventListener("drop", (e) => {
 			// @ts-ignore
 			const { source, target, oldPosition, setAction } = e.detail;
@@ -112,18 +122,6 @@
 
 		// Valid move highlighting
 
-		function greySquare(square: string) {
-			// Choose highlight color based on light/dark square
-			const highlightColor =
-				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? "#a5b4fc" : "#818cf8";
-
-			highlightStyles.textContent += `
-    			chess-board::part(${square}) {
-      			background-color: ${highlightColor};
-    		}
-  		`;
-		}
-
 		board.addEventListener("mouseover-square", (e) => {
 			// @ts-ignore
 			const { square, piece } = e.detail;
@@ -140,10 +138,10 @@
 			if (moves.length === 0) return;
 
 			// Hightlight hovered square and all possible moves
-			greySquare(square);
+			applyHighlight(square);
 			for (const move of moves) {
 				// @ts-ignore
-				greySquare(move.to);
+				applyHighlight(move.to);
 			}
 		});
 

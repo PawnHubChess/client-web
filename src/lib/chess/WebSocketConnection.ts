@@ -16,6 +16,7 @@ export class WebSocketConnection {
   messageHandlers: Map<string, ((message: string) => void)[]> = new Map();
 
   constructor() {
+    // todo register default handlers function
     this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
     this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
     this.registerHandler(
