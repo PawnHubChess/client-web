@@ -13,6 +13,7 @@ async function queryTweets(query: string) {
       "expansions": "author_id",
       "tweet.fields": "text",
       "user.fields": "name,username,profile_image_url,url",
+      "max_results": "12",
     }),
     {
       headers: {
