@@ -6,7 +6,7 @@
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import { Chess, type Move, type Square } from "chess.js";
 	import { srSpeak } from "$lib/Accessibility";
-	import { positionToFen } from "$lib/chess/ChessUtils";
+	import { positionInFen, positionToFen } from "$lib/chess/ChessUtils";
 
 	let board: ChessBoardElement;
 	let highlightStyles: HTMLElement;
@@ -33,8 +33,7 @@
 	}
 
 	function srSpeakMove(from: string, to: string, piecePosition: string, wasSelf: boolean) {
-		updateChessJs(get(board_fen));
-		const piece = chessJs.get(piecePosition.toLowerCase() as Square);
+		const piece = positionInFen(get(board_fen), piecePosition);
 		srSpeak(
 			`${wasSelf ? "You" : "Opponent"} moved ${piece} from ${from} to ${to}`,
 			"assertive",
