@@ -4,7 +4,7 @@
 	import { objToFen, type ChessBoardElement } from "chessboard-element";
 	import { get } from "svelte/store";
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
-	import { Chess } from "chess.js";
+	import { Chess, type Move, type Square } from "chess.js";
 	import { srSpeak } from "$lib/Accessibility";
 
 	let opponent_disconnected: boolean;
@@ -43,16 +43,31 @@
 		);
 	}
 
-    function applyHighlight(square: string) {
-			// Choose highlight color based on light/dark square
-			const highlightColor =
-				square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? "#a5b4fc" : "#818cf8";
+	function highlightValidMoves(fen: string | false, square: Square) {
+		updateChessJs(fen);
 
-			highlightStyles.textContent += `
+		// Get valid moves from Chess.js
+		const moves = chessJs.moves({ square: square, verbose: true });
+		if (moves.length === 0) return;
+
+		// Highlight hovered and possible squares
+		applyHighlight(square);
+		for (const move of moves) {
+			if (typeof move === "string") applyHighlight(move);
+			else applyHighlight(move.to);
+		}
+	}
+
+	function applyHighlight(square: string) {
+		// Choose highlight color based on light/dark square
+		const highlightColor =
+			square.charCodeAt(0) % 2 ^ square.charCodeAt(1) % 2 ? "#a5b4fc" : "#818cf8";
+
+		highlightStyles.textContent += `
     			chess-board::part(${square}) {
       			background-color: ${highlightColor};
     		}`;
-		}
+	}
 
 	function clearHighlights() {
 		if (highlightStyles) {
@@ -70,8 +85,7 @@
 		document.head.append(highlightStyles);
 
 		// Drop a piece to make a move
-		board.addEventListener("drop", (e) => {
-			// @ts-ignore
+		board.addEventListener("drop", (e: any) => {
 			const { source, target, oldPosition, setAction } = e.detail;
 
 			// Check for illegal moves
@@ -104,8 +118,7 @@
 		});
 
 		// Disallow moving if not own turn
-		board.addEventListener("drag-start", (e) => {
-			// @ts-ignore
+		board.addEventListener("drag-start", (e: any) => {
 			if ((e.detail.piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				e.preventDefault();
 				return;
@@ -120,29 +133,12 @@
 			}
 		});
 
-		// Valid move highlighting
-
-		board.addEventListener("mouseover-square", (e) => {
-			// @ts-ignore
+		// Highlight valid moves on hover
+		board.addEventListener("mouseover-square", (e: any) => {
 			const { square, piece } = e.detail;
-
-			// Return if not own turn
-			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
-				return;
-			}
-
-			updateChessJs(board.fen());
-
-			// Get possible moves for this square from Chess.js
-			const moves = chessJs.moves({ square: square, verbose: true });
-			if (moves.length === 0) return;
-
-			// Hightlight hovered square and all possible moves
-			applyHighlight(square);
-			for (const move of moves) {
-				// @ts-ignore
-				applyHighlight(move.to);
-			}
+			// Only if own turn
+			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) return;
+			highlightValidMoves(board.fen(), square);
 		});
 
 		board.addEventListener("mouseout-square", (e) => {
