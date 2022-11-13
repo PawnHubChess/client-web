@@ -14,10 +14,7 @@
 	// Subscibe to board updates from state
 	$: $board_fen, updateBoard();
 	function updateBoard() {
-		if (!board) {
-			console.warn("Board was updated but is not initialized");
-			return;
-		}
+		if (!board) return;
 		board.setPosition(get(board_fen));
 	}
 
@@ -98,6 +95,7 @@
 		});
 
 		// Subscribe to opponent's moves to speak them
+		// This function will always be invoked after the default receive-move handler
 		connection().registerHandler("receive-move", (data: any) => {
 			srSpeakMove(data.from, data.to, data.to, false);
 		});
@@ -111,7 +109,7 @@
 
 		// Disallow moving if not own turn
 		board.addEventListener("drag-start", (e: any) => {
-			if ((e.detail.piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
+			if ((e.detail.piece.toString().search(/^b/) !== -1) !== determineIsGameId(get(client_id))) {
 				e.preventDefault();
 				return;
 			}
@@ -129,7 +127,7 @@
 		board.addEventListener("mouseover-square", (e: any) => {
 			const { square, piece } = e.detail;
 			// Only if own turn
-			if ((piece.search(/^b/) !== -1) !== determineIsGameId(get(client_id))) return;
+			if ((piece.toString().search(/^b/) !== -1) !== determineIsGameId(get(client_id))) return;
 			highlightValidMoves(board.fen(), square);
 		});
 
