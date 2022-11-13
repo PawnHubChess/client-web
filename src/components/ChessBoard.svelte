@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { board_fen, client_id, current_player_white, pending_move } from "$lib/store";
 	import { objToFen, type ChessBoardElement } from "chessboard-element";
 	import { get } from "svelte/store";
@@ -73,6 +73,21 @@
 		}
 	}
 
+	// Subscribe to opponent's moves to speak them
+	// This function will always be invoked after the default receive-move handler
+	const destroyReceive = connection().registerHandler("receive-move", (data: any) => {
+		srSpeakMove(data.from, data.to, data.to, false);
+	});
+	onDestroy(destroyReceive);
+
+	// Reset board if server deems move illegal
+	const destroyReject = connection().registerHandler("reject-move", (data: any) => {
+		board?.setPosition(get(board_fen));
+		pending_move.set(false);
+		srSpeak("Your move was rejected", "assertive", document);
+	});
+	onDestroy(destroyReject);
+
 	onMount(async () => {
 		// Black on bottom if player is host
 		board.orientation = determineIsGameId(get(client_id)) ? "black" : "white";
@@ -95,19 +110,6 @@
 			if (target === "offboard") return;
 
 			handleMakeMove(source, target);
-		});
-
-		// Subscribe to opponent's moves to speak them
-		// This function will always be invoked after the default receive-move handler
-		connection().registerHandler("receive-move", (data: any) => {
-			srSpeakMove(data.from, data.to, data.to, false);
-		});
-
-		// Reset board if server deems move illegal
-		connection().registerHandler("reject-move", (data: any) => {
-			board.setPosition(get(board_fen));
-			pending_move.set(false);
-			srSpeak("Your move was rejected", "assertive", document);
 		});
 
 		// Disallow moving if not own turn
@@ -137,8 +139,6 @@
 		board.addEventListener("mouseout-square", (e) => {
 			clearHighlights();
 		});
-
-		// todo onUnmount
 	});
 </script>
 
