@@ -7,8 +7,6 @@
 	import { Chess, type Move, type Square } from "chess.js";
 	import { srSpeak } from "$lib/Accessibility";
 
-	let opponent_disconnected: boolean;
-
 	let board: ChessBoardElement;
 	let highlightStyles: HTMLElement;
 	const chessJs = new Chess("");
@@ -108,10 +106,6 @@
 		connection().registerHandler("reject-move", (data: any) => {
 			board.setPosition(get(board_fen));
 			pending_move.set(false);
-		});
-
-		connection().registerHandler("opponent-disconnected", (data: any) => {
-			opponent_disconnected = true;
 		});
 
 		// Disallow moving if not own turn
