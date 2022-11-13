@@ -7,20 +7,17 @@
 	import OpponentDisconnectedModal from "$components/GameEndedModal.svelte";
 	import ChessBoard from "$components/ChessBoard.svelte";
 
-	
 	// Immediately remove unread move marker whilst on this page
 	unread_move.set(false);
 	$: $unread_move, resetUnread();
 	function resetUnread() {
 		unread_move.set(false);
 	}
-	
+
 	let opponent_disconnected = false;
 	connection().registerHandler("opponent-disconnected", () => {
 		opponent_disconnected = true;
 	});
-
-	// fixme Complete ChessBoard handleMakeMove refactoring to reenable accessible input (see below)
 </script>
 
 <main>
@@ -29,11 +26,7 @@
 			<ChessBoard />
 
 			<div class="order-first lg:order-none">
-				<GameSidebar
-					isOwnMove={$current_player_white === !determineIsGameId(get(client_id))}
-					moveCallback={() => {
-						/*handleMakeMove accessible input will work once handleMakeMove refactor is complete */
-					}} />
+				<GameSidebar isOwnMove={$current_player_white === !determineIsGameId(get(client_id))} />
 			</div>
 		</div>
 	</div>

@@ -8,7 +8,6 @@
 	import { get } from "svelte/store";
 
 	export let isOwnMove: boolean;
-	export let moveCallback: (from: string, to: string, updateBoard?: boolean) => void;
 
 	let moveFrom: string;
 	let moveTo: string;
