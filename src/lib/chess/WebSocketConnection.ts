@@ -16,7 +16,7 @@ export class WebSocketConnection {
   messageHandlers: Map<string, ((message: string) => void)[]> = new Map();
 
   constructor() {
-    // todo register default handlers function
+    // Register default handlers
     this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
     this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
     this.registerHandler(
@@ -71,7 +71,6 @@ export class WebSocketConnection {
     current_player_white.set(true);
     pending_move.set(false);
     this.ws?.close();
-    // todo deregister handlers or reinstantiate class
   }
 
   async handleConnectionClosed() {
