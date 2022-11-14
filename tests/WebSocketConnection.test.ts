@@ -4,12 +4,8 @@ import { json } from "stream/consumers";
 
 test("register message handler", () => {
   const connection = new WebSocketConnection();
-  const handler1 = () => {
-    true;
-  };
-  const handler2 = () => {
-    true;
-  };
+  const handler1 = vi.fn();
+  const handler2 = vi.fn();
 
   connection.messageHandlers.clear();
   connection.on("message-1", handler1);
@@ -26,9 +22,7 @@ test("register message handler", () => {
 
 test("deregister message handler", () => {
   const connection = new WebSocketConnection();
-  const handler = () => {
-    true;
-  };
+  const handler = vi.fn();
 
   connection.messageHandlers.clear();
   const destroy1 = connection.on("message-1", handler);
@@ -47,8 +41,8 @@ test("uses correct message handler", () => {
   // Cast class to any to access private methods
   const connection = new WebSocketConnection() as any;
   const handler1 = vi.fn();
-  const handler2 = vi.fn()
-  const handler3 = vi.fn()
+  const handler2 = vi.fn();
+  const handler3 = vi.fn();
 
   connection.messageHandlers = new Map<string, ((data: any) => void)[]>([
     ["message-1", [handler1, handler3]],
