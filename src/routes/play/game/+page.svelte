@@ -16,7 +16,7 @@
 	}
 
 	let opponent_disconnected = false;
-	const destroyConnected = connection().registerHandler("opponent-disconnected", () => {
+	const destroyConnected = connection().on("opponent-disconnected", () => {
 		opponent_disconnected = true;
 	});
 	onDestroy(destroyConnected);

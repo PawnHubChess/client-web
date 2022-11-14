@@ -11,9 +11,9 @@ test("register message handler", () => {
   };
 
   connection.messageHandlers.clear();
-  connection.registerHandler("message-1", handler1);
-  connection.registerHandler("message-1", handler2);
-  connection.registerHandler("message-2", handler1);
+  connection.on("message-1", handler1);
+  connection.on("message-1", handler2);
+  connection.on("message-2", handler1);
 
   const expectedHandlers = new Map<string, ((data: any) => void)[]>([
     ["message-1", [handler1, handler2]],
@@ -30,8 +30,8 @@ test("deregister message handler", () => {
   };
 
   connection.messageHandlers.clear();
-  const destroy1 = connection.registerHandler("message-1", handler);
-  const destroy2 = connection.registerHandler("message-1", handler);
+  const destroy1 = connection.on("message-1", handler);
+  const destroy2 = connection.on("message-1", handler);
 
   destroy1();
   

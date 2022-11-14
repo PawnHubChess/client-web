@@ -66,13 +66,13 @@
 
 	// Subscribe to opponent's moves to speak them
 	// This function will always be invoked after the default receive-move handler
-	const destroyReceive = connection().registerHandler("receive-move", (data: any) => {
+	const destroyReceive = connection().on("receive-move", (data: any) => {
 		srSpeakMove(data.from, data.to, data.to, false);
 	});
 	onDestroy(destroyReceive);
 
 	// Reset board if server deems move illegal
-	const destroyReject = connection().registerHandler("reject-move", (data: any) => {
+	const destroyReject = connection().on("reject-move", (data: any) => {
 		board?.setPosition(get(board_fen));
 		pending_move.set(false);
 		srSpeak("Your move was rejected", "assertive", document);

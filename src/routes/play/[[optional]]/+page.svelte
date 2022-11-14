@@ -75,7 +75,7 @@
 
 		await connection().prepare(errorCallback);
 
-		connection().registerHandler("request-declined", (data: any) => {
+		connection().on("request-declined", (data: any) => {
 			connectionDeclinedMessage = data.message;
 			showConnectLoading = false;
 

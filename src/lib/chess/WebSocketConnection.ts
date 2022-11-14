@@ -16,22 +16,22 @@ export class WebSocketConnection {
 
   constructor() {
     // Register default handlers
-    this.registerHandler("connected-id", (data) => this.handleIdMessage(data));
-    this.registerHandler("matched", (data) => this.handleMatchedMessage(data));
-    this.registerHandler(
+    this.on("connected-id", (data) => this.handleIdMessage(data));
+    this.on("matched", (data) => this.handleMatchedMessage(data));
+    this.on(
       "receive-move",
       (data) => this.handleReceiveMoveMessage(data),
     );
-    this.registerHandler(
+    this.on(
       "accept-move",
       (data) => this.handleAcceptMoveMessage(data),
     );
-    this.registerHandler(
+    this.on(
       "reconnected",
       (data) => this.handleReconnectedMessage(data),
     );
-    this.registerHandler("board", (data) => this.handleBoardStateMessage(data));
-    this.registerHandler(
+    this.on("board", (data) => this.handleBoardStateMessage(data));
+    this.on(
       "opponent-disconnected",
       () => this.handleOpponentDisconnected(),
     );
@@ -93,7 +93,7 @@ export class WebSocketConnection {
 
   // Message handlers
   // todo rename to on(message, handler)
-  registerHandler(
+  on(
     type: string,
     handler: (message: any) => void,
   ): () => void {
