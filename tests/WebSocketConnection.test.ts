@@ -22,3 +22,22 @@ test("register message handler", () => {
 
   expect(connection.messageHandlers).toEqual(expectedHandlers);
 });
+
+test("deregister message handler", () => {
+    const connection = new WebSocketConnection();
+    const handler = () => {
+    true;
+  };
+
+  connection.messageHandlers.clear();
+  const destroy1 = connection.registerHandler("message-1", handler);
+  const destroy2 = connection.registerHandler("message-1", handler);
+
+  destroy1();
+  
+  const expectedHandlers = new Map<string, ((data: any) => void)[]>([
+      ["message-1", [handler]]
+    ]);
+    
+    expect(connection.messageHandlers).toEqual(expectedHandlers);
+});
