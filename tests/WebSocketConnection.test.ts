@@ -1,6 +1,7 @@
 import { expect, test, vi } from "vitest";
 import { WebSocketConnection } from "$lib/chess/WebSocketConnection";
-import { json } from "stream/consumers";
+import { client_id, reconnect_code } from "$lib/store";
+import { get } from "svelte/store";
 
 test("register message handler", () => {
   const connection = new WebSocketConnection();
@@ -59,4 +60,17 @@ test("uses correct message handler", () => {
   expect(handler1).toHaveBeenCalled();
   expect(handler2).not.toHaveBeenCalled();
   expect(handler3).toHaveBeenCalled();
+});
+
+test("id message handler", () => {
+  const connection = new WebSocketConnection() as any;
+
+  connection.handleIdMessage({
+    type: "connected-id",
+    id: "0987",
+    "reconnect-code": "reconnectcode",
+  });
+
+  expect(get(client_id)).toBe("0987");
+  expect(get(reconnect_code)).toBe("reconnectcode");
 });

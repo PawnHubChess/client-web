@@ -92,7 +92,6 @@ export class WebSocketConnection {
   }
 
   // Message handlers
-  // todo rename to on(message, handler)
   on(
     type: string,
     handler: (message: any) => void,
