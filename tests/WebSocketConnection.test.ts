@@ -4,11 +4,9 @@ import {
   board_fen,
   client_id,
   current_player_white,
-  playstate,
   reconnect_code,
 } from "$lib/store";
 import { get } from "svelte/store";
-import { e } from "vitest/dist/index-220c1d70";
 
 test("register message handler", () => {
   const connection = new WebSocketConnection();
@@ -106,4 +104,20 @@ test("read fen to store black full fen", () => {
     "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR",
   );
   expect(get(current_player_white)).toBe(false);
+});
+
+test("send connection requests", () => {
+  const connection = new WebSocketConnection() as any;
+
+  connection.send = vi.fn();
+
+  connection.sendConnectRequest("0987", "1234");
+
+  expect(connection.send).toHaveBeenCalledWith(
+    JSON.stringify({
+      type: "connect-attendee",
+      host: "0987",
+      code: "1234",
+    }),
+  );
 });
