@@ -7,6 +7,16 @@
 	import { Diamonds } from "svelte-loading-spinners";
 	import { page } from "$app/stores";
 	import { onMount } from "svelte";
+	import { playstate } from "$lib/store";
+	import { get } from "svelte/store";
+
+	// Redirect to game page when playstate changes to playing
+	$: $playstate, redirectToGame();
+	function redirectToGame() {
+		if (get(playstate) === "playing") {
+			goto("/play/game");
+		}
+	}
 
 	let n1_1: number | undefined = undefined;
 	let n1_2: number | undefined = undefined;

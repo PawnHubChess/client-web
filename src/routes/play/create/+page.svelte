@@ -9,6 +9,14 @@
 	import Skeleton from "svelte-skeleton/Skeleton.svelte";
 	import { get } from "svelte/store";
 
+	// Redirect to game page when playstate changes to playing
+	$: $playstate, redirectToGame();
+	function redirectToGame() {
+		if (get(playstate) === "playing") {
+			goto("/play/game");
+		}
+	}
+
 	onMount(async () => {
 		if (get(playstate) === "closed") hostClient().connect();
 	});

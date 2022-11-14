@@ -1,4 +1,3 @@
-import { goto } from "$app/navigation";
 import {
   board_fen,
   client_id,
@@ -135,7 +134,6 @@ export class WebSocketConnection {
   handleMatchedMessage(data: any) {
     playstate.set("playing");
     this.readFEN(data.fen);
-    goto("/play/game");
   }
 
   handleReceiveMoveMessage(data: any) {
