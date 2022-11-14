@@ -108,7 +108,6 @@ test("read fen to store black full fen", () => {
 
 test("send connection requests", () => {
   const connection = new WebSocketConnection() as any;
-
   connection.send = vi.fn();
 
   connection.sendConnectRequest("0987", "1234");
@@ -118,6 +117,21 @@ test("send connection requests", () => {
       type: "connect-attendee",
       host: "0987",
       code: "1234",
+    }),
+  );
+});
+
+test("send connection requests", () => {
+  const connection = new WebSocketConnection() as any;
+  connection.send = vi.fn();
+
+  connection.sendMove("a2", "a4");
+
+  expect(connection.send).toHaveBeenCalledWith(
+    JSON.stringify({
+      type: "send-move",
+      from: "a2",
+      to: "a4",
     }),
   );
 });
