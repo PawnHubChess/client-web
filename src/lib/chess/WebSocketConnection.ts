@@ -12,7 +12,7 @@ import { get } from "svelte/store";
 
 export class WebSocketConnection {
   ws: WebSocket | undefined = undefined;
-  messageHandlers: Map<string, ((message: string) => void)[]> = new Map();
+  messageHandlers: Map<string, ((data: any) => void)[]> = new Map();
 
   constructor() {
     // Register default handlers
