@@ -24,4 +24,3 @@ export function positionInFen(fen: string, position: string): string | null {
 
   return null;
 }
-// todo test this
