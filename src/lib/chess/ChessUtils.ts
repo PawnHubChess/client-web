@@ -8,7 +8,7 @@ export function positionToFen(positionString: string) {
 
 // Get a specific position from a fen string
 export function positionInFen(fen: string, position: string): string | null {
-  if (!position.match(/^[a-hA-H][0-8]$/)) return null;
+  if (!position.match(/^[a-hA-H][1-8]$/)) return null;
   const row = fen.split("/")[8 - parseInt(position[1])];
 
   const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H"];
