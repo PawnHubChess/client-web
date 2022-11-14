@@ -1,6 +1,12 @@
 import { expect, test, vi } from "vitest";
 import { WebSocketConnection } from "$lib/chess/WebSocketConnection";
-import { board_fen, client_id, current_player_white, playstate, reconnect_code } from "$lib/store";
+import {
+  board_fen,
+  client_id,
+  current_player_white,
+  playstate,
+  reconnect_code,
+} from "$lib/store";
 import { get } from "svelte/store";
 import { e } from "vitest/dist/index-220c1d70";
 
@@ -76,27 +82,28 @@ test("id message handler", () => {
   expect(get(reconnect_code)).toBe("reconnectcode");
 });
 
-test("matched message handler", () => {
+test("read fen to store", () => {
   const connection = new WebSocketConnection() as any;
 
-  connection.handleIdMessage({
-    type: "matched",
-    fen: "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR w",
-  });
+  connection.readFEN(
+    "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR w",
+  );
 
-  expect(get(board_fen)).toBe("r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR");
+  expect(get(board_fen)).toBe(
+    "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR",
+  );
   expect(get(current_player_white)).toBe(true);
-  expect(get(playstate)).toBe("playing");
 });
 
-test("matched message handler black full fen", () => {
+test("read fen to store black full fen", () => {
   const connection = new WebSocketConnection() as any;
 
-  connection.handleIdMessage({
-    type: "matched",
-    fen: "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR b KQkq - 0 1",
-  });
+  connection.readFEN(
+    "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR b KQkq - 0 1",
+  );
 
-  expect(get(board_fen)).toBe("r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR");
+  expect(get(board_fen)).toBe(
+    "r4bn1/ppb1pp1p/1P1kq3/3nQP2/2rp1PB1/1N2p3/P1P1P2P/R1B1K1NR",
+  );
   expect(get(current_player_white)).toBe(false);
 });
