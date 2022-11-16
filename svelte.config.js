@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-netlify';
-import preprocess from 'svelte-preprocess';
+import adapter from "@sveltejs/adapter-netlify";
+import preprocess from "svelte-preprocess";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -7,14 +7,16 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [
 		preprocess({
-		  postcss: true,
-		}),
-	  ],
+			postcss: true
+		})
+	],
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			edge: true
+		}),
 		alias: {
-			$components: './src/components',
+			$components: "./src/components"
 		}
 	}
 };
