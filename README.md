@@ -41,7 +41,7 @@ We are software engineering students at Berlin CODE University of Applied Scienc
     - Physical Interfaces
 
 ### Contribution
-The contribution is only allowed to members of the CODE project “Once a pawn a time…“ and the PawnHub GitHub organisation.  The project owner is allowed to commit directly into the main branch. All other contributions are supposed to be committed into separate braches and issued as pull requests. 
+This project is maintained by members of the CODE project “Once a pawn a time…“. 
 
 ### Citation
 To cite the project click the citation widget to the right. The ``` CITATION.cff``` file contains the APA style citation. 
