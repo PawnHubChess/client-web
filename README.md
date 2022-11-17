@@ -48,31 +48,28 @@ To cite the project click the citation widget to the right. The ``` CITATION.cff
 ![Citing](https://user-images.githubusercontent.com/62939182/197151913-4c81daf4-8e11-4951-ae82-2a76aa5fb342.png)
 
 ### Get in touch
-Submit a contact request on the production website
+Shoot us an email at mail@pawn-hub.de or use the contact form on our website.
 
 ### Contributors
 [@maxonary](https://github.com/maxonary) - [Maximilian Arnold](https://www.linkedin.com/in/maximilian-arnold-787ba5197/)
 [@koenidv](https://github.com/koenidv) - [Florian König](https://www.linkedin.com/in/koenidv/)
 
+### Project Structure
+
+![image](https://user-images.githubusercontent.com/32238636/202461111-94ce45ba-ff0e-4da6-9200-8476bb357f72.png)
+
 ### Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+1. Install dependencies using `npm i`
+2. Start the dev server and open in a new browswer tab using `npm run dev -- --open`
+3. Have fun! Take a look at the [SvelteKit](https://kit.svelte.dev/docs/introduction) docs and the [Tailwind docs](https://tailwindcss.com/docs/utility-first).
 
 ### Building
 
-To create a production version of your app:
+Preview the production build using `npm run preview`.
+Or create a production build: `npm run build`.
 
-```bash
-npm run build
-```
+### Deploying
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Netlify Build continously deploys the app to Netlify, so you don't have to worry about anything.
+You can preview deploys by visiting `[branch]--pawnhubchess.netlify.app` or `deploy-preview-[PR#]--pawnhubchess.netlify.app`.
