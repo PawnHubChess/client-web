@@ -1,11 +1,8 @@
 # Client-Web - Remote Chess Experience
-This product emerged as part of the group project “Once a pawn a time…“ at Berlin CODE University. 
+This product emerged as part of the project “Once a pawn a time…“ at CODE University of Applied Sciences, Berlin. 
 
+[![View on - CODE Learning Platform](https://img.shields.io/badge/View_on-CODE_Learning_Platform-1e2022)](https://app.code.berlin/projects/cl7ah7xam785660wl8xssnw4ja)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b7111648-e76c-498e-a25e-eeb0a45a0c49/deploy-status)](https://app.netlify.com/sites/pawnhubchess/deploys)
-
-View project in CODE LP: 
-
-[![N|Solid](https://logo.clearbit.com/https://code.berlin)](https://app.code.berlin/projects/cl7ah7xam785660wl8xssnw4ja)
 
 ### Motivation and background
 Our vision is to enable enjoyable remote chess games for both parties.
