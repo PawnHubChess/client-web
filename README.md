@@ -18,7 +18,6 @@ This webpage was created using the Sveltekit framework for increased performance
 We are software engineering students at Berlin CODE University of Applied Sciences.
 - Maximilian Arnold 
     - Project Owner
-    - Frontend
     - Image Recognition
 - Paul Bückhard
     - Physical Interfaces
@@ -46,10 +45,6 @@ To cite the project click the citation widget to the right. The ``` CITATION.cff
 
 ### Get in touch
 Shoot us an email at mail@pawn-hub.de or use the contact form on our website.
-
-### Contributors
-[@maxonary](https://github.com/maxonary) - [Maximilian Arnold](https://www.linkedin.com/in/maximilian-arnold-787ba5197/)
-[@koenidv](https://github.com/koenidv) - [Florian König](https://www.linkedin.com/in/koenidv/)
 
 ### Project Structure
 
