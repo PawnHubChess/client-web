@@ -6,7 +6,8 @@ module.exports = {
 	theme: {
 		extend: {
 			gridTemplateColumns: {
-				chessgrid: "auto 12rem"
+				chessgrid: "auto 12rem",
+				project: "auto auto"
 			},
 			backgroundImage: {
 				mobilemenu: "linear-gradient(to bottom, transparent 2rem, #000000a6 14rem)"
