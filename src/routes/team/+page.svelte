@@ -8,7 +8,7 @@
 			target="_blank"
 			rel="noreferrer">
 			<div class="flex flex-col items-center">
-				<img src="/team_calculator.png" alt="Calculator icon" class="h-48" />
+				<img src="/team_calculator.webp" alt="Calculator icon" class="h-40 xl:h-48" />
 				<p class="text-3xl font-bold">Max</p>
 				<ul class="pt-3 text-center">
 					<li>Project Owner</li>
@@ -20,7 +20,7 @@
 			class="rounded-md bg-gray-50 pb-4 transition-all hover:bg-indigo-50"
 			href="https://github.com/PaulBueckhard/">
 			<div class="flex flex-col items-center" target="_blank" rel="noreferrer">
-				<img src="/team_pawn.png" alt="Pawn icon" class="h-48" />
+				<img src="/team_pawn.webp" alt="Pawn icon" class="h-40 xl:h-48" />
 				<p class="text-3xl font-bold">Paul</p>
 				<ul class="pt-3 text-center">
 					<li>Physical Interface</li>
@@ -34,7 +34,7 @@
 			target="_blank"
 			rel="noreferrer">
 			<div class="flex flex-col items-center">
-				<img src="/team_bishop.png" alt="Bishop icon" class="h-48" />
+				<img src="/team_bishop.webp" alt="Bishop icon" class="h-40 xl:h-48" />
 				<p class="text-3xl font-bold">Péter</p>
 				<ul class="pt-3 text-center">
 					<li>Phyical Interface</li>
@@ -48,7 +48,7 @@
 			target="_blank"
 			rel="noreferrer">
 			<div class="flex flex-col items-center">
-				<img src="/team_horse.png" alt="Bishop icon" class="h-48" />
+				<img src="/team_horse.webp" alt="Bishop icon" class="h-40 xl:h-48" />
 				<p class="text-3xl font-bold">Noah</p>
 				<ul class="pt-3 text-center">
 					<li>3d Design</li>
@@ -62,7 +62,7 @@
 			target="_blank"
 			rel="noreferrer">
 			<div class="flex flex-col items-center">
-				<img src="/team_queen.png" alt="Queen icon" class="h-48" />
+				<img src="/team_queen.webp" alt="Queen icon" class="h-40 xl:h-48" />
 				<p class="text-3xl font-bold">Jorge</p>
 				<ul class="pt-3 text-center">
 					<li>Physical Interface</li>
@@ -75,7 +75,7 @@
 			target="_blank"
 			rel="noreferrer">
 			<div class="flex flex-col items-center">
-				<img src="/team_king.png" alt="King icon" class="h-48" />
+				<img src="/team_king.webp" alt="King icon" class="h-40 xl:h-48" />
 				<p class="text-3xl font-bold">Florian</p>
 				<ul class="pt-3 text-center">
 					<li>Web Client</li>

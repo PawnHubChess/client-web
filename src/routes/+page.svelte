@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="flex justify-center xl:ml-[-4rem]">
-			<img src="/image_robot.png" alt="The Chess Robot" class="max-h-64 lg:max-h-[unset] rounded-md" />
+			<img src="/image_robot.webp" alt="The Chess Robot" class="max-h-64 lg:max-h-[unset] rounded-md" />
 		</div>
 
 		<div />
