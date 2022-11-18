@@ -1,11 +1,8 @@
 # Client-Web - Remote Chess Experience
-This product emerged as part of the group project “Once a pawn a time…“ at Berlin CODE University. 
+This product emerged as part of the project “Once a pawn a time…“ at CODE University of Applied Sciences, Berlin. 
 
+[![View on - CODE Learning Platform](https://img.shields.io/badge/View_on-CODE_Learning_Platform-1e2022)](https://app.code.berlin/projects/cl7ah7xam785660wl8xssnw4ja)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b7111648-e76c-498e-a25e-eeb0a45a0c49/deploy-status)](https://app.netlify.com/sites/pawnhubchess/deploys)
-
-View project in CODE LP: 
-
-[![N|Solid](https://logo.clearbit.com/https://code.berlin)](https://app.code.berlin/projects/cl7ah7xam785660wl8xssnw4ja)
 
 ### Motivation and background
 Our vision is to enable enjoyable remote chess games for both parties.
@@ -21,7 +18,6 @@ This webpage was created using the Sveltekit framework for increased performance
 We are software engineering students at Berlin CODE University of Applied Sciences.
 - Maximilian Arnold 
     - Project Owner
-    - Frontend
     - Image Recognition
 - Paul Bückhard
     - Physical Interfaces
@@ -41,38 +37,37 @@ We are software engineering students at Berlin CODE University of Applied Scienc
     - Physical Interfaces
 
 ### Contribution
-The contribution is only allowed to members of the CODE project “Once a pawn a time…“ and the PawnHub GitHub organisation.  The project owner is allowed to commit directly into the main branch. All other contributions are supposed to be committed into separate braches and issued as pull requests. 
+This project is maintained by members of the CODE project “Once a pawn a time…“. 
 
 ### Citation
 To cite the project click the citation widget to the right. The ``` CITATION.cff``` file contains the APA style citation. 
 ![Citing](https://user-images.githubusercontent.com/62939182/197151913-4c81daf4-8e11-4951-ae82-2a76aa5fb342.png)
 
 ### Get in touch
-Submit a contact request on the production website
+Shoot us an email at mail@pawn-hub.de or use the contact form on our website.
 
-### Contributors
-[@maxonary](https://github.com/maxonary) - [Maximilian Arnold](https://www.linkedin.com/in/maximilian-arnold-787ba5197/)
-[@koenidv](https://github.com/koenidv) - [Florian König](https://www.linkedin.com/in/koenidv/)
+### Project Structure
+
+![image](https://user-images.githubusercontent.com/32238636/202461111-94ce45ba-ff0e-4da6-9200-8476bb357f72.png)
 
 ### Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+1. Install dependencies using `npm i`
+2. Start the dev server and open in a new browswer tab using `npm run dev -- --open`
+3. Have fun! Take a look at the [SvelteKit](https://kit.svelte.dev/docs/introduction) docs and the [Tailwind docs](https://tailwindcss.com/docs/utility-first).
 
-```bash
-npm run dev
+### Using a Local Backend
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Follow the instructions in the [backend repository](https://github.com/PawnHubChess/backend) to run it locally.
+
+When running a dev server, a *Use Local Server* checkbox is available on the */play* page. Otherwise, enable the checkbox on */play/debug*. This also works on the deployed version.
 
 ### Building
 
-To create a production version of your app:
+Preview the production build using `npm run preview`.
+Or create a production build: `npm run build`.
 
-```bash
-npm run build
-```
+### Deploying
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Netlify Build continously deploys the app to Netlify, so you don't have to worry about anything.
+You can preview deploys by visiting `[branch]--pawnhubchess.netlify.app` or `deploy-preview-[PR#]--pawnhubchess.netlify.app`.
