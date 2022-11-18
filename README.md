@@ -56,6 +56,12 @@ Shoot us an email at mail@pawn-hub.de or use the contact form on our website.
 2. Start the dev server and open in a new browswer tab using `npm run dev -- --open`
 3. Have fun! Take a look at the [SvelteKit](https://kit.svelte.dev/docs/introduction) docs and the [Tailwind docs](https://tailwindcss.com/docs/utility-first).
 
+### Using a Local Backend
+
+Follow the instructions in the [backend repository](https://github.com/PawnHubChess/backend) to run it locally.
+
+When running a dev server, a *Use Local Server* checkbox is available on the */play* page. Otherwise, enable the checkbox on */play/debug*. This also works on the deployed version.
+
 ### Building
 
 Preview the production build using `npm run preview`.
