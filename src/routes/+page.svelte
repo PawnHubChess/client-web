@@ -2,7 +2,7 @@
 	import Counter from "../lib/Counter.svelte";
 </script>
 
-<main>
+<main class="mb-8">
 	<h1 class="mt-8 text-center text-7xl font-bold">Once a Pawn a Time...</h1>
 
 	<h2 class="mt-8 text-center text-3xl font-medium text-gray-600">

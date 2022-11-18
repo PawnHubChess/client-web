@@ -1,7 +1,7 @@
-<main>
+<main class="mb-8">
 	<h1 class="mt-8 text-center text-7xl font-bold">Meet the Team</h1>
 
-	<div class="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+	<div class="mt-8 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-6">
 		<a
 			class="rounded-md bg-gray-50 pb-4 transition-all hover:bg-indigo-50"
 			href="https://www.linkedin.com/in/maximilian-arnold-787ba5197/"
