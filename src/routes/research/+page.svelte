@@ -7,7 +7,7 @@
 <main>
 	<h1 class="mt-8 text-center text-7xl font-bold">Research</h1>
 
-	<h3 class="mt-8 text-center text-3xl font-medium text-gray-600">Conversations about Chess</h3>
+	<h2 class="mt-8 text-center text-3xl font-medium text-gray-600">Conversations about Chess</h2>
 
 	<div class="mt-4 mb-8 gap-2 sm:columns-2 lg:columns-3">
 		{#each data.tweets as tweet}
