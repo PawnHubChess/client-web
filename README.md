@@ -26,6 +26,7 @@ We are software engineering students at Berlin CODE University of Applied Scienc
     - 3d design 
     - Robotics 
 - Jorge Guedes 
+    - Robotics
     - Physical Interfaces
 - Florian König	
     - Web-Client
