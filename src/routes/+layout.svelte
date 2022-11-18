@@ -31,7 +31,7 @@
 				}}>
 				<span class="sr-only">PawnHub</span>
 				<img
-					class="h-8 w-auto sm:h-10"
+					class="h-8 w-8 sm:h-10 sm:w-10"
 					src="https://external-preview.redd.it/PDqfeEIy4aeJCOxEaKB4uDkEGV5dJz0B7FRRMr9eWak.jpg?auto=webp&s=758172d589bdf5e01c047b66d436d75837592dce"
 					alt="" />
 			</button>
