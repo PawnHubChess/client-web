@@ -3,15 +3,48 @@
 </script>
 
 <main>
-	<h1 class="mt-8 text-center text-7xl font-bold">PawnHub ♟</h1>
+	<h1 class="mt-8 text-center text-7xl font-bold">Once a Pawn a Time...</h1>
 
-	<a
-		href="https://github.com/PawnHubChess/backend/wiki"
-		rel="noreferrer"
-		target="_blank"
-		class="button-primary block">
-		Backend Wiki
-	</a>
+	<h2 class="mt-8 text-center text-3xl font-medium text-gray-600">
+		Enjoyable remote chess for both parties.
+	</h2>
 
-	<Counter />
+	<p class="mt-8 text-base">
+		Due to the high amount of requests to explain the project, we decided to create a landing page,
+		which also acts as the hub to use our services. This website informs people of interest, e.g.
+		the CODE community, the MotionLab community, about the services and technological functionality
+		of this project. Simultaniously, visitors can start remote chess games.
+	</p>
+
+	<p class="mt-2 text-base">
+		The landing page serves as a project to demonstrate general knowledge of web-development,
+		front-end technologies. The development requires a general understanding of HTML, CSS,
+		JavaScript, and relational databases, as well as sketching a user friendly website.
+	</p>
+
+	<div class="mt-8">
+		<a
+			href="https://github.com/PawnHubChess/backend/wiki"
+			rel="noreferrer"
+			target="_blank"
+			class="button-primary">
+			See this project on the Learning Platform
+		</a>
+	</div>
+	<div class="mt-5">
+		<a
+			href="https://github.com/PawnHubChess/backend/wiki"
+			rel="noreferrer"
+			target="_blank"
+			class="button-secondary">
+			Frontend on GitHub
+		</a>
+		<a
+			href="https://github.com/PawnHubChess/backend/wiki"
+			rel="noreferrer"
+			target="_blank"
+			class="button-secondary">
+			Backend on GitHub
+		</a>
+	</div>
 </main>
