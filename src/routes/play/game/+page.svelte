@@ -4,7 +4,7 @@
 	import "chessboard-element";
 	import { connection, determineIsGameId } from "$lib/chess/WebSocketConnection";
 	import GameSidebar from "$components/GameSidebar.svelte";
-	import OpponentDisconnectedModal from "$components/GameEndedModal.svelte";
+	import GameEndedModal from "$components/GameEndedModal.svelte";
 	import ChessBoard from "$components/ChessBoard.svelte";
 	import { onDestroy } from "svelte";
 
@@ -33,7 +33,7 @@
 		</div>
 	</div>
 
-	<OpponentDisconnectedModal
+	<GameEndedModal
 		isOpen={$playstate !== "playing"}
 		title={opponent_disconnected ? "You're the Winner!" : "Disconnected"}
 		description={"The game has ended because " +
