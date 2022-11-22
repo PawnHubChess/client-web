@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Counter from "../lib/Counter.svelte";
+	let showKlugerSchachzug = false;
 </script>
 
 <main class="mb-8">
@@ -27,7 +27,12 @@
 		</div>
 
 		<div class="flex justify-center xl:ml-[-4rem]">
-			<img src="/image_robot.webp" alt="The Chess Robot" class="max-h-64 lg:max-h-[unset] rounded-md" />
+			<!-- svelte-ignore a11y-click-events-have-key-events since this is just an image joke -->
+			<img
+				src="/image_robot.webp"
+				alt="The Chess Robot"
+				class="max-h-64 rounded-md lg:max-h-[unset] hover:cursor-pointer"
+				on:click={() => {showKlugerSchachzug = true}} />
 		</div>
 
 		<div />
@@ -60,4 +65,26 @@
 			</a>
 		</div>
 	</div>
+
+	{#if showKlugerSchachzug}
+		<div
+			class="modal fade fixed top-0 left-0 z-[100] flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-black bg-opacity-60"
+			tabindex="-1"
+			aria-labelledby="modalLabel"
+			aria-modal="true"
+			role="dialog">
+			<div class="modal-dialog modal-dialog-centered relative max-w-[90vw]">
+				<div
+					class="modal-content relative flex flex-col items-center gap-6 rounded-md bg-white p-8 shadow-lg">
+					<img src="https://preview.redd.it/4qtae5346ia31.jpg?width=960&crop=smart&auto=webp&s=bac2c036bebdef65c7a0ad2655d89dea9bf91220" alt="Kluger Schachzug" class="max-h-[50vh]" />
+					<p class="text-base italic">"Smart Chess Train"</p>
+					<button
+						class="button-primary min-w-[12rem]"
+						on:click={() => {
+							showKlugerSchachzug = false;
+						}}>I know, bro.</button>
+				</div>
+			</div>
+		</div>
+	{/if}
 </main>
