@@ -50,7 +50,7 @@
 		const number2 = `${n2_1}${n2_2}${n2_3}${n2_4}`;
 
 		if (number1.length !== 4 || number2.length !== 4) return false;
-		if (number1 === "0000" || number2 === "0000") return false;
+		if ((number1 === "0000" || number2 === "0000") && !get(debug_local_server)) return false;
 		if (determineIsGameId(number1) === determineIsGameId(number2)) return false;
 
 		// Side-effect: Hide errors
