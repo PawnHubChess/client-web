@@ -47,7 +47,7 @@ export class WebSocketConnection {
       this.ws = new WebSocket(
         !get(debug_local_server)
           ? "wss://api.pawn-hub.de"
-          : "ws://localhost:3000",
+          : "ws://127.0.0.1:3000",
       );
 
       this.ws.onerror = () => {
