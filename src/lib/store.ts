@@ -1,4 +1,5 @@
-import { onMount } from "svelte";
+import { dev } from "$app/environment";
+import { onDestroy, onMount } from "svelte";
 import { readable, type Writable, writable } from "svelte/store";
 
 export const debug_local_server = writable<boolean>(false);
@@ -12,3 +13,7 @@ export const board_fen: Writable<string> = writable("");
 export const current_player_white: Writable<boolean> = writable(true);
 export const unread_move: Writable<boolean> = writable(false);
 export const pending_move: Writable<boolean> = writable(false);
+
+if (dev) {
+  playstate.subscribe((value) => console.log("playstate", value));
+}
