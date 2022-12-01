@@ -18,7 +18,7 @@
 	}
 
 	onMount(async () => {
-		if (get(playstate) === "closed") hostClient().connect();
+		if (get(playstate) === "closed") await hostClient().connect();
 	});
 
 	function handleCancel() {

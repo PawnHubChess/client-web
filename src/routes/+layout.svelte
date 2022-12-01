@@ -2,6 +2,7 @@
 	import "../app.css";
 	import { playstate, debug_local_server, unread_move } from "$lib/store";
 	import { goto } from "$app/navigation";
+	import { get } from "svelte/store";
 
 	function playButtonMessage(state: string) {
 		switch (state) {

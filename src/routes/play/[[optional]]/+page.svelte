@@ -73,22 +73,21 @@
 			showConnectLoadingError = true;
 		};
 
-		await connection().prepare(errorCallback);
-
-		connection().on("request-declined", (data: any) => {
-			connectionDeclinedMessage = data.message;
+		connection().on("error", (data: any) => {
 			showConnectLoading = false;
 
-			if (data.details === "nonexistent") {
+			if (data.error === "Opponent not found") {
 				if (determineIsGameId(number1)) showError1 = true;
 				else showError2 = true;
-			} else if (data.details === "code") {
+				connectionDeclinedMessage = "Opponent not found";
+			} else if (data.error === "Host declined request") {
 				if (determineIsGameId(number1)) showError2 = true;
 				else showError1 = true;
+				connectionDeclinedMessage = "Code is incorrect";
 			}
 		});
 
-		connection().sendConnectRequest(gameid, code);
+		connection().prepareAsRequest(gameid, code, errorCallback);
 	}
 
 	async function handleCreateGame() {
@@ -99,7 +98,7 @@
 			showHostLoadingError = true;
 		};
 
-		await connection().prepare(errorCallback);
+		await connection().prepareAsHost(errorCallback);
 		goto("/play/create");
 	}
 

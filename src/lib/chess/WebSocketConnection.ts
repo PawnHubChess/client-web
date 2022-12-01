@@ -16,7 +16,7 @@ export class WebSocketConnection {
 
   constructor() {
     // Register default handlers
-    this.on("connected-id", (data) => this.handleIdMessage(data));
+    this.on("connected", (data) => this.handleIdMessage(data));
     this.on("matched", (data) => this.handleMatchedMessage(data));
     this.on(
       "receive-move",
@@ -37,18 +37,49 @@ export class WebSocketConnection {
     );
   }
 
-  prepare(errorCallback?: () => void): Promise<void> {
+  getBaseUrl() {
+    return (get(debug_local_server)
+      ? "ws://127.0.0.1:3000"
+      : "wss://api.pawn-hub.de");
+  }
+
+  async prepareAsRequest(
+    hostId: string,
+    code: string,
+    errorCallback?: () => void,
+  ) {
+    await this.prepare(
+      `${this.getBaseUrl()}/connect?id=${hostId}&code=${code}`,
+      errorCallback,
+    );
+  }
+
+  async prepareAsHost(errorCallback?: () => void) {
+    await this.prepare(
+      `${this.getBaseUrl()}/host`,
+      errorCallback,
+    );
+  }
+
+  async prepareAsReconnect(
+    id: string,
+    reconnectCode: string,
+    errorCallback?: () => void,
+  ) {
+    await this.prepare(
+      `${this.getBaseUrl()}/reconnect?id=${id}&reconnectCode=${reconnectCode}`,
+      errorCallback,
+    );
+  }
+
+  prepare(url: string, errorCallback?: () => void): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.ws?.readyState === WebSocket.OPEN) {
         resolve();
         return;
       }
 
-      this.ws = new WebSocket(
-        !get(debug_local_server)
-          ? "wss://api.pawn-hub.de"
-          : "ws://127.0.0.1:3000",
-      );
+      this.ws = new WebSocket(url);
 
       this.ws.onerror = () => {
         errorCallback?.call(this);
@@ -74,21 +105,22 @@ export class WebSocketConnection {
 
   async handleConnectionClosed() {
     const code = get(reconnect_code);
+    if (!code) return;
 
     // Close game if not reconnected after 20 seconds
     setTimeout(() => {
       if (!get(reconnect_code) || code === get(reconnect_code)) this.close();
     }, 20000);
-
-    // Reconnect using provided code
-    await this.prepare();
     reconnect_code.set(undefined);
 
-    this.send(JSON.stringify({
-      "type": "reconnect",
-      "id": get(client_id),
-      "reconnect-code": code,
-    }));
+    const destroyReconnectError = this.on("error", (it) => {
+      if (it.error === "wrong-code") this.close();
+    });
+    // Reconnect using provided code
+    await this.prepareAsReconnect(get(client_id), code, () => {
+      this.close();
+    });
+    destroyReconnectError();
   }
 
   // Message handlers
@@ -127,7 +159,7 @@ export class WebSocketConnection {
 
   handleIdMessage(data: any) {
     client_id.set(data.id);
-    reconnect_code.set(data["reconnect-code"]);
+    reconnect_code.set(data.reconnectCode);
   }
 
   handleMatchedMessage(data: any) {
@@ -146,7 +178,7 @@ export class WebSocketConnection {
   }
 
   handleReconnectedMessage(data: any) {
-    reconnect_code.set(data["reconnect-code"]);
+    reconnect_code.set(data.reconnectCode);
     console.log("Reconnected");
   }
 
