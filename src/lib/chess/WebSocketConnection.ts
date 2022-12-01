@@ -113,8 +113,14 @@ export class WebSocketConnection {
     }, 20000);
     reconnect_code.set(undefined);
 
+    const destroyReconnectError = this.on("error", (it) => {
+      if (it.error === "wrong-code") this.close();
+    });
     // Reconnect using provided code
-    await this.prepareAsReconnect(get(client_id), code);
+    await this.prepareAsReconnect(get(client_id), code, () => {
+      this.close();
+    });
+    destroyReconnectError();
   }
 
   // Message handlers
@@ -153,7 +159,7 @@ export class WebSocketConnection {
 
   handleIdMessage(data: any) {
     client_id.set(data.id);
-    reconnect_code.set(data["reconnect-code"]);
+    reconnect_code.set(data.reconnectCode);
   }
 
   handleMatchedMessage(data: any) {
@@ -172,7 +178,7 @@ export class WebSocketConnection {
   }
 
   handleReconnectedMessage(data: any) {
-    reconnect_code.set(data["reconnect-code"]);
+    reconnect_code.set(data.reconnectCode);
     console.log("Reconnected");
   }
 
