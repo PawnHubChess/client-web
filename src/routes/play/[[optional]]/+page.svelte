@@ -73,8 +73,6 @@
 			showConnectLoadingError = true;
 		};
 
-		await connection().prepare(errorCallback);
-
 		connection().on("request-declined", (data: any) => {
 			connectionDeclinedMessage = data.message;
 			showConnectLoading = false;
@@ -88,7 +86,7 @@
 			}
 		});
 
-		connection().sendConnectRequest(gameid, code);
+		connection().prepareAsRequest(gameid, code, errorCallback);
 	}
 
 	async function handleCreateGame() {
@@ -99,7 +97,7 @@
 			showHostLoadingError = true;
 		};
 
-		await connection().prepare(errorCallback);
+		await connection().prepareAsHost(errorCallback);
 		goto("/play/create");
 	}
 

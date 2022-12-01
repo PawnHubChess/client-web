@@ -14,17 +14,9 @@ export class HostClient {
     if (get(playstate) !== "closed") return;
     playstate.set("hosting");
 
-    await connection().prepare();
-
     this.registerConnectRequestHandler();
-    this.sendConnectMessage();
+    await connection().prepareAsHost();
     this.startCodeGenerator();
-  }
-
-  sendConnectMessage() {
-    connection().send(JSON.stringify({
-      type: "connect-host",
-    }));
   }
 
   registerConnectRequestHandler() {
