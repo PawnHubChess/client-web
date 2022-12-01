@@ -3,5 +3,8 @@ import { redirect } from "@sveltejs/kit";
 import { get } from "svelte/store";
 
 export function load() {
-  if (get(playstate) !== "playing") throw redirect(307, "/play");
+  if (get(playstate) !== "playing") {
+    console.log("redir from page.ts")
+    throw redirect(307, "/play");
+  }
 }
