@@ -84,6 +84,8 @@
 				if (determineIsGameId(number1)) showError2 = true;
 				else showError1 = true;
 				connectionDeclinedMessage = "Code is incorrect";
+			} else {
+				connectionDeclinedMessage = "Something went wrong"
 			}
 		});
 
