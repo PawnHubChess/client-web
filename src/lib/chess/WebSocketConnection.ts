@@ -106,6 +106,7 @@ export class WebSocketConnection {
   async handleConnectionClosed() {
     const code = get(reconnect_code);
     if (!code) return;
+    await new Promise(r => setTimeout(r, 200));
 
     // Close game if not reconnected after 20 seconds
     setTimeout(() => {
