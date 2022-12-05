@@ -9,6 +9,7 @@ export function srSpeak(text: string, priority: string, document: Document) {
   el.setAttribute("id", id);
   el.setAttribute("aria-live", priority || "polite");
   el.classList.add("visually-hidden");
+  el.classList.add("sr-only");
   document.body.appendChild(el);
 
   window.setTimeout(function () {
