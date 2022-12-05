@@ -8,7 +8,7 @@ export function srSpeak(text: string, priority: string, document: Document) {
   const id = "speak-" + Date.now();
   el.setAttribute("id", id);
   el.setAttribute("aria-live", priority || "polite");
-  el.classList.add("visually-hidden");
+  el.classList.add("visually-hidden sr-only");
   document.body.appendChild(el);
 
   window.setTimeout(function () {
