@@ -2,7 +2,7 @@ import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ params }) => {
   return {
-    tweets: await (queryTweets("Chess")),
+    tweets: await (queryTweets("#Chess")),
   };
 };
 
