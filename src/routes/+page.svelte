@@ -3,7 +3,8 @@
 </script>
 
 <main class="mb-8">
-	<h1 class="mt-8 text-center text-7xl font-bold">Once a Pawn a Time...</h1>
+	<p class="mt-8 text-center text-lg italic text-gray-700">Once a Pawn a Time...</p>
+	<h1 class="mt-4 text-center text-7xl font-black">Chess:<span class="bg-clip-text bg-gradient-to-tr from-fuchsia-400 via-indigo-500 to-indigo-800 text-transparent">E</span></h1>
 
 	<h2 class="mt-8 text-center text-3xl font-medium text-gray-600">
 		Enjoyable remote chess for both parties.
