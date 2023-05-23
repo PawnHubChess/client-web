@@ -42,7 +42,7 @@
 	<div class="flex flex-col items-center">
 		<div class="mt-8">
 			<a
-				href="https://github.com/PawnHubChess/backend/wiki"
+				href="https://app.code.berlin/projects/cldkbus47106450wmuur5ggrro?table=outline"
 				rel="noreferrer"
 				target="_blank"
 				class="button-primary">
@@ -51,14 +51,21 @@
 		</div>
 		<div class="mt-5">
 			<a
-				href="https://github.com/PawnHubChess/backend/wiki"
+				href="https://github.com/PawnHubChess/client-web"
 				rel="noreferrer"
 				target="_blank"
 				class="button-secondary">
 				Frontend on GitHub
 			</a>
 			<a
-				href="https://github.com/PawnHubChess/backend/wiki"
+				href="https://github.com/PawnHubChess/client-board"
+				rel="noreferrer"
+				target="_blank"
+				class="button-secondary">
+				Board Client on GitHub
+			</a>
+			<a
+				href="https://github.com/PawnHubChess/backend"
 				rel="noreferrer"
 				target="_blank"
 				class="button-secondary">
