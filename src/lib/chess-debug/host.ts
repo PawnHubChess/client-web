@@ -12,7 +12,7 @@ export function startHost(
   callback: (output: string) => void,
 ) {
   ws = new WebSocket(
-    useCloud ? "wss://api.pawn-hub.de" : "ws://localhost:3000",
+    useCloud ? "wss://api.chesse.koeni.dev" : "ws://localhost:3000",
   );
 
   if (useCloud) callback("Attempting to connect to Google Cloud");

@@ -40,7 +40,7 @@ export class WebSocketConnection {
   getBaseUrl() {
     return (get(debug_local_server)
       ? "ws://127.0.0.1:3000"
-      : "wss://api.pawn-hub.de");
+      : "wss://api.chesse.koeni.dev");
   }
 
   async prepareAsRequest(
