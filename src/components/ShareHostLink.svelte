@@ -7,7 +7,7 @@
 	let justCopied = false;
 
 	const url = () => {
-		return `https://pawn-hub.de/play/${gameid}-${code}`;
+		return `https://chesse.koeni.dev/play/${gameid}-${code}`;
 	};
 
 	function handleShareCopy() {
