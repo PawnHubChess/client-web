@@ -1,7 +1,7 @@
 <main class="mb-8">
 	<h1 class="mt-8 text-center text-7xl font-bold">Meet the Team</h1>
 
-	<div class="mt-8 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
+	<div class="mt-8 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
 		<a
 			class="rounded-md bg-gray-50 pb-4 transition-all hover:bg-indigo-50"
 			href="https://www.linkedin.com/in/paul-bückhard-7b71a726a/">
@@ -67,6 +67,34 @@
 					<li>Web Client</li>
 					<li>Backend</li>
 					<li>DevOps</li>
+				</ul>
+			</div>
+		</a>
+		<a
+			class="rounded-md bg-gray-50 pb-4 transition-all hover:bg-indigo-50"
+			href="https://www.linkedin.com/in/arnold-max/"
+			target="_blank"
+			rel="noreferrer">
+			<div class="flex flex-col items-center">
+				<img src="/team_rook.webp" alt="Calculator icon" class="h-40 xl:h-48" />
+				<p class="text-3xl font-bold">Maximilian</p>
+				<ul class="pt-3 text-center">
+					<li>Project Owner</li>
+					<li>Prototyping</li>
+				</ul>
+			</div>
+		</a>
+		<a
+			class="rounded-md bg-gray-50 pb-4 transition-all hover:bg-indigo-50"
+			href="https://www.linkedin.com/in/jorge-peyroteo-guedes-69aa49167/"
+			target="_blank"
+			rel="noreferrer">
+			<div class="flex flex-col items-center">
+				<img src="/team_bishop.webp" alt="Bishop icon" class="h-40 xl:h-48" />
+				<p class="text-3xl font-bold">Jorge</p>
+				<ul class="pt-3 text-center">
+					<li>Robotics</li>
+					<li>Physical Interface</li>
 				</ul>
 			</div>
 		</a>
